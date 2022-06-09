@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:my_library/Assistens/Background%20Images/background_register_image.dart';
-import 'package:my_library/Assistens/rounded_button.dart';
-import 'package:my_library/Assistens/Text/text_field_input.dart';
-import 'package:my_library/Assistens/Text/text_input.dart';
-import 'package:my_library/Assistens/Text/text_password_input.dart';
+import 'package:my_library/Widgets/Background%20Images/background_register_image.dart';
+import 'package:my_library/Widgets/rounded_button.dart';
+import 'package:my_library/Widgets/Text/text_field_input.dart';
+import 'package:my_library/Widgets/Text/text_input.dart';
+import 'package:my_library/Widgets/Text/text_password_input.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -20,19 +20,19 @@ class RegisterScreen extends StatelessWidget {
             child: SafeArea(
               child: Column(
                 children: [
+                  SizedBox(
+                    height: 20,
+                  ),
                   Container(
-                    height: 120,
-                    child: const Center(
-                      child: TextInput(
-                        text: 'Speed Library',
-                        fontsize: 40,
-                        color: Colors.white,
-                        alignment: Alignment.bottomCenter,
+                    height: 90,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/Picture1.png'),
                       ),
                     ),
                   ),
                   const SizedBox(
-                    height: 60,
+                    height: 40,
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -40,7 +40,7 @@ class RegisterScreen extends StatelessWidget {
                       children: [
                         TextFieldInput(
                           hint: 'user',
-                          icon: FontAwesomeIcons.person,
+                          icon: FontAwesomeIcons.user,
                           inputType: TextInputType.name,
                           inputAction: TextInputAction.none,
                           onSaved: (value) {},
@@ -68,19 +68,36 @@ class RegisterScreen extends StatelessWidget {
                           onSaved: (value) {},
                           validator: (value) {},
                         ),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
                         RoundedButton(
-                          onPressed: () => {Navigator.pushNamed(context, 'SignUp')},
+                          onPressed: () =>
+                              {Navigator.pushNamed(context, 'SignUp')},
                           text: 'SingUp',
                         ),
-                        GestureDetector(
-                          onTap: () => Navigator.pushNamed(context, 'Already have account? Login'),
-                          child: TextInput(
-                            text: 'Already have account? Login',
-                            fontsize: 16,
-                            alignment: Alignment.center,
-                            color: Colors.white,
-                          ),
+                        /*GestureDetector(
+                          onTap: () => Navigator.pushNamed(
+                              context, 'LogIN'),*/
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextInput(
+                              text: 'Already have an account?',
+                              fontsize: 16,
+                              alignment: Alignment.center,
+                              color: Colors.white,
+                            ),
+                            GestureDetector(onTap: () => Navigator.pushNamed(
+                                context, 'Login'),
+                              child: TextInput(
+                                text: 'Login',
+                                fontsize: 16,
+                                alignment: Alignment.center,
+                                color: Colors.deepPurple,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

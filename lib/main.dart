@@ -19,9 +19,9 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         'CreateNewAccount' :(context) => RegisterScreen(),
-        //'LogIn' :(context) => RegisterScreen(),
+        'LogIn' :(context) => RegisterScreen(),
         'SignUp' :(context) => LoginScreen(),
-        'Already have account? Login' :(context) => LoginScreen(),
+        'Login' :(context) => LoginScreen(),
         'ForgetPassword?' :(context) => ForgetPassword(),
       },
     );

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:my_library/Assistens/Background%20Images/background_forget_image.dart';
-import 'package:my_library/Assistens/Background%20Images/background_login_image.dart';
-import 'package:my_library/Assistens/rounded_button.dart';
-import 'package:my_library/Assistens/Text/text_field_input.dart';
-import 'package:my_library/Assistens/Text/text_input.dart';
+import 'package:my_library/Widgets/Background%20Images/background_forget_image.dart';
+import 'package:my_library/Widgets/rounded_button.dart';
+import 'package:my_library/Widgets/Text/text_field_input.dart';
+import 'package:my_library/Widgets/Text/text_input.dart';
 
 class ForgetPassword extends StatelessWidget {
   const ForgetPassword({Key? key}) : super(key: key);
@@ -38,7 +37,7 @@ class ForgetPassword extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(
-                  height: 20,
+                  height: 50,
                 ),
                 Center(
                   child: Column(
@@ -52,6 +51,9 @@ class ForgetPassword extends StatelessWidget {
                           alignment: Alignment.center,
                         ),
                       ),
+                       SizedBox(
+                         height: 50,
+                       ),
                        Container(
                          padding: const EdgeInsets.symmetric(horizontal: 40),
                          child: TextFieldInput(
@@ -64,7 +66,7 @@ class ForgetPassword extends StatelessWidget {
                           ),
                        ),
                       SizedBox(
-                        height: 20,
+                        height: 15,
                       ),
                       RoundedButton(
                         onPressed: () {},

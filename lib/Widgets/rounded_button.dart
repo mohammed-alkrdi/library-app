@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_library/Assistens/Text/text_input.dart';
+import 'package:my_library/Widgets/Text/text_input.dart';
 
 class RoundedButton extends StatelessWidget {
   final String text;
