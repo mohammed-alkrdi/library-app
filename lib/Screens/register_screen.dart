@@ -24,7 +24,7 @@ class RegisterScreen extends StatelessWidget {
                     height: 20,
                   ),
                   Container(
-                    height: 90,
+                    height: 120,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage('assets/images/Picture1.png'),
@@ -88,8 +88,9 @@ class RegisterScreen extends StatelessWidget {
                               alignment: Alignment.center,
                               color: Colors.white,
                             ),
-                            GestureDetector(onTap: () => Navigator.pushNamed(
-                                context, 'Login'),
+                            GestureDetector(
+                              onTap: () =>
+                                  Navigator.pushNamed(context, 'Login'),
                               child: TextInput(
                                 text: 'Login',
                                 fontsize: 16,
