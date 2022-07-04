@@ -19,7 +19,7 @@ class _CommentScreenState extends State<CommentScreen> {
           text: 'Comments',
           color: Colors.black,
           alignment: Alignment.centerLeft,
-          fontsize: 20,
+          fontsize: 30,
 
         ),
         leading: GestureDetector(
