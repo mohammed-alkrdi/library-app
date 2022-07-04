@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_library/Widgets/Background%20Images/background_register_image.dart';
 import 'package:my_library/Widgets/rounded_button.dart';
 import 'package:my_library/Widgets/Text/text_field_input.dart';
@@ -40,7 +39,7 @@ class RegisterScreen extends StatelessWidget {
                       children: [
                         TextFieldInput(
                           hint: 'user',
-                          icon: FontAwesomeIcons.user,
+                          image: 'assets/icons_img/icons8-user-male-50.png',
                           inputType: TextInputType.name,
                           inputAction: TextInputAction.none,
                           onSaved: (value) {},
@@ -48,7 +47,7 @@ class RegisterScreen extends StatelessWidget {
                         ),
                         TextFieldInput(
                           hint: 'email',
-                          icon: FontAwesomeIcons.solidEnvelope,
+                          image:'assets/icons_img/icons8-mail-50.png' ,
                           inputType: TextInputType.emailAddress,
                           inputAction: TextInputAction.next,
                           onSaved: (value) {},
@@ -56,14 +55,14 @@ class RegisterScreen extends StatelessWidget {
                         ),
                         TextPasswordInput(
                           hint: 'Password',
-                          icon: FontAwesomeIcons.lock,
+                          image: 'assets/icons_img/icons8-lock-50.png',
                           inputAction: TextInputAction.done,
                           onSaved: (value) {},
                           validator: (value) {},
                         ),
                         TextPasswordInput(
                           hint: 'RePassword',
-                          icon: FontAwesomeIcons.lock,
+                          image: 'assets/icons_img/icons8-lock-50.png',
                           inputAction: TextInputAction.done,
                           onSaved: (value) {},
                           validator: (value) {},

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_library/Widgets/Text/text_input.dart';
-import 'package:comment_box/comment/comment.dart';
 
 class CommentScreen extends StatefulWidget {
   const CommentScreen({Key? key}) : super(key: key);
@@ -25,9 +24,8 @@ class _CommentScreenState extends State<CommentScreen> {
         ),
         leading: GestureDetector(
           onTap: () => Navigator.pushNamed(context, 'ProductScreen'),
-          child: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
+          child: Image(
+            image: AssetImage("assets/icons_img/icons8-back-50.png"),
           ),
         ),
       ),

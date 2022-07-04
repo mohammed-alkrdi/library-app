@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class TextPasswordInput extends StatelessWidget {
   final String hint;
 
-  final IconData icon;
+  final String image;
 
   final TextInputAction inputAction;
 
@@ -14,7 +14,7 @@ class TextPasswordInput extends StatelessWidget {
   TextPasswordInput(
       {Key? key,
         required this.hint,
-        required this.icon,
+        required this.image,
         required this.onSaved,
         required this.validator,
         required this.inputAction})
@@ -35,10 +35,8 @@ class TextPasswordInput extends StatelessWidget {
               contentPadding: const EdgeInsets.symmetric(vertical: 20),
               prefixIcon: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Icon(
-                  icon,
-                  color: Colors.white,
-                  size: 30,
+                child: Image(
+                  image:AssetImage(image),
                 ),
               ),
               hintText: hint,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_library/Widgets/Text/text_input.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,16 +9,47 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int index = 2 ;
+  int index = 2;
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     final items = <Widget>[
-      Icon(Icons.download , size: 30),
-      Icon(Icons.favorite , size: 30),
-      Icon(Icons.home , size: 30),
-      Icon(Icons.person , size: 30),
-      Icon(Icons.logout , size: 30),
+      Container(
+        child: Image(
+          image: AssetImage(
+            "assets/icons_img/icons8-download-from-the-cloud-50.png",
+          ),
+        ),
+      ),
+      Container(
+        child: Image(
+          image: AssetImage(
+            "assets/icons_img/icons8-heart-50.png",
+          ),
+        ),
+      ),
+      Container(
+        child: Image(
+          image: AssetImage(
+            "assets/icons_img/icons8-home-50.png",
+          ),
+        ),
+      ),
+      Container(
+        child: Image(
+          image: AssetImage(
+            "assets/icons_img/icons8-settings-50.png",
+          ),
+        ),
+      ),
+      Container(
+        child: Image(
+          image: AssetImage(
+            "assets/icons_img/icons8-shutdown-50.png",
+          ),
+        ),
+      ),
     ];
     return Scaffold(
       backgroundColor: Colors.white,
@@ -29,44 +59,42 @@ class _HomeScreenState extends State<HomeScreen> {
         color: Color(0xFFC7B8F5),
         index: index,
         items: items,
-      ) ,
+      ),
       body: SingleChildScrollView(
         child: Container(
           height: size.height * .45,
           decoration: BoxDecoration(
             color: Color(0xFFC7B8F5),
             image: DecorationImage(
-              alignment: Alignment.centerLeft,
-              image: AssetImage("assets/images/meditation_bg.png"),
+              alignment: Alignment.centerRight,
+              image: AssetImage("assets/icons/book.png"),
               fit: BoxFit.fitWidth,
             ),
           ),
           child: ListView(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 25, right: 25, top: 25),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextInput(
-                      text: 'Discover Milestone Books',
-                      fontsize: 24,
-                      color: Colors.white,
-                    ),
-                  ],
-                ),
+              SizedBox(
+                height: 185,
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: "Search",
-                    icon: Icon(Icons.search),
-                    border: InputBorder.none,
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15, top: 25),
+                child: Container(
+                  height: 50,
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: "Search",
+                      icon: Container(
+                          child: Image(
+                            image:AssetImage("assets/icons_img/icons8-search-50.png"),
+                          ),
+                      ),
+                      border: InputBorder.none,
+                    ),
                   ),
                 ),
               ),

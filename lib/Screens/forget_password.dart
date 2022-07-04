@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_library/Widgets/Background%20Images/background_forget_image.dart';
 import 'package:my_library/Widgets/rounded_button.dart';
 import 'package:my_library/Widgets/Text/text_field_input.dart';
@@ -23,9 +22,8 @@ class ForgetPassword extends StatelessWidget {
               onPressed: () => {
                 Navigator.pop(context),
               },
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.white,
+              icon: Image(
+                image: AssetImage('assets/icons_img/icons8-back-50.png'),
               ),
             ),
             title: Text(
@@ -58,7 +56,7 @@ class ForgetPassword extends StatelessWidget {
                          padding: const EdgeInsets.symmetric(horizontal: 40),
                          child: TextFieldInput(
                             hint: 'email',
-                            icon: FontAwesomeIcons.solidEnvelope,
+                            image: "assets/icons_img/icons8-mail-50.png",
                             inputType: TextInputType.emailAddress,
                             inputAction: TextInputAction.done,
                             onSaved: (value) {},
