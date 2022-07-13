@@ -1,10 +1,13 @@
 
 import 'package:flutter/material.dart';
 
+
 class TextFieldInput extends StatelessWidget {
   final String hint;
 
-  final  String image;
+  final emailController = TextEditingController();
+
+  final String image;
 
   final TextInputType inputType;
 
@@ -26,7 +29,7 @@ class TextFieldInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return    Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: Container(
         decoration: BoxDecoration(
@@ -54,8 +57,10 @@ class TextFieldInput extends StatelessWidget {
             ),
             keyboardType: inputType,
             textInputAction: inputAction,
+            controller: emailController,
             onSaved: onSaved,
             validator: validator,
+            //controller: ,
           ),
       ),
     );

@@ -19,14 +19,12 @@ class _CommentScreenState extends State<CommentScreen> {
           text: 'Comments',
           color: Colors.black,
           alignment: Alignment.centerLeft,
-          fontsize: 30,
+          fontsize: 24,
 
         ),
         leading: GestureDetector(
           onTap: () => Navigator.pushNamed(context, 'ProductScreen'),
-          child: Image(
-            image: AssetImage("assets/icons_img/icons8-back-50.png"),
-          ),
+          child: Icon(Icons.arrow_back, size: 30, color: Colors.black),
         ),
       ),
     );

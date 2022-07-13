@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:my_library/Widgets/products_grid.dart';
+
+
+enum FilterOptions {
+  Favorites,
+  All,
+}
 
 class HomeScreen extends StatefulWidget {
+  static const routeName = '/home_screen';
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -9,99 +18,111 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  var _showOnlyFavorites = false;
   int index = 2;
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     final items = <Widget>[
-      Container(
-        child: Image(
-          image: AssetImage(
-            "assets/icons_img/icons8-download-from-the-cloud-50.png",
-          ),
-        ),
+      GestureDetector(
+
+
+        child: Icon(Icons.favorite, size: 30),
       ),
-      Container(
-        child: Image(
-          image: AssetImage(
-            "assets/icons_img/icons8-heart-50.png",
-          ),
-        ),
-      ),
-      Container(
-        child: Image(
-          image: AssetImage(
-            "assets/icons_img/icons8-home-50.png",
-          ),
-        ),
-      ),
-      Container(
-        child: Image(
-          image: AssetImage(
-            "assets/icons_img/icons8-settings-50.png",
-          ),
-        ),
-      ),
-      Container(
-        child: Image(
-          image: AssetImage(
-            "assets/icons_img/icons8-shutdown-50.png",
-          ),
-        ),
-      ),
+      Icon(Icons.download, size: 30),
+      Icon(Icons.home, size: 30),
+      Icon(Icons.settings, size: 30),
+      Icon(FontAwesomeIcons.powerOff, size: 30),
     ];
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFFC7B8F50),
+        title: Text('Search for books'),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              showSearch(context: context, delegate: DataSearch());
+            },
+          ),
+        ],
+      ),
       backgroundColor: Colors.white,
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.white,
         height: 60,
-        color: Color(0xFFC7B8F5),
+        color: Color(0xFFC7B8F50),
         index: index,
         items: items,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          height: size.height * .45,
-          decoration: BoxDecoration(
-            color: Color(0xFFC7B8F5),
-            image: DecorationImage(
-              alignment: Alignment.centerRight,
-              image: AssetImage("assets/icons/book.png"),
-              fit: BoxFit.fitWidth,
+      body: Stack(
+        children: [
+          Container(
+            height: size.height * .45,
+            decoration: BoxDecoration(
+              color: Color(0xFFC7B8F50),
+              image: DecorationImage(
+                alignment: Alignment.centerRight,
+                image: AssetImage("assets/icons/book.png"),
+                fit: BoxFit.fitWidth,
+              ),
             ),
           ),
-          child: ListView(
-            children: [
-              SizedBox(
-                height: 185,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, top: 25),
-                child: Container(
-                  height: 50,
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: "Search",
-                      icon: Container(
-                          child: Image(
-                            image:AssetImage("assets/icons_img/icons8-search-50.png"),
-                          ),
-                      ),
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+          ProductsGrid(showFavs: _showOnlyFavorites),
+        ],
       ),
+    );
+  }
+}
+
+class DataSearch extends SearchDelegate<String> {
+  final search = [
+    "ahmed",
+    "mohammed",
+  ];
+  final recentSearch = ["mohammed"];
+
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+          icon: Icon(Icons.clear, size: 30),
+          onPressed: () {
+            query = "";
+          }),
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+      icon: AnimatedIcon(
+        icon: AnimatedIcons.menu_arrow,
+        progress: transitionAnimation,
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, 'HomeScreen');
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return new HomeScreen();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final suggestionList = query.isEmpty ? recentSearch : search;
+    return ListView.builder(
+      itemBuilder: (context, index) => ListTile(
+        leading: Icon(Icons.book),
+        title: Text(suggestionList[index]),
+      ),
+      itemCount: suggestionList.length,
     );
   }
 }

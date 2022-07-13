@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:like_button/like_button.dart';
 
 class ProductScreen extends StatefulWidget {
+  static const routeName = '/product-detail';
+
   const ProductScreen({Key? key}) : super(key: key);
 
   @override
@@ -14,35 +15,23 @@ class _ProductScreenState extends State<ProductScreen> {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFFC7B8F5),
-        elevation: 0,
+        backgroundColor: Color(0xFFC7B8F50),
         leading: GestureDetector(
           onTap: () => Navigator.pushNamed(context, 'HomeScreen'),
-          child:  Image(
-             image: AssetImage("assets/icons_img/icons8-back-50.png"),
-            ),
+          child: Icon(Icons.arrow_back, size: 30),
           ),
         actions: [
           IconButton(
             onPressed: () => {Navigator.pushNamed(context, 'CommentScreen')},
-            icon: Image(
-                image: AssetImage("assets/icons_img/icons8-comments-50.png"),
-              ),
-            ),
-          IconButton(
-            onPressed: () {},
-            icon: LikeButton(
-              size: 29,
-              isLiked: false,
-            ),
+            icon: Icon(Icons.comment, size: 30),
           ),
         ],
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: size.height * .35,
+          height: size.height * .45,
           decoration: BoxDecoration(
-            color: Color(0xFFC7B8F5),
+            color: Color(0xFFC7B8F50),
             image: DecorationImage(
               alignment: Alignment.centerRight,
               image: AssetImage("assets/icons/djhsa.png"),

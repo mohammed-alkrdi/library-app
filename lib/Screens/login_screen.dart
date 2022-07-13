@@ -52,16 +52,10 @@ class LoginScreen extends StatelessWidget {
                           onSaved: (value) {},
                           validator: (value) {},
                         ),
-                        GestureDetector(
-                          onTap: () =>
-                              Navigator.pushNamed(context, 'ForgetPassword?'),
-                          child: TextInput(
-                            text: 'ForgetPassword?',
-                            fontsize: 16,
-                            color: Colors.white,
-                            alignment: Alignment.topRight,
-                          ),
+                        SizedBox(
+                          height: 50,
                         ),
+                        //CheckBox(),
                         RoundedButton(
                           onPressed: () =>
                               {Navigator.pushNamed(context, 'LogIn')},

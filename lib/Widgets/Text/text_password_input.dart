@@ -1,9 +1,13 @@
+
 import 'package:flutter/material.dart';
+
 
 class TextPasswordInput extends StatelessWidget {
   final String hint;
 
   final String image;
+
+  final passwordController = TextEditingController();
 
   final TextInputAction inputAction;
 
@@ -49,6 +53,7 @@ class TextPasswordInput extends StatelessWidget {
             style: const TextStyle(
               color: Colors.white,
             ),
+            controller: passwordController,
             textInputAction: inputAction,
             onSaved: onSaved,
             validator: validator,
