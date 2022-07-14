@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class TextFieldInput extends StatelessWidget {
   final String hint;
 
-  final emailController = TextEditingController();
+  final TextEditingController textController;
 
   final String image;
 
@@ -20,6 +20,7 @@ class TextFieldInput extends StatelessWidget {
   TextFieldInput(
       {Key? key,
       required this.hint,
+      required this.textController,
       required this.image,
       required this.onSaved,
       required this.validator,
@@ -57,7 +58,7 @@ class TextFieldInput extends StatelessWidget {
             ),
             keyboardType: inputType,
             textInputAction: inputAction,
-            controller: emailController,
+            controller: textController,
             onSaved: onSaved,
             validator: validator,
             //controller: ,

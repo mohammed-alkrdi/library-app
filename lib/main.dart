@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_library/Providers/auth_provider.dart';
 import 'package:my_library/Providers/products.dart';
 import 'package:my_library/Screens/comment_screen.dart';
-import 'package:my_library/Screens/forget_password.dart';
 import 'package:my_library/Screens/home_screen.dart';
 import 'package:my_library/Screens/login_screen.dart';
 import 'package:my_library/Screens/register_screen.dart';
@@ -22,6 +22,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: Products(),
         ),
+        ChangeNotifierProvider.value(
+            value: DataClass(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -35,7 +38,7 @@ class MyApp extends StatelessWidget {
           HomeScreen.routeName: (ctx) => new HomeScreen(),
           'CreateNewAccount' :(context) => RegisterScreen(),
           'LogIn' :(context) => HomeScreen(),
-          'SignUp' :(context) => LoginScreen(),
+          //'SignUp' :(context) => LoginScreen(),
           'Login' :(context) => LoginScreen(),
           'HomeScreen' :(context) => HomeScreen(),
           'CommentScreen' :(context) => CommentScreen(),

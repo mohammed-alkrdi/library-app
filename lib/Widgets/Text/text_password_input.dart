@@ -7,7 +7,7 @@ class TextPasswordInput extends StatelessWidget {
 
   final String image;
 
-  final passwordController = TextEditingController();
+  final TextEditingController textController;
 
   final TextInputAction inputAction;
 
@@ -17,6 +17,7 @@ class TextPasswordInput extends StatelessWidget {
 
   TextPasswordInput(
       {Key? key,
+        required this.textController,
         required this.hint,
         required this.image,
         required this.onSaved,
@@ -53,7 +54,7 @@ class TextPasswordInput extends StatelessWidget {
             style: const TextStyle(
               color: Colors.white,
             ),
-            controller: passwordController,
+            controller: textController,
             textInputAction: inputAction,
             onSaved: onSaved,
             validator: validator,
