@@ -1,4 +1,3 @@
-
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:my_library/Models/signup_model.dart';
@@ -11,7 +10,6 @@ import 'package:my_library/Widgets/Text/text_input.dart';
 import 'package:my_library/Widgets/Text/text_password_input.dart';
 import 'package:provider/provider.dart';
 
-
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
 
@@ -20,22 +18,13 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-
-  final formKey = GlobalKey<FormState>(
-
-  );
+  final formKey = GlobalKey<FormState>();
 
   late String name, email, password, age;
   late int phoneNumber;
 
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
-
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
     var nameController = TextEditingController();
@@ -55,12 +44,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         email: email,
         password: password,
       );
-      var provider = Provider.of<DataClass>(context, listen: false);
+      var provider = Provider.of<DataSignUp>(context, listen: false);
       await provider.postData(signUpBody);
-      if(provider.isBack) {
+      if (provider.isBack) {
         Navigator.push(
-            context,
-          MaterialPageRoute(builder: (context) =>  LoginScreen()),
+          context,
+          MaterialPageRoute(builder: (context) => LoginScreen()),
         );
       }
     }
@@ -71,10 +60,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         Scaffold(
           backgroundColor: Colors.transparent,
           body: //isLoading
-               SingleChildScrollView(
-                  child: SafeArea(
-                  child: Column(
-                  children: [
+              SingleChildScrollView(
+            child: SafeArea(
+              child: Column(
+                children: [
                   SizedBox(
                     height: 20,
                   ),
@@ -106,8 +95,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             },
                             validator: (value) {
                               String? _msg;
-                              if(value!.isEmpty) {
-                                _msg =  "Please enter your name";
+                              if (value!.isEmpty) {
+                                _msg = "Please enter your name";
                               }
                               return _msg;
                             },
@@ -115,7 +104,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           TextFieldInput(
                             hint: 'age',
                             textController: ageController,
-                            image:'assets/icons_img/icons8-user-50.png' ,
+                            image: 'assets/icons_img/icons8-user-50.png',
                             inputType: TextInputType.number,
                             inputAction: TextInputAction.next,
                             onSaved: (value) {
@@ -123,11 +112,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             },
                             validator: (value) {
                               String? _msg;
-                              if(value!.isEmpty) {
-                               _msg =  "Please enter your age";
+                              if (value!.isEmpty) {
+                                _msg = "Please enter your age";
                               }
                               return _msg;
-
                             },
                           ),
                           TextFieldInput(
@@ -141,8 +129,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             },
                             validator: (value) {
                               String? _msg;
-                              if(value!.isEmpty) {
-                                _msg =  "Please enter your phone number";
+                              if (value!.isEmpty) {
+                                _msg = "Please enter your phone number";
                               }
                               return _msg;
                             },
@@ -157,10 +145,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               email = value!;
                             },
                             validator: (value) {
-                              String ? _msg;
+                              String? _msg;
                               RegExp regex = new RegExp(
                                   r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
-                              if(value!.isEmpty) {
+                              if (value!.isEmpty) {
                                 _msg = "your email is required";
                               } else if (!regex.hasMatch(value)) {
                                 _msg = "Pleas provide a valid email address";
@@ -178,8 +166,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             },
                             validator: (value) {
                               String? _msg;
-                              if(value!.isEmpty) {
-                                _msg =  "Please enter your password";
+                              if (value!.isEmpty) {
+                                _msg = "Please enter your password";
                               }
                               return _msg;
                             },
@@ -188,13 +176,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             height: 20,
                           ),
                           RoundedButton(
-                            onPressed: () =>
-                                {_registration()},
+                            onPressed: () => {_registration()},
                             text: 'SingUp',
                           ),
-                          /*GestureDetector(
-                            onTap: () => Navigator.pushNamed(
-                                context, 'LogIN'),*/
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
           value: Products(),
         ),
         ChangeNotifierProvider.value(
-            value: DataClass(),
+            value: DataSignUp(),
         ),
       ],
       child: MaterialApp(
