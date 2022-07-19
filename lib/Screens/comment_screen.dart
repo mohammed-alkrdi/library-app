@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_library/Widgets/Text/text_input.dart';
+import 'package:my_library/Widgets/text.dart';
 
 class CommentScreen extends StatefulWidget {
   const CommentScreen({Key? key}) : super(key: key);
@@ -15,15 +15,14 @@ class _CommentScreenState extends State<CommentScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: TextInput(
+        title: NewText(
           text: 'Comments',
           color: Colors.black,
           alignment: Alignment.centerLeft,
           fontsize: 24,
-
         ),
         leading: GestureDetector(
-          onTap: () => Navigator.pushNamed(context, 'ProductScreen'),
+          onTap: () => Navigator.pushNamed(context, 'MainBooksPage'),
           child: Icon(Icons.arrow_back, size: 30, color: Colors.black),
         ),
       ),

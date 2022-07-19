@@ -1,33 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:my_library/Widgets/Text/text_input.dart';
+import 'package:my_library/Widgets/text.dart';
 
 class RoundedButton extends StatelessWidget {
   final String text;
   final void Function()? onPressed;
+  final double sizeHeight;
+  final double sizeWidth;
+  final Color? color;
 
-   const RoundedButton({
+  const RoundedButton({
     Key? key,
     required this.text,
     required this.onPressed,
+    required this.sizeHeight,
+    required this.sizeWidth,
+    this.color,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
-      width: 310,
+      height: sizeHeight,
+      width: sizeWidth,
       decoration: BoxDecoration(
-        color: Colors.deepPurple,
+        color: color,
         borderRadius: BorderRadius.circular(16),
       ),
       child: TextButton(
         onPressed: onPressed,
-          child: TextInput(
-            text: text,
-            alignment: Alignment.center,
-            color: Colors.white,
-          ),
+        child: NewText(
+          text: text,
+          alignment: Alignment.center,
+          color: Colors.white,
         ),
+      ),
     );
   }
 }

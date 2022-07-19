@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 
-class TextInput extends StatelessWidget {
+class NewText extends StatelessWidget {
   final String text;
-  final double fontsize;
-  final Color color;
-  final Alignment alignment;
-
-  const TextInput({
+  final double? fontsize;
+  final Color? color;
+  final Alignment? alignment;
+  final double? height;
+   const NewText({
     Key? key,
-    this.text = '',
+    required this.text,
     this.fontsize = 16,
-    this.color = Colors.white,
+    required this.color,
+    this.height,
     this.alignment = Alignment.topLeft,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 90,
       alignment: alignment,
       child: Text(
         text,
         style: TextStyle(
-            color: color, fontSize: fontsize, fontWeight: FontWeight.w900),
+            color: color, height: height, fontSize: fontsize, fontWeight: FontWeight.w900),
       ),
     );
   }

@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:my_library/Providers/auth_provider.dart';
+import 'package:get/get.dart';
+import 'package:my_library/Models/logout_request.dart';
+import 'package:my_library/Providers/books_provider.dart';
+import 'package:my_library/Providers/logout_provider.dart';
+import 'package:my_library/Providers/signin_provider.dart';
+import 'package:my_library/Providers/signup_provider.dart';
 import 'package:my_library/Providers/products.dart';
 import 'package:my_library/Screens/comment_screen.dart';
-import 'package:my_library/Screens/home_screen.dart';
+
 import 'package:my_library/Screens/login_screen.dart';
 import 'package:my_library/Screens/register_screen.dart';
 import 'package:provider/provider.dart';
-import 'Screens/product_screen.dart';
 
+import 'Screens/Details/book_details_screen.dart';
+import 'Screens/Home/Main_books_page.dart';
+import 'Screens/Home/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -23,28 +31,32 @@ class MyApp extends StatelessWidget {
           value: Products(),
         ),
         ChangeNotifierProvider.value(
-            value: DataSignUp(),
+          value: DataSignUp(),
         ),
+        ChangeNotifierProvider.value(
+          value: DataSignIn(),
+        ),
+        ChangeNotifierProvider.value(
+          value: DataLogOut(),
+        ),
+        ChangeNotifierProvider.value(value: DataBooks()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor: Colors.blue,
         ),
-        home:RegisterScreen(),
+        home: RegisterScreen(),
         initialRoute: '/',
         routes: {
-          ProductScreen.routeName: (ctx) => ProductScreen(),
           HomeScreen.routeName: (ctx) => new HomeScreen(),
-          'CreateNewAccount' :(context) => RegisterScreen(),
-          'LogIn' :(context) => HomeScreen(),
-          //'SignUp' :(context) => LoginScreen(),
-          'Login' :(context) => LoginScreen(),
-          'HomeScreen' :(context) => HomeScreen(),
-          'CommentScreen' :(context) => CommentScreen(),
-          'ProductScreen' :(context) => ProductScreen(),
+          'CreateNewAccount': (context) => RegisterScreen(),
+          'Login': (context) => LoginScreen(),
+          'HomeScreen': (context) => HomeScreen(),
+          'CommentScreen': (context) => CommentScreen(),
+          'ProductScreen': (context) => BookDetailsScreen(),
+          'MainBooksPage': (context) => MainBooksPage(),
         },
-
       ),
     );
   }

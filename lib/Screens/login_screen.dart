@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:my_library/Providers/signin_provider.dart';
+import 'package:my_library/Screens/Home/Main_books_page.dart';
 import 'package:my_library/Widgets/Background%20Images/background_login_image.dart';
 import 'package:my_library/Widgets/rounded_button.dart';
-import 'package:my_library/Widgets/Text/text_field_input.dart';
-import 'package:my_library/Widgets/Text/text_input.dart';
-import 'package:my_library/Widgets/Text/text_password_input.dart';
+import 'package:my_library/Widgets/text.dart';
+import 'package:my_library/Widgets/text_field_input.dart';
+import 'package:my_library/Widgets/text_password_input.dart';
+import 'package:my_library/colors.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:another_flushbar/flushbar.dart';
+import '../Models/signin_model.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -13,33 +20,37 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
-  late String _email, _password;
+  final formKey = GlobalKey<FormState>();
+  late String email, password;
 
   @override
   Widget build(BuildContext context) {
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
 
-    Future<void> _registration() async {
+    Future<void> _logIn() async {
       String email = emailController.text.trim();
       String password = passwordController.text.trim();
-     /* SignUpBody signUpBody = SignUpBody(
-        name: name,
-        age: age,
-        phoneNumber: phoneNumber,
+      SignInBody signInBody = SignInBody(
         email: email,
         password: password,
       );
-      var provider = Provider.of<DataClass>(context, listen: false);
-      await provider.postData(signUpBody);
-      if(provider.isBack) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) =>  LoginScreen()),
-        );
-      }*/
+      var provider = Provider.of<DataSignIn>(context, listen: false);
+      await provider.postData(signInBody);
+      if (provider.isBack) {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => MainBooksPage()),
+            (route) => false);
+      } else if (provider.loading == false) {
+         Flushbar(
+          title: 'Wellcome Back',
+          message:
+          'Please Sign Up First',
+          duration: Duration(seconds: 4),
+        ).show(context);
+      }
     }
+
     return Stack(
       children: [
         BackgroundLoginImage(),
@@ -75,13 +86,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             inputType: TextInputType.emailAddress,
                             inputAction: TextInputAction.next,
                             onSaved: (value) {
-                              _email = value!;
+                              email = value!;
                             },
                             validator: (value) {
-                              String ? _msg;
+                              String? _msg;
                               RegExp regex = new RegExp(
                                   r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
-                              if(value!.isEmpty) {
+                              if (value!.isEmpty) {
                                 _msg = "your email is required";
                               } else if (!regex.hasMatch(value)) {
                                 _msg = "Pleas provide a valid email address";
@@ -95,10 +106,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             image: 'assets/icons_img/icons8-lock-50.png',
                             inputAction: TextInputAction.done,
                             onSaved: (value) {
-                              _password = value!;
+                              password = value!;
                             },
                             validator: (value) {
-                              value!.isEmpty; "Please enter your password";
+                              value!.isEmpty;
+                              "Please enter your password";
                             },
                           ),
                           SizedBox(
@@ -106,14 +118,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           //CheckBox(),
                           RoundedButton(
-                            onPressed: () =>
-                                {_registration()},
+                            onPressed: () => {_logIn()},
                             text: 'LogIn',
+                            sizeHeight: 50,
+                            sizeWidth: 310,
+                            color: AppColors.b,
                           ),
+                          SizedBox(height: 50,),
                           GestureDetector(
-                            onTap: () =>
-                                Navigator.pushNamed(context, 'CreateNewAccount'),
-                            child: TextInput(
+                            onTap: () => Navigator.pushNamed(
+                                context, 'CreateNewAccount'),
+                            child: NewText(
                               text: 'CreateNewAccount',
                               fontsize: 16,
                               alignment: Alignment.center,

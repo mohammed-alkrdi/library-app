@@ -1,14 +1,18 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:my_library/Models/signup_model.dart';
-import 'package:my_library/Providers/auth_provider.dart';
+import 'package:my_library/Providers/signup_provider.dart';
+import 'package:my_library/Screens/Home/Main_books_page.dart';
 import 'package:my_library/Screens/login_screen.dart';
 import 'package:my_library/Widgets/Background%20Images/background_register_image.dart';
 import 'package:my_library/Widgets/rounded_button.dart';
-import 'package:my_library/Widgets/Text/text_field_input.dart';
-import 'package:my_library/Widgets/Text/text_input.dart';
-import 'package:my_library/Widgets/Text/text_password_input.dart';
+import 'package:my_library/Widgets/text.dart';
+import 'package:my_library/Widgets/text_field_input.dart';
+import 'package:my_library/Widgets/text_password_input.dart';
+import 'package:my_library/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -47,10 +51,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
       var provider = Provider.of<DataSignUp>(context, listen: false);
       await provider.postData(signUpBody);
       if (provider.isBack) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => LoginScreen()),
-        );
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+            (route) => false);
+      } else if (provider.loading == false) {
+        Flushbar(
+          title: 'Wellcome',
+          message:
+          'Please Enter Your Information Currectly',
+          duration: Duration(seconds: 4),
+        ).show(context);
       }
     }
 
@@ -128,11 +138,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               phoneNumber = value! as int;
                             },
                             validator: (value) {
-                              String? _msg;
+                              String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+                              RegExp regExp =  RegExp(pattern);
                               if (value!.isEmpty) {
-                                _msg = "Please enter your phone number";
+                                return 'Please enter mobile number';
                               }
-                              return _msg;
+                              else if (!regExp.hasMatch(value)) {
+                                return 'Please enter valid mobile number';
+                              }
+                              return null;
                             },
                           ),
                           TextFieldInput(
@@ -177,12 +191,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           RoundedButton(
                             onPressed: () => {_registration()},
-                            text: 'SingUp',
+                            text: 'SignUp',
+                            sizeHeight: 50,
+                            sizeWidth: 310,
+                            color: AppColors.b,
                           ),
+                          SizedBox(height: 30,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              TextInput(
+                              NewText(
                                 text: 'Already have an account?',
                                 fontsize: 16,
                                 alignment: Alignment.center,
@@ -191,11 +209,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               GestureDetector(
                                 onTap: () =>
                                     Navigator.pushNamed(context, 'Login'),
-                                child: TextInput(
+                                child: NewText(
                                   text: 'Login',
                                   fontsize: 16,
                                   alignment: Alignment.center,
-                                  color: Colors.deepPurple,
+                                  color: AppColors.b,
                                 ),
                               ),
                             ],

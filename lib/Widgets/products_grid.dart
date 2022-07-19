@@ -1,4 +1,4 @@
-import 'package:my_library/Widgets/product_item.dart';
+/*import 'package:my_library/Widgets/product_item.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import '../Providers/products.dart';
@@ -29,4 +29,4 @@ class ProductsGrid extends StatelessWidget {
       ),
     );
   }
-}
+}*/

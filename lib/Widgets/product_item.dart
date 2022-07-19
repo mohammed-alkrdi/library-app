@@ -1,8 +1,5 @@
-
-
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:my_library/Providers/product.dart';
-import 'package:my_library/Screens/product_screen.dart';
 import 'package:provider/provider.dart';
 
 class ProductItem extends StatelessWidget {
@@ -31,7 +28,7 @@ class ProductItem extends StatelessWidget {
           leading: Consumer<Product>(
             builder: (ctx, product, _) => IconButton(
               icon: Icon(
-                product.isFavorite ? Icons.favorite :Icons.favorite_border,
+                product.isFavorite ? Icons.favorite : Icons.favorite_border,
               ),
               color: Color(0xFFC7B8F50),
               onPressed: () {
@@ -47,4 +44,4 @@ class ProductItem extends StatelessWidget {
       ),
     );
   }
-}
+}*/
