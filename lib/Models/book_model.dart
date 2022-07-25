@@ -1,34 +1,42 @@
 import 'package:flutter/material.dart';
 
-import '../Api/http_service_getallbooks.dart';
-import '../Models/book_model.dart';
-
-class Book {
+class Book with ChangeNotifier {
   int id;
-  String bookName;
+  String name;
   String author;
-  double price;
+  int price;
   String imageUrl;
   String downloadUrl;
+  String? token;
+  int? categoryId;
+  bool isFavorite;
+  String image;
 
   Book({
-      required this.id,
-      required this.bookName,
-      required this.author,
-      required this.price,
-      required this.imageUrl,
-      required this.downloadUrl
-      });
+    required this.id,
+    required this.name,
+    required this.author,
+    required this.price,
+    required this.imageUrl,
+    required this.downloadUrl,
+    this.categoryId,
+    this.token,
+    this.isFavorite = false,
+    this.image = "http://127.0.0.1:8000/storage/",
+  });
+
   factory Book.fromJson(Map<String, dynamic> json) {
     return Book(
       id: json["id"],
-      bookName: json["name"],
+      name: json["name"],
       author: json["writer_book"],
       price: json["price"],
       imageUrl: json["image"],
-      downloadUrl: json[" file"],
+      downloadUrl: json["file"],
     );
   }
+  void toggleFavoriteStatus() {
+    isFavorite = !isFavorite;
+    notifyListeners();
+  }
 }
-
-

@@ -2,7 +2,6 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:my_library/Models/signup_model.dart';
 import 'package:my_library/Providers/signup_provider.dart';
-import 'package:my_library/Screens/Home/Main_books_page.dart';
 import 'package:my_library/Screens/login_screen.dart';
 import 'package:my_library/Widgets/Background%20Images/background_register_image.dart';
 import 'package:my_library/Widgets/rounded_button.dart';
@@ -11,7 +10,7 @@ import 'package:my_library/Widgets/text_field_input.dart';
 import 'package:my_library/Widgets/text_password_input.dart';
 import 'package:my_library/colors.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 
 class RegisterScreen extends StatefulWidget {
@@ -81,7 +80,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     height: 120,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/images/Picture1.png'),
+                        image: AssetImage('assets/images/Logo.png'),
                       ),
                     ),
                   ),
@@ -97,7 +96,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           TextFieldInput(
                             hint: 'name',
                             textController: nameController,
-                            image: 'assets/icons_img/icons8-user-male-50.png',
+                            image: 'assets/icons/icons8-user-male-50.png',
                             inputType: TextInputType.name,
                             inputAction: TextInputAction.next,
                             onSaved: (value) {
@@ -114,7 +113,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           TextFieldInput(
                             hint: 'age',
                             textController: ageController,
-                            image: 'assets/icons_img/icons8-user-50.png',
+                            image: 'assets/icons/icons8-user-50.png',
                             inputType: TextInputType.number,
                             inputAction: TextInputAction.next,
                             onSaved: (value) {
@@ -131,7 +130,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           TextFieldInput(
                             hint: 'phone number',
                             textController: phoneNumberController,
-                            image: 'assets/icons_img/icons8-phone-50.png',
+                            image: 'assets/icons/icons8-phone-50.png',
                             inputType: TextInputType.number,
                             inputAction: TextInputAction.next,
                             onSaved: (value) {
@@ -152,7 +151,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           TextFieldInput(
                             hint: 'email',
                             textController: emailController,
-                            image: 'assets/icons_img/icons8-mail-50.png',
+                            image: 'assets/icons/icons8-mail-50.png',
                             inputType: TextInputType.emailAddress,
                             inputAction: TextInputAction.next,
                             onSaved: (value) {
@@ -173,7 +172,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           TextPasswordInput(
                             hint: 'password',
                             textController: passwordController,
-                            image: 'assets/icons_img/icons8-lock-50.png',
+                            image: 'assets/icons/icons8-lock-50.png',
                             inputAction: TextInputAction.done,
                             onSaved: (value) {
                               password = value!;

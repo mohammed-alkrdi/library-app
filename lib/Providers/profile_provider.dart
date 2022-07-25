@@ -1,30 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:my_library/Api/http_service_profile.dart';
+import 'package:my_library/Models/profile_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../Api/http_service_getallbooks.dart';
-import '../Models/books_model.dart';
 
-class DataBooks extends ChangeNotifier {
-  late ListOfBooks books;
+class DataProfile extends ChangeNotifier {
+  Profile? post;
   bool loading = false;
 
-  getPostBooks() async {
+  getPostProfile() async {
     var token = await getToken();
     print(token);
     loading = true;
-    books = (await getAllBooks(token!)) as ListOfBooks;
+    post = (await getProfile(token!));
     loading = false;
     notifyListeners();
-  }
 
+  }
   Future<String?> getToken() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     final token = pref.getString("token");
     return token;
   }
-
-  /*Future<String?> storeToken(String token) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    await pref.setString("token", token);
-  }*/
 }

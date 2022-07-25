@@ -16,9 +16,11 @@ class DataSignIn extends ChangeNotifier {
     notifyListeners();
     http.Response? response = (await logIn(body));
     if(response?.statusCode == 200) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool("isLoggedIn", true);
       final body = jsonDecode(response!.body);
-      storeToken(body["token"]);
-      print("ok" + body["token"]);
+      await storeToken(body["token"]);
+      print(body["token"]);
       isBack = true;
     } else {
       print("out");
@@ -26,7 +28,7 @@ class DataSignIn extends ChangeNotifier {
       notifyListeners();
     }
   }
-  void storeToken(String token) async {
+    Future<String?> storeToken(String token) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     await pref.setString("token", token);
   }

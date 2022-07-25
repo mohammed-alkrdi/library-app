@@ -4,12 +4,27 @@ import 'package:my_library/Screens/Details/expandable_text.dart';
 import 'package:my_library/Widgets/rounded_button.dart';
 import 'package:my_library/Widgets/text.dart';
 import 'package:my_library/colors.dart';
+import 'package:provider/provider.dart';
 
-class BookDetailsScreen extends StatelessWidget {
+import '../../Providers/book_provider.dart';
+
+class BookDetailsScreen extends StatefulWidget {
   const BookDetailsScreen({Key? key}) : super(key: key);
 
   @override
+  State<BookDetailsScreen> createState() => _BookDetailsScreenState();
+}
+
+class _BookDetailsScreenState extends State<BookDetailsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    final postModel = Provider.of<DataBook>(context, listen: false);
+    postModel.getPostBook();
+  }
+  @override
   Widget build(BuildContext context) {
+    final postModel = Provider.of<DataBook>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -25,7 +40,7 @@ class BookDetailsScreen extends StatelessWidget {
                   image: DecorationImage(
                     fit: BoxFit.cover,
                     image: AssetImage(
-                      "assets/images/124412.webp",
+                      postModel.post?.image ?? "",
                     ),
                   ),
                 ),
@@ -59,9 +74,9 @@ class BookDetailsScreen extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        NewText(text: "title", color: AppColors.i, fontsize: 24,),
+                        NewText(text: postModel.post?.name ?? "", color: AppColors.i, fontsize: 24,),
                         SizedBox(width: 30,),
-                        NewText(text: "author", color: AppColors.a, fontsize: 12,)
+                        NewText(text: postModel.post?.author ?? "", color: AppColors.a, fontsize: 12,)
                       ],
                     ),
                     SizedBox(height: 40,),

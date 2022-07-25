@@ -16,7 +16,7 @@ class BackgroundLoginImage extends StatelessWidget {
       child: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/Library Backgrounds.jpeg'),
+            image: AssetImage('assets/images/LogIn.jpeg'),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
               Colors.black45,

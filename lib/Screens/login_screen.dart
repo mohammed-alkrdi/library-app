@@ -1,6 +1,7 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_library/Providers/signin_provider.dart';
-import 'package:my_library/Screens/Home/Main_books_page.dart';
+import 'package:my_library/Screens/Home/home_screen.dart';
 import 'package:my_library/Widgets/Background%20Images/background_login_image.dart';
 import 'package:my_library/Widgets/rounded_button.dart';
 import 'package:my_library/Widgets/text.dart';
@@ -8,7 +9,6 @@ import 'package:my_library/Widgets/text_field_input.dart';
 import 'package:my_library/Widgets/text_password_input.dart';
 import 'package:my_library/colors.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:another_flushbar/flushbar.dart';
 import '../Models/signin_model.dart';
 
@@ -39,13 +39,13 @@ class _LoginScreenState extends State<LoginScreen> {
       await provider.postData(signInBody);
       if (provider.isBack) {
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => MainBooksPage()),
+            MaterialPageRoute(builder: (context) => HomeScreen()),
             (route) => false);
       } else if (provider.loading == false) {
          Flushbar(
           title: 'Wellcome Back',
           message:
-          'Please Sign Up First',
+          'Please enter your information currectly',
           duration: Duration(seconds: 4),
         ).show(context);
       }
@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 120,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/images/Picture1.png'),
+                        image: AssetImage('assets/images/Logo.png'),
                       ),
                     ),
                   ),
@@ -82,14 +82,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           TextFieldInput(
                             hint: 'email',
                             textController: emailController,
-                            image: 'assets/icons_img/icons8-mail-50.png',
+                            image: 'assets/icons/icons8-mail-50.png',
                             inputType: TextInputType.emailAddress,
                             inputAction: TextInputAction.next,
                             onSaved: (value) {
                               email = value!;
                             },
                             validator: (value) {
-                              String? _msg;
+                              !EmailValidator.validate(value!)
+                                  ? "your email incorrect" : null;
+                            },
+                          ),
+                              /*String? _msg;
                               RegExp regex = new RegExp(
                                   r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
                               if (value!.isEmpty) {
@@ -99,11 +103,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               }
                               return _msg;
                             },
-                          ),
+                          ),*/
                           TextPasswordInput(
                             hint: 'Password',
                             textController: passwordController,
-                            image: 'assets/icons_img/icons8-lock-50.png',
+                            image: 'assets/icons/icons8-lock-50.png',
                             inputAction: TextInputAction.done,
                             onSaved: (value) {
                               password = value!;

@@ -7,11 +7,15 @@ class AppIcons extends StatelessWidget {
   final Color backgroundColor;
   final Color iconColor;
   final double size;
+  final void Function()? onPressed;
+  final double iconSize;
   const AppIcons({Key? key,
     required this.icon,
     this.backgroundColor = const Color(0xFFfcf4e4),
     this.size = 40,
     this.iconColor = const Color(0xFF756d54),
+    this.onPressed,
+    this.iconSize = 16,
 
 
   }) : super(key: key);
@@ -25,10 +29,13 @@ class AppIcons extends StatelessWidget {
         borderRadius: BorderRadius.circular(size/2),
         color: backgroundColor,
       ),
-      child: Icon(
-        icon,
-        color: iconColor,
-        size: 16,
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Icon(
+          icon,
+          color: iconColor,
+          size: iconSize,
+        ),
       ),
     );
   }

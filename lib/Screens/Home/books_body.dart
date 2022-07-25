@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:my_library/Providers/books_provider.dart';
 import 'package:my_library/Widgets/book_icons.dart';
 import 'package:my_library/Widgets/text.dart';
 import 'package:my_library/colors.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:provider/provider.dart';
 
 import 'data_search.dart';
 
@@ -22,12 +24,15 @@ class _BooksBodyState extends State<BooksBody> {
   @override
   void initState() {
     super.initState();
+    final postModel = Provider.of<DataBooks>(context, listen: false);
+    postModel.getPostBooks();
     pageController.addListener(() {
       setState(() {
         _currPageValue = pageController.page!;
       });
     });
   }
+
 
   @override
   void dispose() {
@@ -37,6 +42,7 @@ class _BooksBodyState extends State<BooksBody> {
 
   @override
   Widget build(BuildContext context) {
+    final postModel = Provider.of<DataBooks>(context);
     return Column(
       children: [
         //slider section
@@ -50,7 +56,7 @@ class _BooksBodyState extends State<BooksBody> {
               }),
         ),
         //dots
-        new DotsIndicator(
+        DotsIndicator(
           dotsCount: 5,
           position: _currPageValue,
           decorator: DotsDecorator(
@@ -62,14 +68,14 @@ class _BooksBodyState extends State<BooksBody> {
           ),
         ),
         //Fav text
-        SizedBox(height: 30,),
+        const SizedBox(height: 30,),
         Container(
-          margin: EdgeInsets.only(left: 30),
+          margin: const EdgeInsets.only(left: 30),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               NewText(text: "Favorite", color: AppColors.i),
-              SizedBox(width: 30,),
+              const SizedBox(width: 30,),
               NewText(text: "your favorite books", color: AppColors.a, fontsize: 10,),
             ],
           ),
@@ -81,7 +87,7 @@ class _BooksBodyState extends State<BooksBody> {
             itemCount: 10,
             itemBuilder: (context, index) {
               return Container(
-                margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
                 child: Row(
                   children: [
                     //image section
@@ -111,17 +117,17 @@ class _BooksBodyState extends State<BooksBody> {
                           color: Colors.white,
                         ),
                         child: Padding(
-                          padding: EdgeInsets.only(left: 10,),
+                          padding: const EdgeInsets.only(left: 10,),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               NewText(
-                                text: "title",
+                                text: "sjads",
                                 color: AppColors.h,
                                 alignment: Alignment.center,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               NewText(
@@ -129,7 +135,7 @@ class _BooksBodyState extends State<BooksBody> {
                                 color: AppColors.h,
                                 alignment: Alignment.center,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               NewText(
@@ -150,6 +156,7 @@ class _BooksBodyState extends State<BooksBody> {
   }
 
   Widget _buildPageItem(int index) {
+    final postModel = Provider.of<DataBooks>(context);
     Matrix4 matrix = new Matrix4.identity();
     if (index == _currPageValue.floor()) {
       var currScale = 1 - (_currPageValue - index) * (1 - _scaleFactor);
@@ -178,13 +185,13 @@ class _BooksBodyState extends State<BooksBody> {
         children: [
           Container(
             height: 220,
-            margin: EdgeInsets.only(left: 10, right: 10),
+            margin: const EdgeInsets.only(left: 10, right: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: AssetImage(
-                  "assets/images/Library Backgrounds.jpeg"
+                  "assets/images/LogIn.jpeg"
                 ),
               ),
               //color: index.isEven ? Color(0xFF69c5df) : Color(0xFF9294cc),
@@ -194,11 +201,11 @@ class _BooksBodyState extends State<BooksBody> {
             alignment: Alignment.bottomCenter,
             child: Container(
               height: 130,
-              margin: EdgeInsets.only(left: 20, right: 20, bottom: 30),
+              margin: const EdgeInsets.only(left: 20, right: 20, bottom: 30),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: Colors.white,
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                       color: Color(0xFFe8e8e8),
                       blurRadius: 8.0,
@@ -214,16 +221,16 @@ class _BooksBodyState extends State<BooksBody> {
                 ],
               ),
               child: Container(
-                padding: EdgeInsets.only(top: 15, left: 15, right: 15),
+                padding:  EdgeInsets.only(top: 15, left: 15, right: 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     NewText(
-                      text: "title",
+                      text: "sdjakj",
                       color: AppColors.h,
                       alignment: Alignment.center,
                     ),
-                    SizedBox(
+                     SizedBox(
                       height: 10,
                     ),
                     NewText(
@@ -231,7 +238,7 @@ class _BooksBodyState extends State<BooksBody> {
                       color: AppColors.h,
                       alignment: Alignment.center,
                     ),
-                    SizedBox(
+                     SizedBox(
                       height: 15,
                     ),
                     Row(

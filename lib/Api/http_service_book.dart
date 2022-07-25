@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
-import '../Models/books_model.dart';
+import '../Models/book_model.dart';
 import 'package:http/http.dart' as http;
-Future<ListOfBooks?> getAllBooks(String token) async {
-  ListOfBooks? result;
+Future<Book?> getBook(String token) async {
+  Book? result;
   try {
     final response = await http.get(
-      Uri.parse("http://10.0.2.2:8000/api/book/get_books"),
+      Uri.parse("http://10.0.2.2:8000/api/book/show/4"),
       headers: {
         HttpHeaders.authorizationHeader: "Bearer " +token,
         HttpHeaders.contentTypeHeader: "application/json",
@@ -15,8 +15,9 @@ Future<ListOfBooks?> getAllBooks(String token) async {
     );
     print(json.decode(response.body));
     if (response.statusCode == 200) {
-     final books = (jsonDecode(response.body) as List).map((jsonBooks) =>Books.fromJson(jsonBooks));
-      result = books as ListOfBooks;
+      print("ok");
+      final item = json.decode(response.body);
+      result = Book.fromJson(item);
     } else {
       print("no re");
     }
