@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:my_library/Providers/books_provider.dart';
 import 'package:my_library/Widgets/book_icons.dart';
 import 'package:my_library/Widgets/text.dart';
 import 'package:my_library/colors.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:provider/provider.dart';
 
+import '../../Providers/books_provider.dart';
 import 'data_search.dart';
 
 class BooksBody extends StatefulWidget {
@@ -13,6 +13,7 @@ class BooksBody extends StatefulWidget {
 
   @override
   State<BooksBody> createState() => _BooksBodyState();
+
 }
 
 class _BooksBodyState extends State<BooksBody> {
@@ -21,11 +22,13 @@ class _BooksBodyState extends State<BooksBody> {
   double _scaleFactor = 0.8;
   double _height = 220;
 
+
+
   @override
   void initState() {
-    super.initState();
     final postModel = Provider.of<DataBooks>(context, listen: false);
-    postModel.getPostBooks();
+    postModel.getData();
+    super.initState();
     pageController.addListener(() {
       setState(() {
         _currPageValue = pageController.page!;
@@ -42,6 +45,8 @@ class _BooksBodyState extends State<BooksBody> {
 
   @override
   Widget build(BuildContext context) {
+
+    final String ServerStorageUrl = "http://10.0.2.2:8000/storage/";
     final postModel = Provider.of<DataBooks>(context);
     return Column(
       children: [
@@ -50,14 +55,14 @@ class _BooksBodyState extends State<BooksBody> {
           height: 320,
           child: PageView.builder(
               controller: pageController,
-              itemCount: 5,
+              itemCount: postModel.listOkBooks?.books.length?? 0,
               itemBuilder: (context, position) {
                 return _buildPageItem(position);
               }),
         ),
         //dots
         DotsIndicator(
-          dotsCount: 5,
+          dotsCount: postModel.listOkBooks?.books.length?? 1,
           position: _currPageValue,
           decorator: DotsDecorator(
             activeColor: AppColors.b,
@@ -84,26 +89,29 @@ class _BooksBodyState extends State<BooksBody> {
         ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: 10,
+            itemCount: postModel.listOkBooks?.books.length?? 0,
             itemBuilder: (context, index) {
               return Container(
                 margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
                 child: Row(
                   children: [
                     //image section
-                    Container(
-                      width: 120,
-                      height: 120,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: AppColors.b,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage(
-                            "assets/images/124412.webp",
+                    GestureDetector(
+                      child: Container(
+                        width: 120,
+                        height: 120,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: AppColors.b,
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                              ServerStorageUrl+(postModel.listOkBooks?.books[index].imageUrl?.replaceAll("\\", "/") ?? ""),
+                            ),
                           ),
                         ),
                       ),
+                      onTap: () => Navigator.pushNamed(context, 'BookDetailsScreen',arguments: postModel.listOkBooks?.books[index].id),
                     ),
                     //text Container
                     Expanded(
@@ -123,7 +131,7 @@ class _BooksBodyState extends State<BooksBody> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               NewText(
-                                text: "sjads",
+                                text: postModel.listOkBooks?.books[index].name ?? "",
                                 color: AppColors.h,
                                 alignment: Alignment.center,
                               ),
@@ -131,7 +139,7 @@ class _BooksBodyState extends State<BooksBody> {
                                 height: 10,
                               ),
                               NewText(
-                                text: 'author',
+                                text: postModel.listOkBooks?.books[index].author ?? "",
                                 color: AppColors.h,
                                 alignment: Alignment.center,
                               ),
@@ -139,7 +147,7 @@ class _BooksBodyState extends State<BooksBody> {
                                 height: 10,
                               ),
                               NewText(
-                                text: 'price',
+                                text: postModel.listOkBooks?.books[index].price.toString() ?? "",
                                 color: AppColors.h,
                               ),
                             ],
@@ -156,6 +164,7 @@ class _BooksBodyState extends State<BooksBody> {
   }
 
   Widget _buildPageItem(int index) {
+    final String ServerStorageUrl = "http://10.0.2.2:8000/storage/";
     final postModel = Provider.of<DataBooks>(context);
     Matrix4 matrix = new Matrix4.identity();
     if (index == _currPageValue.floor()) {
@@ -183,19 +192,22 @@ class _BooksBodyState extends State<BooksBody> {
       transform: matrix,
       child: Stack(
         children: [
-          Container(
-            height: 220,
-            margin: const EdgeInsets.only(left: 10, right: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(
-                  "assets/images/LogIn.jpeg"
+          GestureDetector(
+            child: Container(
+              height: 220,
+              margin: const EdgeInsets.only(left: 10, right: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                    ServerStorageUrl+(postModel.listOkBooks?.books[index].imageUrl?.replaceAll("\\", "/") ?? ""),
+                  ),
                 ),
+                //color: index.isEven ? Color(0xFF69c5df) : Color(0xFF9294cc),
               ),
-              //color: index.isEven ? Color(0xFF69c5df) : Color(0xFF9294cc),
             ),
+            onTap: () => Navigator.pushNamed(context, 'BookDetailsScreen'),
           ),
           Align(
             alignment: Alignment.bottomCenter,
@@ -226,7 +238,7 @@ class _BooksBodyState extends State<BooksBody> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     NewText(
-                      text: "sdjakj",
+                      text: postModel.listOkBooks?.books[index].name ?? "",
                       color: AppColors.h,
                       alignment: Alignment.center,
                     ),
@@ -234,7 +246,7 @@ class _BooksBodyState extends State<BooksBody> {
                       height: 10,
                     ),
                     NewText(
-                      text: 'author',
+                      text: postModel.listOkBooks?.books[index].author ?? "",
                       color: AppColors.h,
                       alignment: Alignment.center,
                     ),

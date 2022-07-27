@@ -1,28 +1,26 @@
 import 'package:flutter/material.dart';
 
 class Book with ChangeNotifier {
-  int id;
-  String name;
-  String author;
-  int price;
-  String imageUrl;
-  String downloadUrl;
+  int? id;
+  String? name;
+  String? author;
+  int? price;
+  String? imageUrl;
+  String? downloadUrl;
   String? token;
   int? categoryId;
   bool isFavorite;
-  String image;
 
   Book({
-    required this.id,
-    required this.name,
-    required this.author,
-    required this.price,
-    required this.imageUrl,
-    required this.downloadUrl,
+    this.id,
+    this.name,
+    this.author,
+    this.price,
+    this.imageUrl,
+    this.downloadUrl,
     this.categoryId,
     this.token,
     this.isFavorite = false,
-    this.image = "http://127.0.0.1:8000/storage/",
   });
 
   factory Book.fromJson(Map<String, dynamic> json) {
@@ -35,6 +33,7 @@ class Book with ChangeNotifier {
       downloadUrl: json["file"],
     );
   }
+
   void toggleFavoriteStatus() {
     isFavorite = !isFavorite;
     notifyListeners();

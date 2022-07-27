@@ -16,7 +16,6 @@ class DataLogOut extends ChangeNotifier {
     http.Response? response = await logOut(new LogOutRequest(token: token!));
 
     if(response?.statusCode == 200) {
-      //await getToken();
       print("in");
       isBack = true;
     } else {

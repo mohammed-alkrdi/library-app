@@ -1,19 +1,11 @@
 import 'package:flutter/cupertino.dart';
 
 class ListOfBooks with ChangeNotifier {
- late List<Books> _books;
- List<Books> get books => _books;
+ late List<Books> books;
 
-  ListOfBooks({required books}) {
-    this._books = books;
-  }
-  ListOfBooks.fromJson(Map<String, dynamic> json) {
-    if(json['books'] != null) {
-      _books = <Books>[];
-      json['books'].forEach((v) {
-      _books.add(Books.fromJson(v));
-      });
-    }
+
+  ListOfBooks({required this.books}) {
+    //this._books = books;
   }
 }
 

@@ -7,6 +7,8 @@ import 'package:my_library/Widgets/text.dart';
 import 'package:my_library/colors.dart';
 import 'package:provider/provider.dart';
 
+import '../../Providers/copy.dart';
+
 
 class AccountDetails extends StatefulWidget {
   const AccountDetails({Key? key}) : super(key: key);
@@ -19,12 +21,12 @@ class _AccountDetailsState extends State<AccountDetails> {
   @override
   void initState() {
     super.initState();
-    final postModel = Provider.of<DataProfile>(context, listen: false);
-    postModel.getPostProfile();
+    final postModel = Provider.of<DataProfilee>(context, listen: false);
+    postModel.getData();
   }
   @override
   Widget build(BuildContext context) {
-    final postModel = Provider.of<DataProfile>(context);
+    final postModel = Provider.of<DataProfilee>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.b,
@@ -64,7 +66,7 @@ class _AccountDetailsState extends State<AccountDetails> {
                         iconSize: 25,
                       ),
                       newText: NewText(
-                          text: postModel.post?.name ?? "", color: AppColors.i),
+                          text: postModel.postProfile?.name ?? "", color: AppColors.i),
                     ),
                     SizedBox(height: 20,),
                     //age
@@ -76,7 +78,7 @@ class _AccountDetailsState extends State<AccountDetails> {
                         size: 50,
                         iconSize: 25,
                       ),
-                      newText: NewText(text: postModel.post?.age.toString() ?? ""  , color: AppColors.i),
+                      newText: NewText(text: postModel.postProfile?.age.toString() ?? ""  , color: AppColors.i),
                     ),
                     SizedBox(height: 20,),
                     //phone number
@@ -88,7 +90,7 @@ class _AccountDetailsState extends State<AccountDetails> {
                         size: 50,
                         iconSize: 25,
                       ),
-                      newText: NewText(text: postModel.post?.phoneNumber.toString() ?? "", color: AppColors.i),
+                      newText: NewText(text: postModel.postProfile?.phoneNumber.toString() ?? "", color: AppColors.i),
                     ),
                     SizedBox(height: 20,),
                     //email
@@ -100,7 +102,7 @@ class _AccountDetailsState extends State<AccountDetails> {
                         size: 50,
                         iconSize: 25,
                       ),
-                      newText: NewText(text: postModel.post?.email ?? "", color: AppColors.i),
+                      newText: NewText(text: postModel.postProfile?.email ?? "", color: AppColors.i),
                     ),
                     SizedBox(height: 20,),
                     //password
