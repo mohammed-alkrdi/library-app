@@ -18,19 +18,19 @@ class DataBook extends ChangeNotifier {
   Future<void> getData(int bookId) async {
     loading = true;
     var token = await getToken();
-    print(token);
-    http.Response? response = (await getBookk(token!, bookId));
+    //print(token);
+    http.Response? response = (await getBook(token!, bookId));
 
     if(response?.statusCode == 200) {
       Map<String, dynamic> book = json.decode(response!.body) as Map<String, dynamic>;
       postBook =  Book.fromJson(book);
-      print("in");
+      //print("in");
       isBack = true;
       loading = false;
       notifyListeners();
     } else {
       loading = false;
-      print("out");
+      //print("out");
       notifyListeners();
     }
   }

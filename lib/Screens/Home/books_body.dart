@@ -13,7 +13,6 @@ class BooksBody extends StatefulWidget {
 
   @override
   State<BooksBody> createState() => _BooksBodyState();
-
 }
 
 class _BooksBodyState extends State<BooksBody> {
@@ -21,8 +20,6 @@ class _BooksBodyState extends State<BooksBody> {
   var _currPageValue = 0.0;
   double _scaleFactor = 0.8;
   double _height = 220;
-
-
 
   @override
   void initState() {
@@ -36,7 +33,6 @@ class _BooksBodyState extends State<BooksBody> {
     });
   }
 
-
   @override
   void dispose() {
     super.dispose();
@@ -45,9 +41,10 @@ class _BooksBodyState extends State<BooksBody> {
 
   @override
   Widget build(BuildContext context) {
-
+    print("object");
     final String ServerStorageUrl = "http://10.0.2.2:8000/storage/";
     final postModel = Provider.of<DataBooks>(context);
+    print(postModel.listOkBooks?.books[0].id);
     return Column(
       children: [
         //slider section
@@ -55,14 +52,14 @@ class _BooksBodyState extends State<BooksBody> {
           height: 320,
           child: PageView.builder(
               controller: pageController,
-              itemCount: postModel.listOkBooks?.books.length?? 0,
+              itemCount: postModel.listOkBooks?.books.length ?? 0,
               itemBuilder: (context, position) {
                 return _buildPageItem(position);
               }),
         ),
         //dots
         DotsIndicator(
-          dotsCount: postModel.listOkBooks?.books.length?? 1,
+          dotsCount: postModel.listOkBooks?.books.length ?? 1,
           position: _currPageValue,
           decorator: DotsDecorator(
             activeColor: AppColors.b,
@@ -73,15 +70,23 @@ class _BooksBodyState extends State<BooksBody> {
           ),
         ),
         //Fav text
-        const SizedBox(height: 30,),
+        const SizedBox(
+          height: 30,
+        ),
         Container(
           margin: const EdgeInsets.only(left: 30),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               NewText(text: "Favorite", color: AppColors.i),
-              const SizedBox(width: 30,),
-              NewText(text: "your favorite books", color: AppColors.a, fontsize: 10,),
+              const SizedBox(
+                width: 30,
+              ),
+              NewText(
+                text: "your favorite books",
+                color: AppColors.a,
+                fontsize: 10,
+              ),
             ],
           ),
         ),
@@ -89,7 +94,7 @@ class _BooksBodyState extends State<BooksBody> {
         ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: postModel.listOkBooks?.books.length?? 0,
+            itemCount: postModel.listOkBooks?.books.length ?? 0,
             itemBuilder: (context, index) {
               return Container(
                 margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
@@ -106,18 +111,22 @@ class _BooksBodyState extends State<BooksBody> {
                           image: DecorationImage(
                             fit: BoxFit.cover,
                             image: NetworkImage(
-                              ServerStorageUrl+(postModel.listOkBooks?.books[index].imageUrl?.replaceAll("\\", "/") ?? ""),
+                              ServerStorageUrl +
+                                  (postModel.listOkBooks?.books[index].imageUrl
+                                          ?.replaceAll("\\", "/") ??
+                                      ""),
                             ),
                           ),
                         ),
                       ),
-                      onTap: () => Navigator.pushNamed(context, 'BookDetailsScreen',arguments: postModel.listOkBooks?.books[index].id),
+                      onTap: () =>
+                          Navigator.pushNamed(context, 'BookDetailsScreen', arguments: postModel.listOkBooks?.books[index].id),
                     ),
                     //text Container
                     Expanded(
                       child: Container(
                         height: 100,
-                        decoration:  BoxDecoration(
+                        decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(20),
                             bottomRight: Radius.circular(20),
@@ -125,13 +134,17 @@ class _BooksBodyState extends State<BooksBody> {
                           color: Colors.white,
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 10,),
+                          padding: const EdgeInsets.only(
+                            left: 10,
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               NewText(
-                                text: postModel.listOkBooks?.books[index].name ?? "",
+                                text:
+                                    postModel.listOkBooks?.books[index].name ??
+                                        "",
                                 color: AppColors.h,
                                 alignment: Alignment.center,
                               ),
@@ -139,7 +152,9 @@ class _BooksBodyState extends State<BooksBody> {
                                 height: 10,
                               ),
                               NewText(
-                                text: postModel.listOkBooks?.books[index].author ?? "",
+                                text: postModel
+                                        .listOkBooks?.books[index].author ??
+                                    "",
                                 color: AppColors.h,
                                 alignment: Alignment.center,
                               ),
@@ -147,7 +162,9 @@ class _BooksBodyState extends State<BooksBody> {
                                 height: 10,
                               ),
                               NewText(
-                                text: postModel.listOkBooks?.books[index].price.toString() ?? "",
+                                text: postModel.listOkBooks?.books[index].price
+                                        .toString() ??
+                                    "",
                                 color: AppColors.h,
                               ),
                             ],
@@ -201,13 +218,16 @@ class _BooksBodyState extends State<BooksBody> {
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: NetworkImage(
-                    ServerStorageUrl+(postModel.listOkBooks?.books[index].imageUrl?.replaceAll("\\", "/") ?? ""),
+                    ServerStorageUrl +
+                        (postModel.listOkBooks?.books[index].imageUrl
+                                ?.replaceAll("\\", "/") ??
+                            ""),
                   ),
                 ),
                 //color: index.isEven ? Color(0xFF69c5df) : Color(0xFF9294cc),
               ),
             ),
-            onTap: () => Navigator.pushNamed(context, 'BookDetailsScreen'),
+            onTap: () => Navigator.pushNamed(context, 'BookDetailsScreen', arguments: postModel.listOkBooks?.books[index].id),
           ),
           Align(
             alignment: Alignment.bottomCenter,
@@ -233,7 +253,7 @@ class _BooksBodyState extends State<BooksBody> {
                 ],
               ),
               child: Container(
-                padding:  EdgeInsets.only(top: 15, left: 15, right: 15),
+                padding: EdgeInsets.only(top: 15, left: 15, right: 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -242,7 +262,7 @@ class _BooksBodyState extends State<BooksBody> {
                       color: AppColors.h,
                       alignment: Alignment.center,
                     ),
-                     SizedBox(
+                    SizedBox(
                       height: 10,
                     ),
                     NewText(
@@ -250,7 +270,7 @@ class _BooksBodyState extends State<BooksBody> {
                       color: AppColors.h,
                       alignment: Alignment.center,
                     ),
-                     SizedBox(
+                    SizedBox(
                       height: 15,
                     ),
                     Row(
@@ -260,7 +280,7 @@ class _BooksBodyState extends State<BooksBody> {
                           icon: Icons.favorite_border,
                           text: "like",
                           color: AppColors.a,
-                          fontSize: 10 ,
+                          fontSize: 10,
                           iconColor: AppColors.d,
                           onPressed: () {},
                         ),

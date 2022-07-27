@@ -16,19 +16,19 @@ class DataBooks extends ChangeNotifier {
     loading = true;
     //notifyListeners();
     var token = await getToken();
-    print(token);
+    //print(token);
     http.Response? response = await books(token!);
 
     if(response?.statusCode == 200) {
       List<Books> books = (json.decode(response!.body) as List).map((j) => Books.fromJson(j)).toList();
       listOkBooks = new ListOfBooks(books: books);
-      print("in");
+      //print("in");
       isBack = true;
       loading = false;
       notifyListeners();
     } else {
       loading = false;
-      print("out");
+      //print("out");
       notifyListeners();
     }
   }

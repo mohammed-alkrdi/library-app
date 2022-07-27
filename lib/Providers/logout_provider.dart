@@ -12,15 +12,15 @@ class DataLogOut extends ChangeNotifier {
     loading = true;
     notifyListeners();
     var token = await getToken();
-    print(token);
+    //print(token);
     http.Response? response = await logOut(new LogOutRequest(token: token!));
 
     if(response?.statusCode == 200) {
-      print("in");
+      //print("in");
       isBack = true;
     } else {
     loading = false;
-    print("out");
+    //print("out");
     notifyListeners();
     }
   }

@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 
-Future<http.Response?> getBookk(String token, int bookId) async {
+Future<http.Response?> getBook(String token, int bookId) async {
   http.Response? response;
   try {
     response = await http.get(

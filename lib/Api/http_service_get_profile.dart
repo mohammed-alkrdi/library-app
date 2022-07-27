@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 
-Future<http.Response?> getProfilee(String token) async {
+Future<http.Response?> getProfile(String token) async {
   http.Response? response;
   try {
     response = await http.get(

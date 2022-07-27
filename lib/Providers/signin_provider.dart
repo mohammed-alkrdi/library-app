@@ -20,10 +20,10 @@ class DataSignIn extends ChangeNotifier {
       prefs.setBool("isLoggedIn", true);
       final body = jsonDecode(response!.body);
       await storeToken(body["token"]);
-      print(body["token"]);
+      //print(body["token"]);
       isBack = true;
     } else {
-      print("out");
+      //print("out");
       loading = false;
       notifyListeners();
     }

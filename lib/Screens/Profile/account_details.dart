@@ -7,7 +7,7 @@ import 'package:my_library/Widgets/text.dart';
 import 'package:my_library/colors.dart';
 import 'package:provider/provider.dart';
 
-import '../../Providers/copy.dart';
+import '../../Providers/profile_provider.dart';
 
 
 class AccountDetails extends StatefulWidget {
@@ -21,12 +21,12 @@ class _AccountDetailsState extends State<AccountDetails> {
   @override
   void initState() {
     super.initState();
-    final postModel = Provider.of<DataProfilee>(context, listen: false);
+    final postModel = Provider.of<DataProfile>(context, listen: false);
     postModel.getData();
   }
   @override
   Widget build(BuildContext context) {
-    final postModel = Provider.of<DataProfilee>(context);
+    final postModel = Provider.of<DataProfile>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.b,

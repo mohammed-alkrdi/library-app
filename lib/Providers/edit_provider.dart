@@ -11,16 +11,16 @@ class EditProfileData extends ChangeNotifier {
     loading = true;
     notifyListeners();
     var token = await getToken();
-    print(token);
+    //print(token);
     body.token = token!;
     http.Response? response = (await edit(body));
     if(response?.statusCode == 200) {
-      print(response!.body);
-      print("ok");
+      //print(response!.body);
+      //print("ok");
       isBack = true;
 
     } else {
-      print("out");
+      //print("out");
       loading = false;
       notifyListeners();
     }

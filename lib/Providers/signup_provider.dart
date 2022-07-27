@@ -11,11 +11,11 @@ class DataSignUp extends ChangeNotifier {
     notifyListeners();
     http.Response? response = (await register(body));
     if(response?.statusCode == 200) {
-      print("ok");
+      //print("ok");
       isBack = true;
 
     } else {
-      print("out");
+      //print("out");
       loading = false;
       notifyListeners();
     }

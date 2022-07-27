@@ -28,6 +28,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("object");
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
     var nameController = TextEditingController();

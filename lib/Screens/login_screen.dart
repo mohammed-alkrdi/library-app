@@ -25,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("object");
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
 

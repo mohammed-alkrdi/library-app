@@ -5,7 +5,6 @@ import 'package:my_library/Widgets/rounded_button.dart';
 import 'package:my_library/Widgets/text.dart';
 import 'package:my_library/colors.dart';
 import 'package:provider/provider.dart';
-import '../../Models/book_model.dart';
 import '../../Providers/book_provider.dart';
 
 class BookDetailsScreen extends StatefulWidget {
@@ -16,21 +15,24 @@ class BookDetailsScreen extends StatefulWidget {
 }
 
 class _BookDetailsScreenState extends State<BookDetailsScreen> {
-  late int id;
+
   @override
   void initState() {
     super.initState();
-    Book book = Book(
-      id: id,
-    );
-    final postModel = Provider.of<DataBook>(context, listen: false);
-    postModel.getData(book as int);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final args = ModalRoute.of(context)?.settings.arguments;
+      print(ModalRoute.of(context)!.settings.arguments);
+      final postModel = Provider.of<DataBook>(context, listen: false);
+      postModel.getData(args as int);
+    });
   }
+
   @override
   Widget build(BuildContext context) {
     final String ServerStorageUrl = "http://10.0.2.2:8000/storage/";
     final postModel = Provider.of<DataBook>(context);
-    if(postModel == null || postModel.postBook == null) {
+    print("od");
+    if (postModel == null || postModel.postBook == null) {
       return Container();
     } else {
       return Scaffold(
@@ -50,7 +52,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(
+                      image:  NetworkImage(
                         ServerStorageUrl +
                             (postModel.postBook?.imageUrl?.replaceAll(
                                 "\\", "/") ?? ""),
@@ -151,3 +153,4 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
     }
   }
 }
+

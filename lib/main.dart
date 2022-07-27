@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:my_library/Providers/book_provider.dart';
 import 'package:my_library/Providers/edit_provider.dart';
 import 'package:my_library/Providers/logout_provider.dart';
-import 'package:my_library/Providers/profile_provider.dart';
 import 'package:my_library/Providers/signin_provider.dart';
 import 'package:my_library/Providers/signup_provider.dart';
 import 'package:my_library/Providers/products.dart';
@@ -14,7 +13,7 @@ import 'package:my_library/Screens/register_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'Providers/books_provider.dart';
-import 'Providers/copy.dart';
+import 'Providers/profile_provider.dart';
 import 'Screens/Details/book_details_screen.dart';
 import 'Screens/Home/Main_books_page.dart';
 
@@ -48,7 +47,7 @@ class MyApp extends StatelessWidget {
           value: EditProfileData(),
         ),
         ChangeNotifierProvider.value(
-            value: DataProfilee(),
+            value: DataProfile(),
         ),
         ChangeNotifierProvider.value(
             value: DataBook(),
@@ -69,9 +68,8 @@ class MyApp extends StatelessWidget {
           'MainBooksPage': (context) => MainBooksPage(),
           'Edit My Info': (context) => EditAccount(),
           'BookDetailsScreen': (context) => BookDetailsScreen(),
-
         },
-        //onGenerateRoute:,
+        
       ),
     );
   }
