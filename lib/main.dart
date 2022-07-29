@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:my_library/Providers/book_provider.dart';
+import 'package:my_library/Providers/comments_provider.dart';
 import 'package:my_library/Providers/edit_provider.dart';
 import 'package:my_library/Providers/logout_provider.dart';
 import 'package:my_library/Providers/signin_provider.dart';
 import 'package:my_library/Providers/signup_provider.dart';
 import 'package:my_library/Providers/products.dart';
+import 'package:my_library/Screens/Comments/comments_screent.dart';
+
 import 'package:my_library/Screens/Profile/account_edit.dart';
-import 'package:my_library/Screens/comment_screen.dart';
+
 
 import 'package:my_library/Screens/login_screen.dart';
 import 'package:my_library/Screens/register_screen.dart';
@@ -52,6 +55,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
             value: DataBook(),
         ),
+        ChangeNotifierProvider.value(
+            value: DataComments(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -63,13 +69,13 @@ class MyApp extends StatelessWidget {
         routes: {
           'CreateNewAccount': (context) => RegisterScreen(),
           'Login': (context) => LoginScreen(),
-          'CommentScreen': (context) => CommentScreen(),
+          'CommentScreen': (context) => CommentsScreen(),
           'ProductScreen': (context) => BookDetailsScreen(),
           'MainBooksPage': (context) => MainBooksPage(),
           'Edit My Info': (context) => EditAccount(),
           'BookDetailsScreen': (context) => BookDetailsScreen(),
         },
-        
+
       ),
     );
   }

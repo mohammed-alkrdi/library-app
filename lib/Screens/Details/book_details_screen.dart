@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_library/Widgets/app_icons.dart';
 import 'package:my_library/Screens/Details/expandable_text.dart';
@@ -68,7 +69,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
               child: Row(
                 children: [
                   AppIcons(
-                    icon: Icons.arrow_back_ios,
+                    icon: CupertinoIcons.chevron_back,
                     onPressed: () => Navigator.pop(context),
                   ),
                 ],

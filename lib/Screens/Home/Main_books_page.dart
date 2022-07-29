@@ -4,10 +4,7 @@ import 'package:my_library/colors.dart';
 import 'books_body.dart';
 import 'data_search.dart';
 
-enum FilterOptions {
-  favorites,
-  all,
-}
+
 
 class MainBooksPage extends StatefulWidget {
   const MainBooksPage({Key? key}) : super(key: key);
@@ -17,7 +14,7 @@ class MainBooksPage extends StatefulWidget {
 }
 
 class _MainBooksPageState extends State<MainBooksPage> {
-  var _showOnlyFavorites = false;
+
 
 
 
@@ -38,38 +35,6 @@ class _MainBooksPageState extends State<MainBooksPage> {
                     color: AppColors.b,
                     fontsize: 20,
                     alignment: Alignment.center,
-                  ),
-                  Container(
-                    width: 45,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: AppColors.b,
-                    ),
-                    child: PopupMenuButton(
-                      onSelected: (FilterOptions selectedValue) {
-                        setState(() {
-                          if (selectedValue == FilterOptions.favorites) {
-                            _showOnlyFavorites = true;
-                          } else {
-                            _showOnlyFavorites = false;
-                          }
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.more_vert,
-                      ),
-                      itemBuilder: (_) => [
-                        const PopupMenuItem(
-                          value: FilterOptions.favorites,
-                          child: Text("Only Favorites Books"),
-                        ),
-                        const PopupMenuItem(
-                          value: FilterOptions.all,
-                          child: Text("Show All books"),
-                        ),
-                      ],
-                    ),
                   ),
                   Container(
                     width: 45,

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_library/Widgets/book_icons.dart';
 import 'package:my_library/Widgets/text.dart';
@@ -44,7 +45,6 @@ class _BooksBodyState extends State<BooksBody> {
     print("object");
     final String ServerStorageUrl = "http://10.0.2.2:8000/storage/";
     final postModel = Provider.of<DataBooks>(context);
-    print(postModel.listOkBooks?.books[0].id);
     return Column(
       children: [
         //slider section
@@ -277,21 +277,21 @@ class _BooksBodyState extends State<BooksBody> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         BookIcons(
-                          icon: Icons.favorite_border,
+                          icon: CupertinoIcons.hand_thumbsup,
                           text: "like",
                           color: AppColors.a,
                           fontSize: 10,
-                          iconColor: AppColors.d,
+                          iconColor: AppColors.b,
                           onPressed: () {},
                         ),
                         BookIcons(
-                          icon: Icons.comment,
+                          icon: CupertinoIcons.chat_bubble_text_fill,
                           text: "comments",
                           color: AppColors.a,
                           fontSize: 10,
-                          iconColor: AppColors.b,
+                          iconColor: AppColors.d,
                           onPressed: () {
-                            Navigator.pushNamed(context, 'CommentScreen');
+                            Navigator.pushNamed(context, 'CommentScreen',arguments: postModel.listOkBooks?.books[index].id);
                           },
                         ),
                         BookIcons(

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_library/Screens/Details/book_details_screen.dart';
 import 'package:my_library/Screens/Home/Main_books_page.dart';
@@ -23,7 +24,7 @@ class _HomeScreen extends State<HomeScreen> {
   List pages = [
     MainBooksPage(),
     AccountDetails(),
-    BookDetailsScreen(),
+    Container(child: Center(child: Text("setting page"),),),
   ];
 
   void onTapNav(int index) {
@@ -94,15 +95,15 @@ class _HomeScreen extends State<HomeScreen> {
           onTap: onTapNav,
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: Icon(CupertinoIcons.home),
               label: "Home",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
+              icon: Icon(CupertinoIcons.person_alt),
               label: "Profile",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
+              icon: Icon(Icons.settings_outlined),
               label: "Setting",
             ),
             BottomNavigationBarItem(
