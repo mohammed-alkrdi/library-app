@@ -16,16 +16,18 @@ class BookDetailsScreen extends StatefulWidget {
 }
 
 class _BookDetailsScreenState extends State<BookDetailsScreen> {
+  bool isFirstDependency = true;
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+  void didChangeDependencies() {
+    if (isFirstDependency) {
+      isFirstDependency = false;
       final args = ModalRoute.of(context)?.settings.arguments;
       print(ModalRoute.of(context)!.settings.arguments);
       final postModel = Provider.of<DataBook>(context, listen: false);
       postModel.getData(args as int);
-    });
+    }
+    super.didChangeDependencies();
   }
 
   @override
@@ -46,17 +48,15 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                 right: 0,
                 child: Container(
                   width: double.maxFinite,
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * .6,
+                  height: MediaQuery.of(context).size.height * .6,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image:  NetworkImage(
+                      image: NetworkImage(
                         ServerStorageUrl +
-                            (postModel.postBook?.imageUrl?.replaceAll(
-                                "\\", "/") ?? ""),
+                            (postModel.postBook?.imageUrl
+                                    ?.replaceAll("\\", "/") ??
+                                ""),
                       ),
                     ),
                   ),
@@ -79,10 +79,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * .4,
+                height: MediaQuery.of(context).size.height * .4,
                 padding: EdgeInsets.only(left: 20, right: 20, top: 20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(40),
@@ -94,25 +91,46 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        NewText(text: postModel.postBook?.name ?? "",
+                        NewText(
+                          text: postModel.postBook?.name ?? "",
                           color: AppColors.i,
-                          fontsize: 24,),
-                        SizedBox(width: 30,),
-                        NewText(text: postModel.postBook?.author ?? "",
+                          fontsize: 24,
+                        ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        NewText(
+                          text: postModel.postBook?.author ?? "",
                           color: AppColors.a,
-                          fontsize: 12,)
+                          fontsize: 12,
+                        )
                       ],
                     ),
-                    SizedBox(height: 40,),
-                    NewText(text: postModel.postBook?.price.toString() ?? "",
-                      color: AppColors.i,
-                      alignment: Alignment.center,),
-                    SizedBox(height: 30,),
+                    SizedBox(
+                      height: 40,
+                    ),
                     NewText(
-                      text: "Description", color: AppColors.i, fontsize: 24,),
-                    SizedBox(height: 30,),
-                    Expanded(child: SingleChildScrollView(child: ExpandableText(
-                      text: "mohamemdmaskldnjskalksdlajskld;aksdl;sjakl;dsjkla;jdskla;jskl;ncljksahduilaushduha mohamemdmaskldnjskalksdlajskld;aksdl;sjakl;dsjkla;jdskla;jskl;ncljksahduilaushduha mohamemdmaskldnjskalksdlajskld;aksdl;sjakl;dsjkla;jdskla;jskl;ncljksahduilaushduha mohamemdmaskldnjskalksdlajskld;aksdl;sjakl;dsjkla;jdskla;jskl;ncljksahduilaushduha mohamemdmaskldnjskalksdlajskld;aksdl;sjakl;dsjkla;jdskla;jskl;ncljksahduilaushduhadjklsajiodljsklajsdklsncmx,zmcn,xzksldjaiowjeuiorqiojk,zncmx,zksjdlwioaijriosjadklxnm,cn lksaj llah iljailwj odaisodj ioaw",))),
+                      text: postModel.postBook?.price.toString() ?? "",
+                      color: AppColors.i,
+                      alignment: Alignment.center,
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    NewText(
+                      text: "Description",
+                      color: AppColors.i,
+                      fontsize: 24,
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Expanded(
+                        child: SingleChildScrollView(
+                            child: ExpandableText(
+                      text:
+                          "mohamemdmaskldnjskalksdlajskld;aksdl;sjakl;dsjkla;jdskla;jskl;ncljksahduilaushduha mohamemdmaskldnjskalksdlajskld;aksdl;sjakl;dsjkla;jdskla;jskl;ncljksahduilaushduha mohamemdmaskldnjskalksdlajskld;aksdl;sjakl;dsjkla;jdskla;jskl;ncljksahduilaushduha mohamemdmaskldnjskalksdlajskld;aksdl;sjakl;dsjkla;jdskla;jskl;ncljksahduilaushduha mohamemdmaskldnjskalksdlajskld;aksdl;sjakl;dsjkla;jdskla;jskl;ncljksahduilaushduhadjklsajiodljsklajsdklsncmx,zmcn,xzksldjaiowjeuiorqiojk,zncmx,zksjdlwioaijriosjadklxnm,cn lksaj llah iljailwj odaisodj ioaw",
+                    ))),
                   ],
                 ),
               ),
@@ -154,4 +172,3 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
     }
   }
 }
-

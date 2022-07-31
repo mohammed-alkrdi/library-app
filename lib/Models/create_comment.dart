@@ -21,6 +21,18 @@ class CreateComment with ChangeNotifier {
   }
 }
 
+class CommentRequest with ChangeNotifier {
+  String? message;
+  String token;
+
+  CommentRequest({required this.message, required this.token});
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data["message"] = message;
+    return data;
+  }
+}
+
 class Comment with ChangeNotifier {
   String? message;
   int? bookId;

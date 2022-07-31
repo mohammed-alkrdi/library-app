@@ -93,7 +93,7 @@ class _EditAccountState extends State<EditAccount> {
           text: "Edit Profile Info",
           color: Colors.white,
           fontsize: 20,
-          alignment: Alignment.center,
+          alignment: Alignment.centerLeft,
         ),
       ),
       body: Container(

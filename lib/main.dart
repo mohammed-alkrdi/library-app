@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:my_library/Providers/book_provider.dart';
 import 'package:my_library/Providers/comments_provider.dart';
+import 'package:my_library/Providers/create_comment_provider.dart';
 import 'package:my_library/Providers/edit_provider.dart';
 import 'package:my_library/Providers/logout_provider.dart';
 import 'package:my_library/Providers/signin_provider.dart';
 import 'package:my_library/Providers/signup_provider.dart';
-import 'package:my_library/Providers/products.dart';
-import 'package:my_library/Screens/Comments/comments_screent.dart';
+import 'package:my_library/Screens/Comments/comments_screen.dart';
 
 import 'package:my_library/Screens/Profile/account_edit.dart';
 
@@ -16,6 +16,7 @@ import 'package:my_library/Screens/register_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'Providers/books_provider.dart';
+import 'Providers/like_provider.dart';
 import 'Providers/profile_provider.dart';
 import 'Screens/Details/book_details_screen.dart';
 import 'Screens/Home/Main_books_page.dart';
@@ -31,9 +32,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(
-          value: Products(),
-        ),
         ChangeNotifierProvider.value(
           value: DataSignUp(),
         ),
@@ -57,6 +55,12 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
             value: DataComments(),
+        ),
+        ChangeNotifierProvider.value(
+          value: DataComment(),
+        ),
+        ChangeNotifierProvider.value(
+            value: DataLike(),
         ),
       ],
       child: MaterialApp(

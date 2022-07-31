@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_library/Providers/like_provider.dart';
 import 'package:my_library/Widgets/book_icons.dart';
 import 'package:my_library/Widgets/text.dart';
 import 'package:my_library/colors.dart';
@@ -22,16 +23,24 @@ class _BooksBodyState extends State<BooksBody> {
   double _scaleFactor = 0.8;
   double _height = 220;
 
+  bool isFirstDependency = true;
   @override
-  void initState() {
-    final postModel = Provider.of<DataBooks>(context, listen: false);
-    postModel.getData();
-    super.initState();
-    pageController.addListener(() {
-      setState(() {
-        _currPageValue = pageController.page!;
+  void didChangeDependencies() {
+    if (isFirstDependency) {
+      isFirstDependency = false;
+      final postModel = Provider.of<DataBooks>(context, listen: false);
+      postModel.getData();
+      //final postModelLike = Provider.of<DataLike>(context, listen: false );
+      final args = ModalRoute.of(context)?.settings.arguments;
+      //postModelLike.getData(args as int);
+      pageController.addListener(() {
+        setState(() {
+          _currPageValue = pageController.page!;
+        });
       });
-    });
+    }
+    super.didChangeDependencies();
+
   }
 
   @override
@@ -45,6 +54,7 @@ class _BooksBodyState extends State<BooksBody> {
     print("object");
     final String ServerStorageUrl = "http://10.0.2.2:8000/storage/";
     final postModel = Provider.of<DataBooks>(context);
+    final postModelLike = Provider.of<DataLike>(context);
     return Column(
       children: [
         //slider section
@@ -181,6 +191,7 @@ class _BooksBodyState extends State<BooksBody> {
   }
 
   Widget _buildPageItem(int index) {
+    final postModelLike = Provider.of<DataLike>(context);
     final String ServerStorageUrl = "http://10.0.2.2:8000/storage/";
     final postModel = Provider.of<DataBooks>(context);
     Matrix4 matrix = new Matrix4.identity();
@@ -224,7 +235,6 @@ class _BooksBodyState extends State<BooksBody> {
                             ""),
                   ),
                 ),
-                //color: index.isEven ? Color(0xFF69c5df) : Color(0xFF9294cc),
               ),
             ),
             onTap: () => Navigator.pushNamed(context, 'BookDetailsScreen', arguments: postModel.listOkBooks?.books[index].id),

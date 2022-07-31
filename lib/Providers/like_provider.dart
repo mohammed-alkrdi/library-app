@@ -1,28 +1,36 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:my_library/Models/create_comment.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../Api/http_service_comment.dart';
+import '../Api/Http_service_like.dart';
+import '../Models/like_model.dart';
 
-class DataComment extends ChangeNotifier {
+
+
+
+class DataLike extends ChangeNotifier {
+
+  Like? postLike;
   bool loading = false;
   bool isBack = false;
-  Future<void> postData(CommentRequest body, int bookId) async {
+  Future<void> getData(int bookId) async {
     loading = true;
-    notifyListeners();
     var token = await getToken();
     //print(token);
-    body.token = token!;
-    http.Response? response = (await comment(body, bookId));
-    if(response?.statusCode == 200) {
-      print(response!.body);
-      print("ok");
-      isBack = true;
+    http.Response? response = (await getLike(token!, bookId));
 
-    } else {
-      print("out");
+    if(response?.statusCode == 200) {
+      Map<String, dynamic> like = json.decode(response!.body) as Map<String, dynamic>;
+      postLike =  Like.fromJson(like);
+      //print("in");
+      isBack = true;
       loading = false;
+      notifyListeners();
+    } else {
+      loading = false;
+      //print("out");
       notifyListeners();
     }
   }

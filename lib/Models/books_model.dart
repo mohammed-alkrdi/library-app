@@ -4,9 +4,8 @@ class ListOfBooks with ChangeNotifier {
  late List<Books> books;
 
 
-  ListOfBooks({required this.books}) {
-    //this._books = books;
-  }
+  ListOfBooks({required this.books});
+
 }
 
 class Books with ChangeNotifier {
