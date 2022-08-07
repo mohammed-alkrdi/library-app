@@ -36,6 +36,7 @@ class _AccountDetailsState extends State<AccountDetails> {
           fontsize: 24,
           alignment: Alignment.center,
         ),
+        automaticallyImplyLeading: false,
       ),
       body: Container(
         width: double.maxFinite,

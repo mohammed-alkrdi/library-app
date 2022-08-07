@@ -110,7 +110,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                       height: 40,
                     ),
                     NewText(
-                      text: postModel.postBook?.price.toString() ?? "",
+                      text: '${postModel.postBook?.price} \$',
                       color: AppColors.i,
                       alignment: Alignment.center,
                     ),
@@ -129,7 +129,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                         child: SingleChildScrollView(
                             child: ExpandableText(
                       text:
-                          "mohamemdmaskldnjskalksdlajskld;aksdl;sjakl;dsjkla;jdskla;jskl;ncljksahduilaushduha mohamemdmaskldnjskalksdlajskld;aksdl;sjakl;dsjkla;jdskla;jskl;ncljksahduilaushduha mohamemdmaskldnjskalksdlajskld;aksdl;sjakl;dsjkla;jdskla;jskl;ncljksahduilaushduha mohamemdmaskldnjskalksdlajskld;aksdl;sjakl;dsjkla;jdskla;jskl;ncljksahduilaushduha mohamemdmaskldnjskalksdlajskld;aksdl;sjakl;dsjkla;jdskla;jskl;ncljksahduilaushduhadjklsajiodljsklajsdklsncmx,zmcn,xzksldjaiowjeuiorqiojk,zncmx,zksjdlwioaijriosjadklxnm,cn lksaj llah iljailwj odaisodj ioaw",
+                          postModel.postBook?.description ?? "",
                     ))),
                   ],
                 ),

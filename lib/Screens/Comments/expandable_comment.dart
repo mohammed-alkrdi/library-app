@@ -34,7 +34,7 @@ class _ExpandableCommentState extends State<ExpandableComment> {
   Widget build(BuildContext context) {
 
     return Container(
-      child: secondHalf.isEmpty?NewText(text: firstHalf, color: Colors.black,fontsize: 18,):
+      child: secondHalf.isEmpty?NewText(text: firstHalf, color: AppColors.g,fontsize: 16,):
       Column(
         children: [
           NewText(height: 1.8, text: hiddenText?(firstHalf+"..."):(firstHalf+secondHalf), color: Colors.black, fontsize: 18,),
@@ -46,7 +46,7 @@ class _ExpandableCommentState extends State<ExpandableComment> {
             },
             child: Row(
               children: [
-                NewText(text: "Show more", color: AppColors.b, fontsize: 18,),
+                NewText(text: "Show more", color: AppColors.b, fontsize: 16,),
                 Icon(hiddenText?Icons.arrow_drop_down:Icons.arrow_drop_up, color: AppColors.b,),
               ],
             ),

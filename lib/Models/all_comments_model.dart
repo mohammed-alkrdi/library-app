@@ -13,6 +13,7 @@ class GetComments with ChangeNotifier {
   String? message;
   int? customerId;
   int? bookId;
+  bool? myComment;
   String? createdAt;
   String? updatedAt;
   Customer? customer;
@@ -25,6 +26,7 @@ class GetComments with ChangeNotifier {
     this.createdAt,
     this.updatedAt,
     this.customer,
+    this.myComment,
   });
 
   factory GetComments.fromJson(Map<String, dynamic> json) {
@@ -33,6 +35,7 @@ class GetComments with ChangeNotifier {
         message: json["message"],
         customerId: json["customer_id"],
         bookId: json["book_id"],
+        myComment: json["is_my_comment"],
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
         customer : json['customer'] != null
@@ -48,6 +51,7 @@ class Customer with ChangeNotifier {
   String? password;
   int? age;
   int? phoneNumber;
+
 
   Customer({
     this.id,

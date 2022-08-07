@@ -5,6 +5,7 @@ class Book with ChangeNotifier {
   String? name;
   String? author;
   int? price;
+  String? description;
   String? imageUrl;
   String? downloadUrl;
   String? token;
@@ -16,6 +17,7 @@ class Book with ChangeNotifier {
     this.name,
     this.author,
     this.price,
+    this.description,
     this.imageUrl,
     this.downloadUrl,
     this.categoryId,
@@ -29,6 +31,7 @@ class Book with ChangeNotifier {
       name: json["name"],
       author: json["writer_book"],
       price: json["price"],
+      description: json["book_info"],
       imageUrl: json["image"],
       downloadUrl: json["file"],
     );

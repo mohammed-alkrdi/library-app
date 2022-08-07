@@ -8,7 +8,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:provider/provider.dart';
 
 import '../../Providers/books_provider.dart';
-import 'data_search.dart';
+
 
 class BooksBody extends StatefulWidget {
   const BooksBody({Key? key}) : super(key: key);
@@ -51,7 +51,6 @@ class _BooksBodyState extends State<BooksBody> {
 
   @override
   Widget build(BuildContext context) {
-    print("object");
     final String ServerStorageUrl = "http://10.0.2.2:8000/storage/";
     final postModel = Provider.of<DataBooks>(context);
     final postModelLike = Provider.of<DataLike>(context);
@@ -88,12 +87,12 @@ class _BooksBodyState extends State<BooksBody> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              NewText(text: "Favorite", color: AppColors.i),
+              NewText(text: "Popular Books ", color: AppColors.i),
               const SizedBox(
                 width: 30,
               ),
               NewText(
-                text: "your favorite books",
+                text: "best books",
                 color: AppColors.a,
                 fontsize: 10,
               ),
@@ -117,7 +116,7 @@ class _BooksBodyState extends State<BooksBody> {
                         height: 120,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          color: AppColors.b,
+                          //color: AppColors.b,
                           image: DecorationImage(
                             fit: BoxFit.cover,
                             image: NetworkImage(
@@ -172,9 +171,7 @@ class _BooksBodyState extends State<BooksBody> {
                                 height: 10,
                               ),
                               NewText(
-                                text: postModel.listOkBooks?.books[index].price
-                                        .toString() ??
-                                    "",
+                                text: '${postModel.listOkBooks?.books[index].price} \$',
                                 color: AppColors.h,
                               ),
                             ],
@@ -242,7 +239,7 @@ class _BooksBodyState extends State<BooksBody> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: 130,
+              height: 150,
               margin: const EdgeInsets.only(left: 20, right: 20, bottom: 30),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
@@ -311,8 +308,7 @@ class _BooksBodyState extends State<BooksBody> {
                           fontSize: 10,
                           iconColor: AppColors.j,
                           onPressed: () {
-                            showSearch(
-                                context: context, delegate: DataSearch());
+                            Navigator.pushNamed(context, 'SearchScreen');
                           },
                         ),
                       ],

@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_library/Models/create_comment.dart';
 import 'package:my_library/Providers/comments_provider.dart';
+import 'package:my_library/Providers/delete_comment_provider.dart';
+import 'package:my_library/Providers/update_comment_provider.dart';
 import 'package:my_library/Screens/Comments/expandable_comment.dart';
 import 'package:my_library/Screens/Home/home_screen.dart';
 import 'package:my_library/Widgets/comment_text_input.dart';
@@ -9,6 +11,7 @@ import 'package:my_library/Widgets/text.dart';
 import 'package:my_library/colors.dart';
 import 'package:provider/provider.dart';
 
+import '../../Models/update_comment_model.dart';
 import '../../Providers/create_comment_provider.dart';
 
 class CommentsScreen extends StatefulWidget {
@@ -20,9 +23,10 @@ class CommentsScreen extends StatefulWidget {
 
 class _CommentsScreenState extends State<CommentsScreen> {
   final formKey = GlobalKey<FormState>();
-  late String comment;
+  late String comment, updateComment;
 
   bool isFirstDependency = true;
+
   @override
   void didChangeDependencies() {
     if (isFirstDependency) {
@@ -50,13 +54,31 @@ class _CommentsScreenState extends State<CommentsScreen> {
       var provider = Provider.of<DataComment>(context, listen: false);
       await provider.postData(commentRequest, args as int);
       if (provider.isBack) {
-
         Navigator.of(context).pushAndRemoveUntil(
-             MaterialPageRoute(builder: (context) => HomeScreen()),
-                (route) => false);
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+            (route) => false);
       }
     }
 
+    var updateCommentController = TextEditingController();
+
+    Future<void> _updateCommentFunction(int commentIndex) async {
+      String updateComment = updateCommentController.text.trim();
+      UpdateComment updateCommentF =
+          UpdateComment(message: updateComment, token: 'token');
+      var provider = Provider.of<DataUpdateComment>(context, listen: false);
+      await provider.putData(updateCommentF, commentIndex);
+      if (provider.isBack) {
+        Navigator.pop(context);
+      }
+    }
+    Future<void> _deleteCommentFunction(int commentDeleteIndex) async {
+      var provider = Provider.of<DataDeleteComment>(context, listen: false);
+      await provider.deleteData(commentDeleteIndex);
+      if (provider.isBack) {
+        Navigator.pop(context);
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -70,7 +92,6 @@ class _CommentsScreenState extends State<CommentsScreen> {
           color: Colors.black,
           alignment: Alignment.centerLeft,
         ),
-
       ),
       body: Scaffold(
         body: Padding(
@@ -82,7 +103,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                   child: Container(
                     margin: EdgeInsets.only(
                         left: 20, right: 20, bottom: 10, top: 10),
-                    height: 100,
+                    height: 130,
                     decoration: BoxDecoration(
                       boxShadow: const [
                         BoxShadow(
@@ -98,7 +119,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                           offset: Offset(5, 0),
                         ),
                       ],
-                      borderRadius: BorderRadius.circular(40),
+                      borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
                     ),
                     child: Padding(
@@ -113,12 +134,9 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                 text: postModel.listOkComments?.comments[index]
                                         .customer?.name ??
                                     "",
-                                color: AppColors.h,
+                                fontsize: 20,
+                                color: Colors.black,
                               ),
-                              /* NewText(
-                                  text: postModel.listOkComments?.comments[index].createdAt ?? "",
-                                  color: AppColors.h
-                              ),*/
                             ],
                           ),
                           SizedBox(
@@ -126,11 +144,136 @@ class _CommentsScreenState extends State<CommentsScreen> {
                           ),
                           Expanded(
                               child: SingleChildScrollView(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 20),
                                   child: ExpandableComment(
-                            text: postModel
-                                    .listOkComments?.comments[index].message ??
-                                "",
-                          ))),
+                                    text: postModel.listOkComments?.comments[index]
+                                            .message ??
+                                        "",
+                                  ),
+                                ),
+                              ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              postModel.listOkComments?.comments[index]
+                                          .myComment ??
+                                      true
+                                  ? IconButton(
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return Form(
+                                              child: AlertDialog(
+                                                title: NewText(
+                                                  text: 'Add your edit comment',
+                                                  color: Colors.black,
+                                                ),
+                                                content: TextFormField(
+                                                  onSaved: (value) {
+                                                     updateComment = value!;
+                                                  },
+                                                  controller:
+                                                      updateCommentController,
+                                                  decoration: InputDecoration(
+                                                      hintText:
+                                                          "Your new Comment"),
+                                                ),
+                                                actions: <Widget>[
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                    children: [
+                                                      TextButton(
+                                                        child: Text(
+                                                          'CANCEL',
+                                                          style: TextStyle(
+                                                              color: AppColors.b),
+                                                        ),
+                                                        onPressed: () {
+                                                          Navigator.pop(context);
+                                                        },
+                                                      ),
+                                                      TextButton(
+                                                        child: Text(
+                                                          'OK',
+                                                          style: TextStyle(
+                                                              color: AppColors.b),
+                                                        ),
+                                                        onPressed: () {
+                                                          _updateCommentFunction(
+                                                              postModel
+                                                                  .listOkComments
+                                                                  ?.comments[
+                                                                      index]
+                                                                  .commentId as int);
+                                                          Navigator.pop(context);
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
+                                      icon: Icon(
+                                        CupertinoIcons.pencil,
+                                        color: AppColors.b,
+                                      ),
+                                    )
+                                  : Spacer(),
+                              postModel.listOkComments?.comments[index]
+                                          .myComment ??
+                                      true
+                                  ? IconButton(
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: Text("Delete the comment"),
+                                              content: Text(
+                                                  "Are you sure you want to delete the comment?"),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  onPressed: () {
+                                                    _deleteCommentFunction(postModel.listOkComments?.comments[index].commentId as int);
+                                                  },
+                                                  child: Text(
+                                                    'yes',
+                                                    style: TextStyle(
+                                                      color: AppColors.b,
+                                                    ),
+                                                  ),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text(
+                                                    'no',
+                                                    style: TextStyle(
+                                                      color: AppColors.b,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                      icon: Icon(
+                                        CupertinoIcons.delete_solid,
+                                        color: Colors.red,
+                                      ),
+                                    )
+                                  : Spacer(),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -143,20 +286,6 @@ class _CommentsScreenState extends State<CommentsScreen> {
           padding: EdgeInsets.only(top: 10, bottom: 5, left: 20, right: 20),
           decoration: BoxDecoration(
             color: AppColors.f,
-            /*boxShadow: const [
-              BoxShadow(
-                  color: Color(0xFFe8e8e8),
-                  blurRadius: 8.0,
-                  offset: Offset(0, 5)),
-              BoxShadow(
-                color: Colors.white,
-                offset: Offset(-5, 0),
-              ),
-              BoxShadow(
-                color: Colors.white,
-                offset: Offset(5, 0),
-              ),
-            ],*/
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

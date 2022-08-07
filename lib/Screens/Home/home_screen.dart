@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_library/Screens/Details/book_details_screen.dart';
 import 'package:my_library/Screens/Home/Main_books_page.dart';
 import 'package:my_library/Screens/Profile/account_details.dart';
 import 'package:provider/provider.dart';

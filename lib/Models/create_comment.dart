@@ -40,6 +40,7 @@ class Comment with ChangeNotifier {
   String? updatedAt;
   String? createdAt;
   int? id;
+  bool? myComment;
   Customer? customer;
 
   Comment(
@@ -49,7 +50,9 @@ class Comment with ChangeNotifier {
         this.updatedAt,
         this.createdAt,
         this.id,
-        this.customer});
+        this.customer,
+        this.myComment,
+      });
 
  factory Comment.fromJson(Map<String, dynamic> json) {
    return Comment(
@@ -57,6 +60,7 @@ class Comment with ChangeNotifier {
     bookId: json['book_id'],
     customerId: json['customer_id'],
     id: json['id'],
+    myComment: json["is_my_comment"],
     customer: json['customer'] != null
         ? Customer.fromJson(json['customer'])
         : null,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:my_library/Widgets/text.dart';
 import 'package:my_library/colors.dart';
 import 'books_body.dart';
-import 'data_search.dart';
 
 
 
@@ -46,7 +45,7 @@ class _MainBooksPageState extends State<MainBooksPage> {
                     child: IconButton(
                       icon: Icon(Icons.search),
                       onPressed: () {
-                        showSearch(context: context, delegate: DataSearch());
+                        Navigator.pushNamed(context, 'SearchScreen');
                       },
                     ),
                   ),
