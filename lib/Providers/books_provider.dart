@@ -6,10 +6,13 @@ import 'package:my_library/Api/http_service_get_all_books.dart';
 import 'package:my_library/Models/books_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Api/Http_service_like.dart';
+import '../Api/http_service_dis_like.dart';
+
 
 class DataBooks extends ChangeNotifier {
 
-  ListOfBooks? listOkBooks = null;
+  ListOfBooks? listOkBooks ;
   bool loading = false;
   bool isBack = false;
   Future<void> getData() async {
@@ -21,8 +24,8 @@ class DataBooks extends ChangeNotifier {
 
     if(response?.statusCode == 200) {
       List<Books> books = (json.decode(response!.body) as List).map((j) => Books.fromJson(j)).toList();
-      listOkBooks = new ListOfBooks(books: books);
-      //print("in");
+      listOkBooks =  ListOfBooks(books: books);
+      print("in");
       isBack = true;
       loading = false;
       notifyListeners();
@@ -32,6 +35,43 @@ class DataBooks extends ChangeNotifier {
       notifyListeners();
     }
   }
+  Future<void> getLikeData(int bookId) async {
+    loading = true;
+    var token = await getToken();
+    print(token);
+    http.Response? response = (await getLike(token!, bookId));
+
+    if(response?.statusCode == 200) {
+      for(Books book in listOkBooks!.books) {
+        if(book.id == bookId) {
+          book.likes?.add(Likes(bookId: bookId, like: 1));
+          notifyListeners();
+          break;
+        }
+      }
+      print("in");
+    }
+    loading = false;
+  }
+  Future<void> getDisLikeData(int bookId) async {
+    loading = true;
+    var token = await getToken();
+    print(token);
+    http.Response? response = (await getDisLike(token!, bookId));
+
+    if(response?.statusCode == 200) {
+      for(Books book in listOkBooks!.books) {
+        if(book.id == bookId) {
+          book.likes?.clear();
+          notifyListeners();
+          break;
+        }
+      }
+      print("in");
+    }
+    loading = false;
+  }
+
   Future<String?> getToken() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     final token = pref.getString("token");

@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_library/Models/create_comment.dart';
 import 'package:my_library/Providers/comments_provider.dart';
-import 'package:my_library/Providers/delete_comment_provider.dart';
-import 'package:my_library/Providers/update_comment_provider.dart';
 import 'package:my_library/Screens/Comments/expandable_comment.dart';
 import 'package:my_library/Screens/Home/home_screen.dart';
 import 'package:my_library/Widgets/comment_text_input.dart';
@@ -12,7 +10,6 @@ import 'package:my_library/colors.dart';
 import 'package:provider/provider.dart';
 
 import '../../Models/update_comment_model.dart';
-import '../../Providers/create_comment_provider.dart';
 
 class CommentsScreen extends StatefulWidget {
   const CommentsScreen({Key? key}) : super(key: key);
@@ -51,13 +48,13 @@ class _CommentsScreenState extends State<CommentsScreen> {
         message: comment,
         token: 'token',
       );
-      var provider = Provider.of<DataComment>(context, listen: false);
+      var provider = Provider.of<DataComments>(context, listen: false);
       await provider.postData(commentRequest, args as int);
-      if (provider.isBack) {
+     /* if (provider.isBack) {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => HomeScreen()),
             (route) => false);
-      }
+      }*/
     }
 
     var updateCommentController = TextEditingController();
@@ -66,14 +63,14 @@ class _CommentsScreenState extends State<CommentsScreen> {
       String updateComment = updateCommentController.text.trim();
       UpdateComment updateCommentF =
           UpdateComment(message: updateComment, token: 'token');
-      var provider = Provider.of<DataUpdateComment>(context, listen: false);
+      var provider = Provider.of<DataComments>(context, listen: false);
       await provider.putData(updateCommentF, commentIndex);
       if (provider.isBack) {
         Navigator.pop(context);
       }
     }
     Future<void> _deleteCommentFunction(int commentDeleteIndex) async {
-      var provider = Provider.of<DataDeleteComment>(context, listen: false);
+      var provider = Provider.of<DataComments>(context, listen: false);
       await provider.deleteData(commentDeleteIndex);
       if (provider.isBack) {
         Navigator.pop(context);
@@ -221,8 +218,9 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                         );
                                       },
                                       icon: Icon(
-                                        CupertinoIcons.pencil,
+                                        Icons.edit,
                                         color: AppColors.b,
+                                        size: 30,
                                       ),
                                     )
                                   : Spacer(),
@@ -269,6 +267,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                       icon: Icon(
                                         CupertinoIcons.delete_solid,
                                         color: Colors.red,
+                                        size: 30,
                                       ),
                                     )
                                   : Spacer(),

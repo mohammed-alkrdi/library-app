@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_library/Providers/book_provider.dart';
 import 'package:my_library/Providers/comments_provider.dart';
-import 'package:my_library/Providers/create_comment_provider.dart';
-import 'package:my_library/Providers/delete_comment_provider.dart';
 import 'package:my_library/Providers/edit_provider.dart';
 import 'package:my_library/Providers/logout_provider.dart';
 import 'package:my_library/Providers/search_provider.dart';
@@ -21,9 +19,7 @@ import 'package:provider/provider.dart';
 import 'Providers/book_category_provider.dart';
 import 'Providers/books_provider.dart';
 import 'Providers/category_provider.dart';
-import 'Providers/like_provider.dart';
 import 'Providers/profile_provider.dart';
-import 'Providers/update_comment_provider.dart';
 import 'Screens/Details/book_details_screen.dart';
 import 'Screens/Home/Main_books_page.dart';
 import 'Screens/Home/search_screen.dart';
@@ -65,12 +61,6 @@ class MyApp extends StatelessWidget {
             value: DataComments(),
         ),
         ChangeNotifierProvider.value(
-          value: DataComment(),
-        ),
-        ChangeNotifierProvider.value(
-            value: DataLike(),
-        ),
-        ChangeNotifierProvider.value(
           value: DataCategory(),
         ),
         ChangeNotifierProvider.value(
@@ -78,12 +68,6 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
             value: DataSearch(),
-        ),
-        ChangeNotifierProvider.value(
-          value: DataUpdateComment(),
-        ),
-        ChangeNotifierProvider.value(
-            value: DataDeleteComment(),
         ),
       ],
       child: MaterialApp(

@@ -20,7 +20,8 @@ class Books with ChangeNotifier {
   String? createdAt;
   String? updatedAt;
   String? token;
-  bool? isFavorite;
+  bool? isMyLike;
+  List<Likes>? likes;
 
   Books({this.id,
     this.name,
@@ -33,7 +34,8 @@ class Books with ChangeNotifier {
     this.createdAt,
     this.updatedAt,
     this.token,
-    this.isFavorite = false,
+    this.likes,
+    this.isMyLike,
   });
 
   Books.fromJson(Map<String, dynamic> json) {
@@ -47,9 +49,39 @@ class Books with ChangeNotifier {
     categoryId = json['category_id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    isMyLike = json['is_liked_by_me'];
+    if (json['likes'] != null) {
+      likes = <Likes>[];
+      json['likes'].forEach((v) {
+        likes!.add(Likes.fromJson(v));
+      });
+    }
   }
-  void toggleFavoriteStatus() {
-    isFavorite = !isFavorite!;
-    notifyListeners();
+}
+class Likes with ChangeNotifier {
+  int? id;
+  int? customerId;
+  int? like;
+  int? bookId;
+  String? createdAt;
+  String? updatedAt;
+  String? token;
+
+  Likes({this.id,
+    this.customerId,
+    this.like,
+    this.bookId,
+    this.createdAt,
+    this.updatedAt,
+    this.token,
+  });
+
+  Likes.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    customerId = json['customer_id'];
+    like = json['like'];
+    bookId = json['book_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
   }
 }
