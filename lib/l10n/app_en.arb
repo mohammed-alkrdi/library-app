@@ -1,0 +1,220 @@
+{
+  "search": "Search For Books",
+  "@search": {
+    "description": "search change"
+  },
+  "wellcome": "Well Come",
+  "@wellcome": {
+  "description": "well come f"
+  },
+  "info": "Please Enter Your Information Correctly",
+  "@info": {
+    "description": "info f"
+  },
+  "name": "name",
+  "@name": {
+    "description": "name change"
+  },
+  "age": "age",
+  "@age": {
+    "description": "age change"
+  },
+  "email": "email",
+  "@email": {
+    "description": "email change"
+  },
+  "password": "password",
+  "@password": {
+    "description": "password change"
+  },
+  "phone_number": "phone number",
+  "@phone_number": {
+    "description": "phone number change"
+  },
+  "sign_up": "SignUp",
+  "@sign_up": {
+    "description": "sign up change"
+  },
+  "have_account": "Already have an account?",
+  "@have_account": {
+    "description": "have account change"
+  },
+  "log_in": "Login",
+  "@log_in": {
+    "description": "log in change"
+  },
+  "login": "LogIn",
+  "@login": {
+    "description": "log In change"
+  },
+  "create_new_account": "CreateNewAccount",
+  "@create_new_account": {
+    "description": "create_new_account change"
+  },
+  "wellcome_back_f": "Well Come Back",
+  "@wellcome_back": {
+    "description": "cWell Come Back change"
+  },
+  "info_c_f": "Please enter your information correctly or create new account",
+  "@info_c_f": {
+    "description": "Please enter your information correctly or create new account change"
+  },
+  "popular_books": "Popular Books",
+  "@popular_books": {
+    "description": "popular_books change"
+  },
+  "like": "like",
+  "@like": {
+    "description": "like change"
+  },
+  "dis_like": "dislike",
+  "@dis_like": {
+    "description": "dislike change"
+  },
+  "comment_i": "comments",
+  "@comment_i": {
+    "description": "comments change"
+  },
+  "category_i": "category",
+  "@category_i": {
+    "description": "category change"
+  },
+  "best_books": "best books",
+  "@best_books": {
+    "description": "best books change"
+  },
+  "home_screen": "Home",
+  "@home_screen": {
+    "description": "Home change"
+  },
+  "settings_n": "Setting",
+  "@settings_n": {
+    "description": "Setting change"
+  },
+  "profile_n": "Profile",
+  "@profile_n": {
+    "description": "Profile change"
+  },
+  "log_out": "Log Out",
+  "@log_out": {
+    "description": "Log Out change"
+  },
+  "no_f": "no",
+  "@no_f": {
+    "description": "Log Out change"
+  },
+  "yes_f": "yes",
+  "@yes_f": {
+    "description": "Log Out change"
+  },
+  "sure_log_out": "Are you sure you want to log out from the app?",
+  "@sure_log_out": {
+    "description": "Are you sure you want to log out from the app? change"
+  },
+  "cancel": "CANCEL",
+  "@cancel": {
+    "description": "CANCEL change"
+  },
+  "ok": "OK",
+  "@ok": {
+    "description": "OK change"
+  },
+  "comment": "comments",
+  "@comment": {
+    "description": "comment change"
+  },
+  "delete_comment": "Delete the comment",
+  "@delete_comment": {
+    "description": "Delete the comment change"
+  },
+  "are_you_sure_delete": "Are you sure you want to delete the comment?",
+  "@are_you_sure_delete": {
+    "description": "Are you sure you want to delete the comment? change"
+  },
+  "add_comment": "Add comment",
+  "@Add_comment": {
+    "description": "Add comment change"
+  },
+  "edit_comment": "Add your edit comment",
+  "@Edit_comment": {
+    "description": "Edit comment change"
+  },
+  "new_comment": "Your new Comment",
+  "@new_comment": {
+    "description": "New comment change"
+  },
+  "profile": "Profile",
+  "@profile": {
+    "description": "Profile change"
+  },
+  "edit_profile_info_f": "Edit Your Profile Info",
+  "@edit_profile_info_f": {
+    "description": "Edit Your Profile Info change"
+  },
+  "are_sure_edit_info_p": "Are you sure you want to edit your information?",
+  "@are_sure_edit_info_p": {
+    "description": "Are you sure you want to edit your information? change"
+  },
+  "edit_profile_b": "Edit profile info",
+  "@edit_profile_b": {
+    "description": "Edit profile info change"
+  },
+  "save_p_info": "Save New Info",
+  "@save_p_info": {
+    "description": "save_p_info info change"
+  },
+  "search_hint": "search",
+  "@search_hint": {
+    "description": "search_hint change"
+  },
+  "category_search_screen": "Book Categories",
+  "@category_search_screen": {
+    "description": "Book Categories change"
+  },
+  "setting": "Setting",
+  "@setting": {
+    "description": "setting change"
+  },
+  "change_theme_app": "Change theme app",
+  "@change_theme_app": {
+    "description": "Change theme app change"
+  },
+  "change_app_language": "Change app language",
+  "@change_app_language": {
+    "description": "Change app language change"
+  },
+  "english_language": "English Language",
+  "@english_language": {
+    "description": "English Language change"
+  },
+  "arabic_language": "Arabic Language",
+  "@arabic_language": {
+    "description": "Arabic Language change"
+  },
+  "descriptions": "Description",
+  "@descriptions": {
+    "description": "Description change"
+  },
+  "buy": "Buy",
+  "@buy": {
+    "description": "Buy change"
+  },
+  "download": "Download",
+  "@download": {
+    "description": "Download change"
+  },
+  "category_search_b": "Book Category",
+  "@category_search_b": {
+    "description": "Book Category change"
+  },
+  "search_result": "Search Result",
+  "@search_result": {
+    "description": "Search Result change"
+  }
+}
+
+
+
+
+
+

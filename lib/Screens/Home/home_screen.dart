@@ -2,12 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_library/Screens/Home/Main_books_page.dart';
 import 'package:my_library/Screens/Profile/account_details.dart';
+import 'package:my_library/Screens/Settings/settings_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../Models/logout_request.dart';
 import '../../Providers/logout_provider.dart';
 import '../../colors.dart';
 import '../login_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -23,7 +25,7 @@ class _HomeScreen extends State<HomeScreen> {
   List pages = [
     MainBooksPage(),
     AccountDetails(),
-    Container(child: Center(child: Text("setting page"),),),
+    SettingScreen(),
   ];
 
   void onTapNav(int index) {
@@ -53,15 +55,15 @@ class _HomeScreen extends State<HomeScreen> {
     }
 
     AlertDialog alert = AlertDialog(
-      title: Text("Log Out"),
-      content: Text("Are you sure you want to log out from the app?"),
+      title: Text(AppLocalizations.of(context)!.log_out),
+      content: Text(AppLocalizations.of(context)!.sure_log_out),
       actions: <Widget>[
         TextButton(
           onPressed: () {
             _logOut();
           },
           child: Text(
-            'yes',
+            AppLocalizations.of(context)!.yes_f,
             style: TextStyle(
               color: AppColors.b,
             ),
@@ -72,7 +74,7 @@ class _HomeScreen extends State<HomeScreen> {
             Navigator.of(context).pop();
           },
           child: Text(
-            'no',
+            AppLocalizations.of(context)!.no_f,
             style: TextStyle(
               color: AppColors.b,
             ),
@@ -91,19 +93,20 @@ class _HomeScreen extends State<HomeScreen> {
           showUnselectedLabels: true,
           currentIndex: _selectedIndex,
           iconSize: 30,
+          backgroundColor: Theme.of(context).primaryColor,
           onTap: onTapNav,
           items: [
             BottomNavigationBarItem(
               icon: Icon(CupertinoIcons.home),
-              label: "Home",
+              label: AppLocalizations.of(context)!.home_screen,
             ),
             BottomNavigationBarItem(
               icon: Icon(CupertinoIcons.person_alt),
-              label: "Profile",
+              label: AppLocalizations.of(context)!.profile_n,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings_outlined),
-              label: "Setting",
+              label: AppLocalizations.of(context)!.settings_n,
             ),
             BottomNavigationBarItem(
               icon: GestureDetector(
@@ -116,7 +119,7 @@ class _HomeScreen extends State<HomeScreen> {
                     );
                   },
                   child: Icon(Icons.logout)),
-              label: "Log Out",
+              label: AppLocalizations.of(context)!.log_out,
             ),
           ],
         ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_library/Widgets/text.dart';
 import 'package:my_library/colors.dart';
 import 'books_body.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 
@@ -30,7 +31,7 @@ class _MainBooksPageState extends State<MainBooksPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   NewText(
-                    text: 'Search For Books',
+                    text: AppLocalizations.of(context)!.search,
                     color: AppColors.b,
                     fontsize: 20,
                     alignment: Alignment.center,

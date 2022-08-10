@@ -7,7 +7,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:provider/provider.dart';
 
 import '../../Providers/books_provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BooksBody extends StatefulWidget {
   const BooksBody({Key? key}) : super(key: key);
@@ -23,6 +23,7 @@ class _BooksBodyState extends State<BooksBody> {
   double _height = 220;
 
   bool isFirstDependency = true;
+
   @override
   void didChangeDependencies() {
     if (isFirstDependency) {
@@ -41,7 +42,6 @@ class _BooksBodyState extends State<BooksBody> {
       });
     }
     super.didChangeDependencies();
-
   }
 
   @override
@@ -84,16 +84,18 @@ class _BooksBodyState extends State<BooksBody> {
           height: 30,
         ),
         Container(
-          margin: const EdgeInsets.only(left: 30),
+          margin: const EdgeInsets.only(left: 30, right: 30),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              NewText(text: "Popular Books ", color: AppColors.i),
+              NewText(
+                  text: AppLocalizations.of(context)!.popular_books,
+                  color: AppColors.i),
               const SizedBox(
                 width: 30,
               ),
               NewText(
-                text: "best books",
+                text: AppLocalizations.of(context)!.best_books,
                 color: AppColors.a,
                 fontsize: 10,
               ),
@@ -129,8 +131,9 @@ class _BooksBodyState extends State<BooksBody> {
                           ),
                         ),
                       ),
-                      onTap: () =>
-                          Navigator.pushNamed(context, 'BookDetailsScreen', arguments: postModel.listOkBooks?.books[index].id),
+                      onTap: () => Navigator.pushNamed(
+                          context, 'BookDetailsScreen',
+                          arguments: postModel.listOkBooks?.books[index].id),
                     ),
                     //text Container
                     Expanded(
@@ -172,7 +175,8 @@ class _BooksBodyState extends State<BooksBody> {
                                 height: 10,
                               ),
                               NewText(
-                                text: '${postModel.listOkBooks?.books[index].price} \$',
+                                text:
+                                    '${postModel.listOkBooks?.books[index].price} \$',
                                 color: AppColors.h,
                               ),
                             ],
@@ -196,6 +200,7 @@ class _BooksBodyState extends State<BooksBody> {
       //Navigator.pop(context);
       //}
     }
+
     Future<void> _disLikeFunction(int disLikeIndex) async {
       var provider = Provider.of<DataBooks>(context, listen: false);
       await provider.getDisLikeData(disLikeIndex);
@@ -203,6 +208,7 @@ class _BooksBodyState extends State<BooksBody> {
       //Navigator.pop(context);
       //}
     }
+
     final String ServerStorageUrl = "http://10.0.2.2:8000/storage/";
     final postModel = Provider.of<DataBooks>(context);
     Matrix4 matrix = new Matrix4.identity();
@@ -248,7 +254,8 @@ class _BooksBodyState extends State<BooksBody> {
                 ),
               ),
             ),
-            onTap: () => Navigator.pushNamed(context, 'BookDetailsScreen', arguments: postModel.listOkBooks?.books[index].id),
+            onTap: () => Navigator.pushNamed(context, 'BookDetailsScreen',
+                arguments: postModel.listOkBooks?.books[index].id),
           ),
           Align(
             alignment: Alignment.bottomCenter,
@@ -274,7 +281,7 @@ class _BooksBodyState extends State<BooksBody> {
                 ],
               ),
               child: Container(
-                padding: EdgeInsets.only(top: 15, left: 2, right: 2),
+                padding: EdgeInsets.only(top: 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -297,45 +304,51 @@ class _BooksBodyState extends State<BooksBody> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        postModel.listOkBooks?.books[index].likes == null ||
-                        postModel.listOkBooks!.books[index].likes!.isEmpty ?
-                         BookIcons(
-                          icon: CupertinoIcons.hand_thumbsup,
-                          text: "like",
-                          color: AppColors.a,
-                          fontSize: 12,
-                          iconColor: AppColors.b,
-                          onPressed: () {
-                            _likeFunction(postModel.listOkBooks?.books[index].id as int);
-                           // print(postModel.listOkBooks?.);
-                          },
-                        ):
-                        BookIcons(
+                        if (postModel.listOkBooks!.books[index].isMyLike!)
+                          BookIcons(
                             icon: CupertinoIcons.hand_thumbsup_fill,
-                            text: "dislike",
+                            text:
+                                "${AppLocalizations.of(context)!.dis_like} ${postModel.listOkBooks?.books[index].likes?.length}",
                             color: AppColors.a,
-                            fontSize: 12,
+                            fontSize: 10,
                             iconColor: AppColors.b,
                             onPressed: () {
-                              _disLikeFunction(postModel.listOkBooks?.books[index].id as int);
+                              _disLikeFunction(postModel
+                                  .listOkBooks?.books[index].id as int);
                               //print(postModelDisLike.postDisLike?.like);
                             },
-                        ),
+                          )
+                        else
+                          BookIcons(
+                            icon: CupertinoIcons.hand_thumbsup,
+                            text:
+                                "${AppLocalizations.of(context)!.like} ${postModel.listOkBooks?.books[index].likes?.length}",
+                            color: AppColors.a,
+                            fontSize: 10,
+                            iconColor: AppColors.b,
+                            onPressed: () {
+                              _likeFunction(postModel
+                                  .listOkBooks?.books[index].id as int);
+                              // print(postModel.listOkBooks?.);
+                            },
+                          ),
                         BookIcons(
                           icon: CupertinoIcons.chat_bubble_text_fill,
-                          text: "comments",
+                          text: AppLocalizations.of(context)!.comment_i,
                           color: AppColors.a,
-                          fontSize: 12,
+                          fontSize: 10,
                           iconColor: AppColors.d,
                           onPressed: () {
-                            Navigator.pushNamed(context, 'CommentScreen',arguments: postModel.listOkBooks?.books[index].id);
+                            Navigator.pushNamed(context, 'CommentScreen',
+                                arguments:
+                                    postModel.listOkBooks?.books[index].id);
                           },
                         ),
                         BookIcons(
                           icon: Icons.category,
-                          text: "category",
+                          text: AppLocalizations.of(context)!.category_i,
                           color: AppColors.a,
-                          fontSize: 12,
+                          fontSize: 10,
                           iconColor: AppColors.j,
                           onPressed: () {
                             Navigator.pushNamed(context, 'SearchScreen');

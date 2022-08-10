@@ -8,8 +8,9 @@ import 'package:my_library/Providers/signin_provider.dart';
 import 'package:my_library/Providers/signup_provider.dart';
 import 'package:my_library/Screens/Comments/comments_screen.dart';
 import 'package:my_library/Screens/Home/home_screen.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:my_library/Screens/Profile/account_edit.dart';
+import 'package:my_library/Screens/Settings/dark_mode_provider.dart';
 
 
 import 'package:my_library/Screens/login_screen.dart';
@@ -19,12 +20,13 @@ import 'package:provider/provider.dart';
 import 'Providers/book_category_provider.dart';
 import 'Providers/books_provider.dart';
 import 'Providers/category_provider.dart';
+import 'Providers/language_provider.dart';
 import 'Providers/profile_provider.dart';
 import 'Screens/Details/book_details_screen.dart';
 import 'Screens/Home/Main_books_page.dart';
 import 'Screens/Home/search_screen.dart';
 import 'Screens/book_with_category_screen.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -34,22 +36,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //final themeProvider = Provider.of<ThemeProvider>(context);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
-          value: DataSignUp(),
+            value: DataSignUp(),
         ),
         ChangeNotifierProvider.value(
-          value: DataSignIn(),
+            value: DataSignIn(),
         ),
         ChangeNotifierProvider.value(
-          value: DataLogOut(),
+            value: DataLogOut(),
         ),
         ChangeNotifierProvider.value(
             value: DataBooks(),
         ),
         ChangeNotifierProvider.value(
-          value: EditProfileData(),
+            value: EditProfileData(),
         ),
         ChangeNotifierProvider.value(
             value: DataProfile(),
@@ -61,7 +64,7 @@ class MyApp extends StatelessWidget {
             value: DataComments(),
         ),
         ChangeNotifierProvider.value(
-          value: DataCategory(),
+            value: DataCategory(),
         ),
         ChangeNotifierProvider.value(
             value: DataCategoryWithBooks(),
@@ -69,28 +72,50 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
             value: DataSearch(),
         ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primaryColor: Colors.blue,
+        ChangeNotifierProvider.value(
+            value: ThemeProvider(),
         ),
-        home: RegisterScreen(),
-        initialRoute: '/',
-        routes: {
-          'CreateNewAccount': (context) => RegisterScreen(),
-          'Login': (context) => LoginScreen(),
-          'CommentScreen': (context) => CommentsScreen(),
-          'ProductScreen': (context) => BookDetailsScreen(),
-          'MainBooksPage': (context) => MainBooksPage(),
-          'Edit My Info': (context) => EditAccount(),
-          'BookDetailsScreen': (context) => BookDetailsScreen(),
-          'HomeScreen' : (context) => HomeScreen(),
-          'SearchScreen' : (context) => SearchScreen(),
-          'BookCategory' : (context) => CategoryBook(),
-        },
+        ChangeNotifierProvider.value(
+          value: LanguageData(),
+        ),
+      ],
+      child: Builder(
+        builder: (context) =>
+         MaterialApp(
+          debugShowCheckedModeBanner: false,
+          locale: Provider.of<LanguageData>(context, listen: true).currentLocale,
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            AppLocalizations.delegate,
+          ],
+          supportedLocales: [
+            Locale('en', ''),
+            Locale('ar', ''),
+          ],
+          themeMode: ThemeMode.system,
+          theme: MyThemes.lightTheme,
+          darkTheme: MyThemes.darkTheme,
+          home: RegisterScreen(),
 
+          initialRoute: '/',
+          routes: {
+            'CreateNewAccount': (context) => RegisterScreen(),
+            'Login': (context) => LoginScreen(),
+            'CommentScreen': (context) => CommentsScreen(),
+            'ProductScreen': (context) => BookDetailsScreen(),
+            'MainBooksPage': (context) => MainBooksPage(),
+            'Edit My Info': (context) => EditAccount(),
+            'BookDetailsScreen': (context) => BookDetailsScreen(),
+            'HomeScreen' : (context) => HomeScreen(),
+            'SearchScreen' : (context) => SearchScreen(),
+            'BookCategory' : (context) => CategoryBook(),
+          },
+
+        ),
       ),
     );
+
   }
 }

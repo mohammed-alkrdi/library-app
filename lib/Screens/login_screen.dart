@@ -11,6 +11,7 @@ import 'package:my_library/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:another_flushbar/flushbar.dart';
 import '../Models/signin_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -44,9 +45,9 @@ class _LoginScreenState extends State<LoginScreen> {
             (route) => false);
       } else if (provider.loading == false) {
          Flushbar(
-          title: 'Wellcome Back',
+          title: AppLocalizations.of(context)!.wellcome_back_f,
           message:
-          'Please enter your information currectly',
+          AppLocalizations.of(context)!.info_c_f,
           duration: Duration(seconds: 4),
         ).show(context);
       }
@@ -81,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Column(
                         children: [
                           TextFieldInput(
-                            hint: 'email',
+                            hint: AppLocalizations.of(context)!.email,
                             textController: emailController,
                             image: 'assets/icons/icons8-mail-50.png',
                             inputType: TextInputType.emailAddress,
@@ -106,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                           ),*/
                           TextPasswordInput(
-                            hint: 'Password',
+                            hint: AppLocalizations.of(context)!.password,
                             textController: passwordController,
                             image: 'assets/icons/icons8-lock-50.png',
                             inputAction: TextInputAction.done,
@@ -124,17 +125,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           //CheckBox(),
                           RoundedButton(
                             onPressed: () => {_logIn()},
-                            text: 'LogIn',
+                            text: AppLocalizations.of(context)!.login,
                             sizeHeight: 50,
                             sizeWidth: 310,
                             color: AppColors.b,
+                            textColor: Colors.white,
                           ),
                           SizedBox(height: 50,),
                           GestureDetector(
                             onTap: () => Navigator.pushNamed(
                                 context, 'CreateNewAccount'),
                             child: NewText(
-                              text: 'CreateNewAccount',
+                              text: AppLocalizations.of(context)!.create_new_account,
                               fontsize: 16,
                               alignment: Alignment.center,
                               color: Colors.white,

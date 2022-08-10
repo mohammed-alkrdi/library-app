@@ -8,7 +8,7 @@ import 'package:my_library/Widgets/comment_text_input.dart';
 import 'package:my_library/Widgets/text.dart';
 import 'package:my_library/colors.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../Models/update_comment_model.dart';
 
 class CommentsScreen extends StatefulWidget {
@@ -84,13 +84,13 @@ class _CommentsScreenState extends State<CommentsScreen> {
         ),
         backgroundColor: AppColors.f,
         title: NewText(
-          text: "comments",
+          text: AppLocalizations.of(context)!.comment,
           fontsize: 24,
           color: Colors.black,
-          alignment: Alignment.centerLeft,
+          alignment: Alignment.center,
         ),
       ),
-      body: Scaffold(
+      body:Scaffold(
         body: Padding(
           padding: const EdgeInsets.only(top: 10),
           child: ListView.builder(
@@ -165,7 +165,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                             return Form(
                                               child: AlertDialog(
                                                 title: NewText(
-                                                  text: 'Add your edit comment',
+                                                  text: AppLocalizations.of(context)!.add_comment,
                                                   color: Colors.black,
                                                 ),
                                                 content: TextFormField(
@@ -176,7 +176,8 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                                       updateCommentController,
                                                   decoration: InputDecoration(
                                                       hintText:
-                                                          "Your new Comment"),
+                                                      AppLocalizations.of(context)!.new_comment,
+                                                  ),
                                                 ),
                                                 actions: <Widget>[
                                                   Row(
@@ -185,7 +186,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                                     children: [
                                                       TextButton(
                                                         child: Text(
-                                                          'CANCEL',
+                                                          AppLocalizations.of(context)!.cancel,
                                                           style: TextStyle(
                                                               color: AppColors.b),
                                                         ),
@@ -195,7 +196,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                                       ),
                                                       TextButton(
                                                         child: Text(
-                                                          'OK',
+                                                          AppLocalizations.of(context)!.ok,
                                                           style: TextStyle(
                                                               color: AppColors.b),
                                                         ),
@@ -233,16 +234,16 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                           context: context,
                                           builder: (context) {
                                             return AlertDialog(
-                                              title: Text("Delete the comment"),
+                                              title: Text(AppLocalizations.of(context)!.delete_comment),
                                               content: Text(
-                                                  "Are you sure you want to delete the comment?"),
+                                                  AppLocalizations.of(context)!.are_you_sure_delete),
                                               actions: <Widget>[
                                                 TextButton(
                                                   onPressed: () {
                                                     _deleteCommentFunction(postModel.listOkComments?.comments[index].commentId as int);
                                                   },
                                                   child: Text(
-                                                    'yes',
+                                                    AppLocalizations.of(context)!.yes_f,
                                                     style: TextStyle(
                                                       color: AppColors.b,
                                                     ),
@@ -253,7 +254,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                                     Navigator.of(context).pop();
                                                   },
                                                   child: Text(
-                                                    'no',
+                                                    AppLocalizations.of(context)!.no_f,
                                                     style: TextStyle(
                                                       color: AppColors.b,
                                                     ),
@@ -281,7 +282,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
               }),
         ),
         bottomNavigationBar: Container(
-          height: 130,
+          height: 140,
           padding: EdgeInsets.only(top: 10, bottom: 5, left: 20, right: 20),
           decoration: BoxDecoration(
             color: AppColors.f,
@@ -289,7 +290,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              NewText(text: "Add comment", color: Colors.black),
+              NewText(text: AppLocalizations.of(context)!.add_comment, color: Colors.black),
               //SizedBox(height: 5,),
               Form(
                 child: CommentTextInput(

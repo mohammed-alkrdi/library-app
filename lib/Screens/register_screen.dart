@@ -10,7 +10,7 @@ import 'package:my_library/Widgets/text_field_input.dart';
 import 'package:my_library/Widgets/text_password_input.dart';
 import 'package:my_library/colors.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class RegisterScreen extends StatefulWidget {
@@ -56,9 +56,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             (route) => false);
       } else if (provider.loading == false) {
         Flushbar(
-          title: 'Wellcome',
+          title: AppLocalizations.of(context)!.wellcome,
           message:
-          'Please Enter Your Information Currectly',
+          AppLocalizations.of(context)!.info,
           duration: Duration(seconds: 4),
         ).show(context);
       }
@@ -95,7 +95,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: Column(
                         children: [
                           TextFieldInput(
-                            hint: 'name',
+                            hint: AppLocalizations.of(context)!.name,
                             textController: nameController,
                             image: 'assets/icons/icons8-user-male-50.png',
                             inputType: TextInputType.name,
@@ -112,7 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             },
                           ),
                           TextFieldInput(
-                            hint: 'age',
+                            hint: AppLocalizations.of(context)!.age,
                             textController: ageController,
                             image: 'assets/icons/icons8-user-50.png',
                             inputType: TextInputType.number,
@@ -129,7 +129,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             },
                           ),
                           TextFieldInput(
-                            hint: 'phone number',
+                            hint: AppLocalizations.of(context)!.phone_number,
                             textController: phoneNumberController,
                             image: 'assets/icons/icons8-phone-50.png',
                             inputType: TextInputType.number,
@@ -150,7 +150,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             },
                           ),
                           TextFieldInput(
-                            hint: 'email',
+                            hint: AppLocalizations.of(context)!.email,
                             textController: emailController,
                             image: 'assets/icons/icons8-mail-50.png',
                             inputType: TextInputType.emailAddress,
@@ -171,7 +171,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             },
                           ),
                           TextPasswordInput(
-                            hint: 'password',
+                            hint: AppLocalizations.of(context)!.password,
                             textController: passwordController,
                             image: 'assets/icons/icons8-lock-50.png',
                             inputAction: TextInputAction.done,
@@ -191,17 +191,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           RoundedButton(
                             onPressed: () => {_registration()},
-                            text: 'SignUp',
+                            text: AppLocalizations.of(context)!.sign_up,
                             sizeHeight: 50,
                             sizeWidth: 310,
                             color: AppColors.b,
+                            textColor: Colors.white,
                           ),
                           SizedBox(height: 30,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               NewText(
-                                text: 'Already have an account?',
+                                text: AppLocalizations.of(context)!.have_account,
                                 fontsize: 16,
                                 alignment: Alignment.center,
                                 color: Colors.white,
@@ -210,7 +211,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 onTap: () =>
                                     Navigator.pushNamed(context, 'Login'),
                                 child: NewText(
-                                  text: 'Login',
+                                  text: AppLocalizations.of(context)!.log_in,
                                   fontsize: 16,
                                   alignment: Alignment.center,
                                   color: AppColors.b,

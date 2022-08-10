@@ -11,7 +11,7 @@ import '../../Widgets/app_icons.dart';
 import '../../Widgets/rounded_button.dart';
 import '../../Widgets/text.dart';
 import '../../colors.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class EditAccount extends StatefulWidget {
   const EditAccount({Key? key}) : super(key: key);
 
@@ -59,15 +59,15 @@ class _EditAccountState extends State<EditAccount> {
     }
 
     AlertDialog alert = AlertDialog(
-      title: Text("Edit Your Profile Info"),
-      content: Text("Are you sure you want to edit your information?"),
+      title: Text(AppLocalizations.of(context)!.edit_profile_info_f),
+      content: Text(AppLocalizations.of(context)!.are_sure_edit_info_p),
       actions: <Widget>[
         TextButton(
           onPressed: () {
             _edit();
           },
           child: Text(
-            'yes',
+            AppLocalizations.of(context)!.yes_f,
             style: TextStyle(
               color: AppColors.b,
             ),
@@ -78,7 +78,7 @@ class _EditAccountState extends State<EditAccount> {
             Navigator.of(context).pop();
           },
           child: Text(
-            'no',
+            AppLocalizations.of(context)!.no_f,
             style: TextStyle(
               color: AppColors.b,
             ),
@@ -88,13 +88,14 @@ class _EditAccountState extends State<EditAccount> {
     );
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.b,
+        backgroundColor: Colors.white,
         title: NewText(
-          text: "Edit Profile Info",
-          color: Colors.white,
-          fontsize: 20,
-          alignment: Alignment.centerLeft,
+          text: AppLocalizations.of(context)!.edit_profile_b,
+          color: Colors.black,
+          fontsize: 24,
+          alignment: Alignment.center,
         ),
+        iconTheme: IconThemeData(color: Colors.black),
       ),
       body: Container(
         width: double.maxFinite,
@@ -127,7 +128,7 @@ class _EditAccountState extends State<EditAccount> {
                           size: 50,
                           iconSize: 25,
                         ),
-                        text: 'name',
+                        text: AppLocalizations.of(context)!.name,
                         inputType: TextInputType.name,
                         inputAction: TextInputAction.next,
                         textController: nameController,
@@ -148,7 +149,7 @@ class _EditAccountState extends State<EditAccount> {
                           size: 50,
                           iconSize: 25,
                         ),
-                        text: 'age',
+                        text: AppLocalizations.of(context)!.age,
                         inputType: TextInputType.number,
                         inputAction: TextInputAction.next,
                         textController: ageController,
@@ -169,7 +170,7 @@ class _EditAccountState extends State<EditAccount> {
                           size: 50,
                           iconSize: 25,
                         ),
-                        text: 'phone number',
+                        text: AppLocalizations.of(context)!.phone_number,
                         inputType: TextInputType.number,
                         inputAction: TextInputAction.next,
                         textController: phoneNumberController,
@@ -190,7 +191,7 @@ class _EditAccountState extends State<EditAccount> {
                           size: 50,
                           iconSize: 25,
                         ),
-                        text: 'email',
+                        text: AppLocalizations.of(context)!.email,
                         inputType: TextInputType.emailAddress,
                         inputAction: TextInputAction.none,
                         textController: emailController,
@@ -224,9 +225,10 @@ class _EditAccountState extends State<EditAccount> {
                             SizedBox(height: 20,),*/
                       RoundedButton(
                         color: AppColors.b,
-                        text: "Save New Info",
+                        text: AppLocalizations.of(context)!.save_p_info,
                         sizeHeight: 50,
                         sizeWidth: 310,
+                        textColor: Colors.white,
                         onPressed: () {
                           showDialog(
                             context: context,

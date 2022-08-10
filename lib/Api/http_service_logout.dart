@@ -12,7 +12,7 @@ Future<http.Response?> logOut(LogOutRequest data) async {
     response = await http.post(
       Uri.parse("http://10.0.2.2:8000/api/customer/logout"),
       headers: {
-        HttpHeaders.authorizationHeader: "Bearer " + data.token,
+        HttpHeaders.authorizationHeader: "Bearer ${data.token}",
       },
     );
   } catch (e) {

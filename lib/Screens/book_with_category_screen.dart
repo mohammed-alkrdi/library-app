@@ -6,6 +6,7 @@ import 'package:my_library/colors.dart';
 import 'package:provider/provider.dart';
 
 import '../Providers/book_category_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CategoryBook extends StatefulWidget {
   const CategoryBook({Key? key}) : super(key: key);
@@ -43,13 +44,13 @@ class _CategoryBookState extends State<CategoryBook> {
                 children: [
                   IconButton(
                       onPressed: () => Navigator.pop(context), 
-                      icon: Icon(CupertinoIcons.arrow_left, color: AppColors.i,),
+                      icon: Icon(AppLocalizations.of(context)!.localeName == "en" ? CupertinoIcons.arrow_left : CupertinoIcons.arrow_right, color: AppColors.i,),
                   ),
                   NewText(
-                      text: "Book Category",
+                      text: AppLocalizations.of(context)!.category_search_b,
                       color: AppColors.i,
                       fontsize: 24,
-                      alignment: Alignment.centerRight,
+                      alignment: Alignment.center,
                   ),
                 ],
               ),

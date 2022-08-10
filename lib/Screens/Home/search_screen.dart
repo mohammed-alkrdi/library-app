@@ -4,7 +4,7 @@ import 'package:my_library/Providers/search_provider.dart';
 import 'package:my_library/Widgets/text.dart';
 import 'package:my_library/colors.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../Providers/category_provider.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -15,7 +15,6 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-
   bool isFirstDependency = true;
 
   @override
@@ -60,27 +59,31 @@ class _SearchScreenState extends State<SearchScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       IconButton(
-                        icon:
-                            Icon(CupertinoIcons.arrow_left, color: AppColors.i),
+                        icon: Icon(
+                            AppLocalizations.of(context)!.localeName == "en"
+                                ? CupertinoIcons.arrow_left
+                                : CupertinoIcons.arrow_right,
+                            color: AppColors.i),
                         onPressed: () {
                           Navigator.pushNamed(context, 'HomeScreen');
                         },
                       ),
-                         Expanded(
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'search',
-                              hintStyle: TextStyle(
-                                color: AppColors.a,
-                              ),
+                      Expanded(
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: AppLocalizations.of(context)!.search_hint,
+                            hintStyle: TextStyle(
+                              color: AppColors.a,
                             ),
-                            onChanged: (value) {
-                              final searchPostModel = Provider.of<DataSearch>(context, listen: false);
-                              searchPostModel.getData(value);
-                            },
                           ),
+                          onChanged: (value) {
+                            final searchPostModel =
+                                Provider.of<DataSearch>(context, listen: false);
+                            searchPostModel.getData(value);
+                          },
                         ),
+                      ),
                       IconButton(
                         icon: Icon(CupertinoIcons.search, color: AppColors.a),
                         onPressed: () {},
@@ -94,17 +97,20 @@ class _SearchScreenState extends State<SearchScreen> {
               height: 20,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15),
+              padding: const EdgeInsets.only(left: 15, right: 15),
               child: NewText(
-                text: "Book Category",
+                text: AppLocalizations.of(context)!.category_search_screen,
                 color: AppColors.i,
+                alignment: AppLocalizations.of(context)!.localeName == "en"
+                    ? Alignment.centerLeft
+                    : Alignment.centerRight,
               ),
             ),
             SizedBox(
               height: 25,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 20),
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
@@ -123,7 +129,8 @@ class _SearchScreenState extends State<SearchScreen> {
                             labelStyle: TextStyle(
                                 color: Colors.black54,
                                 fontSize: 12,
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.bold,
+                            ),
                             backgroundColor: Colors.grey[350]?.withOpacity(0.4),
                             onSelected: (isSelected) {
                               setState(() {
@@ -144,8 +151,12 @@ class _SearchScreenState extends State<SearchScreen> {
               height: 25,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: NewText(text: "Search Result", color: AppColors.i),
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: NewText(
+                  text: AppLocalizations.of(context)!.search_result,
+                  color: AppColors.i,
+                alignment: AppLocalizations.of(context)!.localeName == "en" ? Alignment.centerLeft : Alignment.centerRight,
+              ),
             ),
             SizedBox(
               height: 25,
@@ -225,7 +236,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                     height: 10,
                                   ),
                                   NewText(
-                                    text: '${searchPostModel.listOkBooks?.books[index].price} \$',
+                                    text:
+                                        '${searchPostModel.listOkBooks?.books[index].price} \$',
                                     color: AppColors.h,
                                   ),
                                 ],

@@ -6,7 +6,7 @@ import 'package:my_library/Widgets/rounded_button.dart';
 import 'package:my_library/Widgets/text.dart';
 import 'package:my_library/colors.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../Providers/profile_provider.dart';
 
 
@@ -29,10 +29,10 @@ class _AccountDetailsState extends State<AccountDetails> {
     final postModel = Provider.of<DataProfile>(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.b,
+        backgroundColor: Colors.white,
         title: NewText(
-          text: "Profile",
-          color: Colors.white,
+          text: AppLocalizations.of(context)!.profile,
+          color: Colors.black,
           fontsize: 24,
           alignment: Alignment.center,
         ),
@@ -110,8 +110,9 @@ class _AccountDetailsState extends State<AccountDetails> {
                     SizedBox(height: 20,),
                     RoundedButton(
                       color: AppColors.b,
-                      text: "Edit profile info",
+                      text: AppLocalizations.of(context)!.edit_profile_b,
                       sizeHeight: 50, sizeWidth: 310,
+                      textColor: Colors.white,
                       onPressed: () => Navigator.pushNamed(
                           context, 'Edit My Info'),
                     ),

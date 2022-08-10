@@ -38,13 +38,14 @@ class DataBooks extends ChangeNotifier {
   Future<void> getLikeData(int bookId) async {
     loading = true;
     var token = await getToken();
+    notifyListeners();
     print(token);
     http.Response? response = (await getLike(token!, bookId));
 
     if(response?.statusCode == 200) {
       for(Books book in listOkBooks!.books) {
         if(book.id == bookId) {
-          book.likes?.add(Likes(bookId: bookId, like: 1));
+          book.isMyLike = true;
           notifyListeners();
           break;
         }
@@ -56,13 +57,14 @@ class DataBooks extends ChangeNotifier {
   Future<void> getDisLikeData(int bookId) async {
     loading = true;
     var token = await getToken();
+    notifyListeners();
     print(token);
     http.Response? response = (await getDisLike(token!, bookId));
 
     if(response?.statusCode == 200) {
       for(Books book in listOkBooks!.books) {
         if(book.id == bookId) {
-          book.likes?.clear();
+          book.isMyLike = false;
           notifyListeners();
           break;
         }
