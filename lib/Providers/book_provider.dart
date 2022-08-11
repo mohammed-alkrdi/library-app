@@ -66,6 +66,7 @@ class DataBook extends ChangeNotifier {
     if(response?.statusCode == 200) {
       Map<String, dynamic> status = json.decode(response!.body) as Map<String, dynamic>;
       postStatus =  Status.fromJson(status);
+      postStatus = Status(status: 1);
       print("in");
       isBack = true;
       loading = false;

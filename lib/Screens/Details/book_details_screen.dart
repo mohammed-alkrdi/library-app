@@ -1,7 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:my_library/Widgets/app_icons.dart';
 import 'package:my_library/Screens/Details/expandable_text.dart';
 import 'package:my_library/Widgets/rounded_button.dart';
@@ -36,11 +34,8 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     final String ServerStorageUrl = "http://10.0.2.2:8000/storage/";
     final postModel = Provider.of<DataBook>(context);
-    //final fileUrl = postModel.postBook?.downloadUrl ;
-    //var dio = Dio();
     final args = ModalRoute.of(context)?.settings.arguments;
     Future<void> _bookRequest() async {
       Buy buy = Buy(
@@ -57,7 +52,8 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
       var provider = Provider.of<DataBook>(context, listen: false);
       await provider.getRequestData(args as int);
     }
-    Future<void> _downloadBook() async {
+
+    /*Future<void> _downloadBook() async {
       final taskId = await FlutterDownloader.enqueue(
         url: ServerStorageUrl+(postModel.postBook?.downloadUrl?.replaceAll("\\", "/") ??
             ""),
@@ -65,7 +61,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
         showNotification: true, // show download progress in status bar (for Android)
         openFileFromNotification: true, // click on notification to open downloaded file (for Android)
       );
-    }
+    }*/
     print("od");
     if (postModel == null || postModel.postBook == null) {
       return Container();
@@ -190,6 +186,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                 sizeHeight: 100,
                 sizeWidth: 80,
                 color: AppColors.d,
+                textColor: Colors.white,
               ),
               RoundedButton(
                 onPressed: () {
@@ -201,6 +198,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                 sizeHeight: 100,
                 sizeWidth: 200,
                 color: AppColors.b,
+                textColor: Colors.white,
               ),
             ],
           ),
