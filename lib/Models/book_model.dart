@@ -13,7 +13,7 @@ class Book with ChangeNotifier{
   String? createdAt;
   String? updatedAt;
   bool? isLikedByMe;
-  bool? isRequestedByMe;
+  String? isRequestedByMe;
   List<Likes>? likes;
   List<Requests>? requests;
 

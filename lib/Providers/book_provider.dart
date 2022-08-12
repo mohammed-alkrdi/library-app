@@ -46,6 +46,7 @@ class DataBook extends ChangeNotifier {
       print("wow");
       print(response!.body);
       isBack = true;
+      postBook?.isRequestedByMe = "false";
       notifyListeners();
 
     } else {

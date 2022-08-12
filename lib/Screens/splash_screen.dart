@@ -3,6 +3,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:my_library/Screens/Home/home_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../Providers/theme_provider.dart';
+import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -13,6 +19,16 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin{
 
+  Future check() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool key = (prefs.getBool('isLoggedIn') as bool);
+    key == false ?
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) =>  LoginScreen()))
+
+    :  Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) =>  HomeScreen()));
+  }
   late Animation <double> animation;
   late AnimationController controller;
   
@@ -29,21 +45,29 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     );
     Timer(
         const Duration(seconds: 3),
-            () => Navigator.pushNamed(context, 'CreateNewAccount'),
+        () => Navigator.pushNamed(context, 'CreateNewAccount')
+            //check,
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final postModelTheme = Provider.of<ThemeProvider>(context,);
     return Scaffold(
-      
+      backgroundColor: postModelTheme.isDark
+      ? postModelTheme.darkTheme.backgroundColor
+      : postModelTheme.lightTheme.backgroundColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ScaleTransition(
             scale: animation,
               child: Center(
-                  child: Image.asset("assets/images/Logo.png", width:250 ,))),
+                  child: postModelTheme.isDark
+                  ? Image.asset("assets/images/Logo.png", width:250 ,) : Image.asset("assets/images/logo 2.png", width:250 ,)
+              ),
+          ),
+
         ],
       ),
     );

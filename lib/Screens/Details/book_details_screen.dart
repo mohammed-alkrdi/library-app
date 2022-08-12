@@ -1,3 +1,6 @@
+
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,11 +9,12 @@ import 'package:my_library/Screens/Details/expandable_text.dart';
 import 'package:my_library/Widgets/rounded_button.dart';
 import 'package:my_library/Widgets/text.dart';
 import 'package:my_library/colors.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import '../../Models/buy_model.dart';
 import '../../Providers/book_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../Providers/theme_provider.dart';
 
 class BookDetailsScreen extends StatefulWidget {
   const BookDetailsScreen({Key? key}) : super(key: key);
@@ -24,6 +28,12 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
   var progressString = "";
   final String ServerStorageUrl = "http://10.0.2.2:8000/storage/";
 
+  Future<void> refresh() async {
+    final args = ModalRoute.of(context)?.settings.arguments;
+    print(ModalRoute.of(context)!.settings.arguments);
+    final postModel = Provider.of<DataBook>(context, listen: false);
+    postModel.getData(args as int);
+  }
 
   @override
   void didChangeDependencies() {
@@ -36,6 +46,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
     }
     super.didChangeDependencies();
   }
+
   Future<void> _bookRequest() async {
     final args = ModalRoute.of(context)?.settings.arguments;
     Buy buy = Buy(
@@ -45,27 +56,26 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
     await provider.postData(buy);
   }
 
-  Future<void> downloadFile() async {
+  Future<void> downloadFile(String name) async {
     Dio dio = Dio();
 
     try {
-      var dir = await getApplicationDocumentsDirectory();
+      //var dir = await getApplicationDocumentsDirectory();
+      Directory dir = Directory('/storage/emulated/0/Download');
       final postModel = Provider.of<DataBook>(context, listen: false);
-      String file = postModel.postBook?.file?.substring(19,62)  ??  "";
-      file =ServerStorageUrl+'${file}'.replaceAll("\\", "/");
+      String file = postModel.postBook?.file?.substring(19, 62) ?? "";
+      file = ServerStorageUrl + '${file}'.replaceAll("\\", "/");
       print("wow ${file}");
-      await dio.download(
-          file,
-          "${dir.path}/myFile.pdf",
-          onReceiveProgress: (rec,total) {
-            print("Rec: $rec, Total: $total");
+      await dio.download(file, "${dir.path}/${name}.pdf",
+          onReceiveProgress: (rec, total) {
+        print("Rec: $rec, Total: $total");
+        print("${dir.path}");
 
-            setState((){
-              progressString = ((rec/total)*100).toStringAsFixed(0) + "%";
-            });
-          });
+        setState(() {
+          progressString = ((rec / total) * 100).toStringAsFixed(0) + "%";
+        });
+      });
     } catch (e) {
-
       print("errore");
       print(e);
     }
@@ -73,8 +83,10 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final postModelTheme = Provider.of<ThemeProvider>(
+      context,
+    );
     print("ok");
-    //print(postModel.postStatus?.status);
     final postModel = Provider.of<DataBook>(context);
     if (postModel == null || postModel.postBook == null) {
       return Container();
@@ -95,8 +107,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                       fit: BoxFit.cover,
                       image: NetworkImage(
                         ServerStorageUrl +
-                            (postModel.postBook?.image
-                                    ?.replaceAll("\\", "/") ??
+                            (postModel.postBook?.image?.replaceAll("\\", "/") ??
                                 ""),
                       ),
                     ),
@@ -108,10 +119,19 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
               left: 20,
               right: 20,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   AppIcons(
                     icon: CupertinoIcons.chevron_back,
                     onPressed: () => Navigator.pop(context),
+                  ),
+                  AppIcons(
+                    icon: CupertinoIcons.refresh,
+                    onPressed: () {
+                      setState(() {
+                        refresh();
+                      });
+                    },
                   ),
                 ],
               ),
@@ -188,33 +208,89 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
             ),
             color: AppColors.f,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  RoundedButton(
-                    onPressed: () {
-                      _bookRequest();
-                    },
-                    text: AppLocalizations.of(context)!.buy,
-                    sizeHeight: 100,
-                    sizeWidth: 80,
-                    color: AppColors.d,
-                    textColor: Colors.white,
-                  ),
-
-              RoundedButton(
-                key: ValueKey(progressString),
-                onPressed: () {
-                  downloadFile();
-                },
-                text: AppLocalizations.of(context)!.download + progressString,
-                sizeHeight: 100,
-                sizeWidth: 200,
-                color: AppColors.b,
-                textColor: Colors.white,
-              ),
-                ],
-          ),
+          child: postModel.postBook?.isRequestedByMe == null
+              ? Spacer()
+              : postModel.postBook?.isRequestedByMe == "true"
+                  ? RoundedButton(
+                      key: ValueKey(progressString),
+                      onPressed: () {
+                        downloadFile(postModel.postBook?.name as String);
+                      },
+                      text: AppLocalizations.of(context)!.download +
+                          progressString,
+                      sizeHeight: 100,
+                      sizeWidth: 200,
+                      color: AppColors.b,
+                      textColor: Colors.white,
+                    )
+                  : postModel.postBook?.isRequestedByMe == "no request"
+                      ? RoundedButton(
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text("Buying a Book"),
+                                    content: Text("Are you sure you want to buy that book?" ""
+                                        "when you pressed yes please go pay price that book to download it"),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () async {
+                                          await _bookRequest();
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                          AppLocalizations.of(context)!.yes_f,
+                                          style: TextStyle(
+                                            color: postModelTheme.isDark
+                                                ? postModelTheme.darkTheme.primaryColorDark
+                                                : AppColors.b,
+                                          ),
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text(
+                                          AppLocalizations.of(context)!.no_f,
+                                          style: TextStyle(
+                                            color: postModelTheme.isDark
+                                                ? postModelTheme.darkTheme.primaryColorDark
+                                                : AppColors.b,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
+                          text: AppLocalizations.of(context)!.buy,
+                          sizeHeight: 100,
+                          sizeWidth: 80,
+                          color: AppColors.d,
+                          textColor: Colors.white,
+                        )
+                      : postModel.postBook?.isRequestedByMe == "false"
+                          ? Center(
+                              child: NewText(
+                              text: "Your request is being processed",
+                              color: postModelTheme.isDark
+                                  ? postModelTheme.lightTheme.primaryColor
+                                  : AppColors.b,
+                              fontsize: 20,
+                              alignment: Alignment.center,
+                            ))
+                          : Center(
+                              child: NewText(
+                                text: "Your request is unknown",
+                                color: postModelTheme.isDark
+                                    ? postModelTheme.lightTheme.primaryColor
+                                    : AppColors.b,
+                                fontsize: 20,
+                                alignment: Alignment.center,
+                              ),
+                            ),
         ),
       );
     }
