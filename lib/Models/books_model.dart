@@ -8,56 +8,70 @@ class ListOfBooks with ChangeNotifier {
 
 }
 
-class Books with ChangeNotifier {
+class Books {
   int? id;
   String? name;
-  String? author;
+  String? writerBook;
+  String? bookInfo;
   int? price;
-  String? imageUrl;
-  String? downloadUrl;
+  String? image;
+  String? file;
   String? contactInfo;
   int? categoryId;
   String? createdAt;
   String? updatedAt;
-  String? token;
-  bool? isMyLike;
+  bool? isLikedByMe;
+  bool? isRequestedByMe;
   List<Likes>? likes;
+  List<Requests>? requests;
 
-  Books({this.id,
-    this.name,
-    this.author,
-    this.price,
-    this.imageUrl,
-    this.downloadUrl,
-    this.contactInfo,
-    this.categoryId,
-    this.createdAt,
-    this.updatedAt,
-    this.token,
-    this.likes,
-    this.isMyLike,
-  });
+  Books(
+      {this.id,
+        this.name,
+        this.writerBook,
+        this.bookInfo,
+        this.price,
+        this.image,
+        this.file,
+        this.contactInfo,
+        this.categoryId,
+        this.createdAt,
+        this.updatedAt,
+        this.isLikedByMe,
+        this.isRequestedByMe,
+        this.likes,
+        this.requests});
 
   Books.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    author = json['writer_book'];
+    writerBook = json['writer_book'];
+    bookInfo = json['book_info'];
     price = json['price'];
-    imageUrl = json['image'];
-    downloadUrl = json['file'];
+    image = json['image'];
+    file = json['file'];
     contactInfo = json['contact_info'];
     categoryId = json['category_id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    isMyLike = json['is_liked_by_me'];
+    isLikedByMe = json['is_liked_by_me'];
+    isRequestedByMe = json['is_requested_by_me'];
     if (json['likes'] != null) {
       likes = <Likes>[];
       json['likes'].forEach((v) {
         likes!.add(Likes.fromJson(v));
       });
     }
+    if (json['requests'] != null) {
+      requests = <Requests>[];
+      json['requests'].forEach((v) {
+        requests!.add(Requests.fromJson(v));
+      });
+    }
   }
+
 }
+
 class Likes with ChangeNotifier {
   int? id;
   int? customerId;
@@ -65,22 +79,47 @@ class Likes with ChangeNotifier {
   int? bookId;
   String? createdAt;
   String? updatedAt;
-  String? token;
 
-  Likes({this.id,
-    this.customerId,
-    this.like,
-    this.bookId,
-    this.createdAt,
-    this.updatedAt,
-    this.token,
-  });
+  Likes(
+      {this.id,
+        this.customerId,
+        this.like,
+        this.bookId,
+        this.createdAt,
+        this.updatedAt});
 
   Likes.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     customerId = json['customer_id'];
     like = json['like'];
     bookId = json['book_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+}
+
+class Requests with ChangeNotifier {
+  int? id;
+  int? customerId;
+  int? bookId;
+  int? status;
+  String? createdAt;
+  String? updatedAt;
+
+  Requests(
+      {this.id,
+        this.customerId,
+        this.bookId,
+        this.status,
+        this.createdAt,
+        this.updatedAt});
+
+  Requests.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    customerId = json['customer_id'];
+    bookId = json['book_id'];
+    status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }

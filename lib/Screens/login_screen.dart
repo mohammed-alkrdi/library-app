@@ -13,6 +13,8 @@ import 'package:another_flushbar/flushbar.dart';
 import '../Models/signin_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../Providers/theme_provider.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -26,6 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final postModelTheme = Provider.of<ThemeProvider>(context,);
     print("object");
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
@@ -128,7 +131,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             text: AppLocalizations.of(context)!.login,
                             sizeHeight: 50,
                             sizeWidth: 310,
-                            color: AppColors.b,
+                            color: postModelTheme.isDark
+                                ? postModelTheme.darkTheme.primaryColorDark
+                                : AppColors.b,
                             textColor: Colors.white,
                           ),
                           SizedBox(height: 50,),

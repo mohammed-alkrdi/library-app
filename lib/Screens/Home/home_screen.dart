@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../Models/logout_request.dart';
 import '../../Providers/logout_provider.dart';
+import '../../Providers/theme_provider.dart';
 import '../../colors.dart';
 import '../login_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -40,6 +41,7 @@ class _HomeScreen extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final postModelTheme = Provider.of<ThemeProvider>(context,);
     Future<void> _logOut() async {
       LogOutRequest(
         token: "token",
@@ -65,7 +67,9 @@ class _HomeScreen extends State<HomeScreen> {
           child: Text(
             AppLocalizations.of(context)!.yes_f,
             style: TextStyle(
-              color: AppColors.b,
+              color: postModelTheme.isDark
+                  ? postModelTheme.darkTheme.primaryColorDark
+                  : AppColors.b,
             ),
           ),
         ),
@@ -76,7 +80,9 @@ class _HomeScreen extends State<HomeScreen> {
           child: Text(
             AppLocalizations.of(context)!.no_f,
             style: TextStyle(
-              color: AppColors.b,
+              color: postModelTheme.isDark
+                  ? postModelTheme.darkTheme.primaryColorDark
+                  : AppColors.b,
             ),
           ),
         ),
@@ -87,13 +93,19 @@ class _HomeScreen extends State<HomeScreen> {
       bottomNavigationBar: SizedBox(
         height: 80,
         child: BottomNavigationBar(
-          selectedItemColor: AppColors.b,
-          unselectedItemColor: AppColors.c,
+          selectedItemColor: postModelTheme.isDark
+              ? postModelTheme.darkTheme.primaryColorDark
+              : AppColors.b,
+          unselectedItemColor: postModelTheme.isDark
+              ? postModelTheme.darkTheme.primaryColor
+              : AppColors.c,
           showSelectedLabels: true,
           showUnselectedLabels: true,
           currentIndex: _selectedIndex,
           iconSize: 30,
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: postModelTheme.isDark
+              ? postModelTheme.lightTheme.primaryColor
+              : postModelTheme.darkTheme.primaryColor,
           onTap: onTapNav,
           items: [
             BottomNavigationBarItem(

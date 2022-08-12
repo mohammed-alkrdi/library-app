@@ -4,10 +4,12 @@ import 'package:my_library/Widgets/text.dart';
 import 'app_icons.dart';
 
 class AccountWidget extends StatelessWidget {
+  final Color? color;
   AppIcons appIcons;
   NewText newText;
 
-  AccountWidget({Key? key, required this.appIcons, required this.newText})
+
+  AccountWidget({Key? key, required this.appIcons, required this.newText,required this.color})
       : super(key: key);
 
   @override
@@ -15,7 +17,7 @@ class AccountWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(left: 20, top: 10, bottom: 10, right: 20),
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: color,
         boxShadow: [
           BoxShadow(
             blurRadius: 1,

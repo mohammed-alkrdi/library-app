@@ -184,7 +184,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 image: NetworkImage(
                                   ServerStorageUrl +
                                       (searchPostModel.listOkBooks?.books[index]
-                                              .imageUrl
+                                              .image
                                               ?.replaceAll("\\", "/") ??
                                           ""),
                                 ),
@@ -227,7 +227,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   ),
                                   NewText(
                                     text: searchPostModel
-                                            .listOkBooks?.books[index].author ??
+                                            .listOkBooks?.books[index].writerBook ??
                                         "",
                                     color: AppColors.h,
                                     alignment: Alignment.center,

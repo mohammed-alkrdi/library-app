@@ -10,11 +10,11 @@ import 'package:my_library/Screens/Comments/comments_screen.dart';
 import 'package:my_library/Screens/Home/home_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:my_library/Screens/Profile/account_edit.dart';
-import 'package:my_library/Screens/Settings/dark_mode_provider.dart';
 
 
 import 'package:my_library/Screens/login_screen.dart';
 import 'package:my_library/Screens/register_screen.dart';
+import 'package:my_library/Screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'Providers/book_category_provider.dart';
@@ -22,6 +22,7 @@ import 'Providers/books_provider.dart';
 import 'Providers/category_provider.dart';
 import 'Providers/language_provider.dart';
 import 'Providers/profile_provider.dart';
+import 'Providers/theme_provider.dart';
 import 'Screens/Details/book_details_screen.dart';
 import 'Screens/Home/Main_books_page.dart';
 import 'Screens/Home/search_screen.dart';
@@ -73,14 +74,14 @@ class MyApp extends StatelessWidget {
             value: DataSearch(),
         ),
         ChangeNotifierProvider.value(
-            value: ThemeProvider(),
-        ),
-        ChangeNotifierProvider.value(
           value: LanguageData(),
         ),
+        ChangeNotifierProvider.value(
+            value: ThemeProvider(),
+        ),
       ],
-      child: Builder(
-        builder: (context) =>
+      child: Consumer(
+        builder: (context, ThemeProvider themeNotifier, child) =>
          MaterialApp(
           debugShowCheckedModeBanner: false,
           locale: Provider.of<LanguageData>(context, listen: true).currentLocale,
@@ -94,10 +95,8 @@ class MyApp extends StatelessWidget {
             Locale('en', ''),
             Locale('ar', ''),
           ],
-          themeMode: ThemeMode.system,
-          theme: MyThemes.lightTheme,
-          darkTheme: MyThemes.darkTheme,
-          home: RegisterScreen(),
+          theme: themeNotifier.isDark ? ThemeData.dark() : ThemeData.light(),
+          home: SplashScreen(),
 
           initialRoute: '/',
           routes: {

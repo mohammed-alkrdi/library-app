@@ -48,6 +48,8 @@ class DataComments extends ChangeNotifier {
     http.Response? response = (await comment(body, bookId));
     if(response?.statusCode == 200) {
       print(response!.body);
+      GetComments newComment = GetComments.fromJson(json.decode(response.body)["comment"]);
+      listOkComments?.comments.add(newComment);
       print("ok");
       isBack = true;
       notifyListeners();
@@ -67,6 +69,14 @@ class DataComments extends ChangeNotifier {
     http.Response? response = (await updateComment(body, token, commentId));
     if(response?.statusCode == 200) {
       print(response!.body);
+
+      GetComments? oldComment = listOkComments?.comments.firstWhere((element) => element.commentId==commentId);
+
+      GetComments newComment = GetComments(commentId:  oldComment?.commentId, message: body.message,customer: oldComment?.customer);
+      int oldCommentIndex= listOkComments?.comments.indexWhere((e)=>e.commentId==commentId)??1;
+      listOkComments?.comments.removeAt(oldCommentIndex);
+      listOkComments?.comments.insert(oldCommentIndex, newComment);
+      print("new: ${newComment.message}");
       print("ok");
       isBack = true;
       notifyListeners();
@@ -84,6 +94,12 @@ class DataComments extends ChangeNotifier {
     //print(token);
     http.Response? response = (await deleteComment(token!, commentId));
     if(response?.statusCode == 200) {
+      listOkComments?.comments.removeWhere((element) {
+        print('my indexs ${element.commentId}');
+        return element.commentId == commentId;
+      });
+      print(commentId);
+
       print(response!.body);
       print("ok");
       isBack = true;

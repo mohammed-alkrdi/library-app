@@ -45,7 +45,7 @@ class DataBooks extends ChangeNotifier {
     if(response?.statusCode == 200) {
       for(Books book in listOkBooks!.books) {
         if(book.id == bookId) {
-          book.isMyLike = true;
+          book.isLikedByMe = true;
           notifyListeners();
           break;
         }
@@ -64,7 +64,7 @@ class DataBooks extends ChangeNotifier {
     if(response?.statusCode == 200) {
       for(Books book in listOkBooks!.books) {
         if(book.id == bookId) {
-          book.isMyLike = false;
+          book.isLikedByMe = false;
           notifyListeners();
           break;
         }

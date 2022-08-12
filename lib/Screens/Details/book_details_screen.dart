@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_library/Widgets/app_icons.dart';
@@ -5,6 +6,7 @@ import 'package:my_library/Screens/Details/expandable_text.dart';
 import 'package:my_library/Widgets/rounded_button.dart';
 import 'package:my_library/Widgets/text.dart';
 import 'package:my_library/colors.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import '../../Models/buy_model.dart';
 import '../../Providers/book_provider.dart';
@@ -19,6 +21,9 @@ class BookDetailsScreen extends StatefulWidget {
 
 class _BookDetailsScreenState extends State<BookDetailsScreen> {
   bool isFirstDependency = true;
+  var progressString = "";
+  final String ServerStorageUrl = "http://10.0.2.2:8000/storage/";
+
 
   @override
   void didChangeDependencies() {
@@ -31,38 +36,51 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
     }
     super.didChangeDependencies();
   }
+  Future<void> _bookRequest() async {
+    final args = ModalRoute.of(context)?.settings.arguments;
+    Buy buy = Buy(
+      bookId: args as int,
+    );
+    var provider = Provider.of<DataBook>(context, listen: false);
+    await provider.postData(buy);
+  }
+
+  Future<void> _bookStatus() async {
+    final args = ModalRoute.of(context)?.settings.arguments;
+    var provider = Provider.of<DataBook>(context, listen: false);
+    await provider.getRequestData(args as int);
+  }
+  Future<void> downloadFile() async {
+    Dio dio = Dio();
+
+    try {
+      var dir = await getApplicationDocumentsDirectory();
+      final postModel = Provider.of<DataBook>(context, listen: false);
+      String file = postModel.postBook?.file?.substring(19,62)  ??  "";
+      file =ServerStorageUrl+'${file}'.replaceAll("\\", "/");
+      print("wow ${file}");
+      await dio.download(
+          file,
+          "${dir.path}/myFile.pdf",
+          onReceiveProgress: (rec,total) {
+            print("Rec: $rec, Total: $total");
+
+            setState((){
+              progressString = ((rec/total)*100).toStringAsFixed(0) + "%";
+            });
+          });
+    } catch (e) {
+
+      print("errore");
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final String ServerStorageUrl = "http://10.0.2.2:8000/storage/";
+    print("ok");
+    //print(postModel.postStatus?.status);
     final postModel = Provider.of<DataBook>(context);
-    final args = ModalRoute.of(context)?.settings.arguments;
-    Future<void> _bookRequest() async {
-      Buy buy = Buy(
-        bookId: args as int,
-      );
-      var provider = Provider.of<DataBook>(context, listen: false);
-      await provider.postData(buy);
-      if (provider.isBack) {
-        print("nice");
-      }
-    }
-
-    Future<void> _bookStatus() async {
-      var provider = Provider.of<DataBook>(context, listen: false);
-      await provider.getRequestData(args as int);
-    }
-
-    /*Future<void> _downloadBook() async {
-      final taskId = await FlutterDownloader.enqueue(
-        url: ServerStorageUrl+(postModel.postBook?.downloadUrl?.replaceAll("\\", "/") ??
-            ""),
-        savedDir: 'the path of directory where you want to save downloaded files',
-        showNotification: true, // show download progress in status bar (for Android)
-        openFileFromNotification: true, // click on notification to open downloaded file (for Android)
-      );
-    }*/
-    print("od");
     if (postModel == null || postModel.postBook == null) {
       return Container();
     } else {
@@ -82,7 +100,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                       fit: BoxFit.cover,
                       image: NetworkImage(
                         ServerStorageUrl +
-                            (postModel.postBook?.imageUrl
+                            (postModel.postBook?.image
                                     ?.replaceAll("\\", "/") ??
                                 ""),
                       ),
@@ -128,7 +146,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                           width: 30,
                         ),
                         NewText(
-                          text: postModel.postBook?.author ?? "",
+                          text: postModel.postBook?.writerBook ?? "",
                           color: AppColors.a,
                           fontsize: 12,
                         )
@@ -156,7 +174,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                     Expanded(
                         child: SingleChildScrollView(
                             child: ExpandableText(
-                      text: postModel.postBook?.description ?? "",
+                      text: postModel.postBook?.bookInfo ?? "",
                     ))),
                   ],
                 ),
@@ -177,30 +195,30 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+                children: [
+                  RoundedButton(
+                    onPressed: () {
+                      _bookRequest();
+                    },
+                    text: AppLocalizations.of(context)!.buy,
+                    sizeHeight: 100,
+                    sizeWidth: 80,
+                    color: AppColors.d,
+                    textColor: Colors.white,
+                  ),
+
               RoundedButton(
+                key: ValueKey(progressString),
                 onPressed: () {
-                  _bookRequest();
+                  downloadFile();
                 },
-                text: AppLocalizations.of(context)!.buy,
-                sizeHeight: 100,
-                sizeWidth: 80,
-                color: AppColors.d,
-                textColor: Colors.white,
-              ),
-              RoundedButton(
-                onPressed: () {
-                  ServerStorageUrl +
-                      (postModel.postBook?.downloadUrl?.replaceAll("\\", "/") ??
-                          "");
-                },
-                text: AppLocalizations.of(context)!.download,
+                text: AppLocalizations.of(context)!.download + progressString,
                 sizeHeight: 100,
                 sizeWidth: 200,
                 color: AppColors.b,
                 textColor: Colors.white,
               ),
-            ],
+                ],
           ),
         ),
       );

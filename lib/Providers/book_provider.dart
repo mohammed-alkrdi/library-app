@@ -58,15 +58,15 @@ class DataBook extends ChangeNotifier {
       notifyListeners();
     }
   }
-  Future<void> getRequestData(int bookId) async {
+  Future<void> getRequestData(int buyId) async {
     loading = true;
     var token = await getToken();
 
-    http.Response? response = await request(token!, bookId);
+    http.Response? response = await request(token!, buyId);
     if(response?.statusCode == 200) {
       Map<String, dynamic> status = json.decode(response!.body) as Map<String, dynamic>;
       postStatus =  Status.fromJson(status);
-      postStatus = Status(status: 1);
+      //postStatus = Status(status: 1);
       print("in");
       isBack = true;
       loading = false;

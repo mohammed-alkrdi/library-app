@@ -77,7 +77,7 @@ class _CategoryBookState extends State<CategoryBook> {
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
                                   ServerStorageUrl +
-                                      (postModel.listOkBooks?.books[index].imageUrl
+                                      (postModel.listOkBooks?.books[index].image
                                           ?.replaceAll("\\", "/") ??
                                           ""),
                                 ),
@@ -118,7 +118,7 @@ class _CategoryBookState extends State<CategoryBook> {
                                   ),
                                   NewText(
                                     text: postModel
-                                        .listOkBooks?.books[index].author ??
+                                        .listOkBooks?.books[index].writerBook ??
                                         "",
                                     color: AppColors.h,
                                     alignment: Alignment.center,

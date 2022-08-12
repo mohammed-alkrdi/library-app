@@ -1,5 +1,4 @@
 import 'package:another_flushbar/flushbar.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_library/Models/edit_profile_model.dart';
 import 'package:my_library/Providers/edit_provider.dart';
@@ -7,6 +6,7 @@ import 'package:my_library/Screens/Home/home_screen.dart';
 import 'package:my_library/Widgets/edit_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../Providers/theme_provider.dart';
 import '../../Widgets/app_icons.dart';
 import '../../Widgets/rounded_button.dart';
 import '../../Widgets/text.dart';
@@ -26,6 +26,7 @@ class _EditAccountState extends State<EditAccount> {
 
   @override
   Widget build(BuildContext context) {
+    final postModelTheme = Provider.of<ThemeProvider>(context,);
     var emailController = TextEditingController();
     var nameController = TextEditingController();
     var phoneNumberController = TextEditingController();
@@ -69,7 +70,9 @@ class _EditAccountState extends State<EditAccount> {
           child: Text(
             AppLocalizations.of(context)!.yes_f,
             style: TextStyle(
-              color: AppColors.b,
+              color: postModelTheme.isDark
+                  ? postModelTheme.darkTheme.primaryColorDark
+                  : AppColors.b,
             ),
           ),
         ),
@@ -80,7 +83,9 @@ class _EditAccountState extends State<EditAccount> {
           child: Text(
             AppLocalizations.of(context)!.no_f,
             style: TextStyle(
-              color: AppColors.b,
+              color: postModelTheme.isDark
+                  ? postModelTheme.darkTheme.primaryColorDark
+                  : AppColors.b,
             ),
           ),
         ),
@@ -88,14 +93,22 @@ class _EditAccountState extends State<EditAccount> {
     );
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: postModelTheme.isDark
+            ? postModelTheme.darkTheme.backgroundColor
+            : postModelTheme.lightTheme.backgroundColor,
         title: NewText(
           text: AppLocalizations.of(context)!.edit_profile_b,
-          color: Colors.black,
+          color: postModelTheme.isDark
+              ? postModelTheme.darkTheme.primaryColor
+              : postModelTheme.lightTheme.primaryColor,
           fontsize: 24,
           alignment: Alignment.center,
         ),
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(
+              color: postModelTheme.isDark
+                  ? postModelTheme.darkTheme.primaryColor
+                  : postModelTheme.lightTheme.primaryColor,
+        ),
       ),
       body: Container(
         width: double.maxFinite,
@@ -111,8 +124,12 @@ class _EditAccountState extends State<EditAccount> {
                     children: [
                       AppIcons(
                         icon: Icons.person,
-                        backgroundColor: AppColors.b,
-                        iconColor: Colors.white,
+                        backgroundColor: postModelTheme.isDark
+                            ? postModelTheme.darkTheme.primaryColorDark
+                            : AppColors.b,
+                        iconColor: postModelTheme.isDark
+                            ? postModelTheme.darkTheme.primaryColor
+                            : postModelTheme.lightTheme.primaryColor,
                         size: 150,
                         iconSize: 75,
                       ),
@@ -121,10 +138,17 @@ class _EditAccountState extends State<EditAccount> {
                       ),
                       // name
                       ProfileEditWidget(
+                        color: postModelTheme.isDark
+                            ? postModelTheme.darkTheme.backgroundColor
+                            : postModelTheme.lightTheme.backgroundColor,
                         appIcons: AppIcons(
                           icon: Icons.person,
-                          backgroundColor: AppColors.b,
-                          iconColor: Colors.white,
+                          backgroundColor: postModelTheme.isDark
+                              ? postModelTheme.darkTheme.primaryColorDark
+                              : AppColors.b,
+                          iconColor: postModelTheme.isDark
+                              ? postModelTheme.darkTheme.primaryColor
+                              : postModelTheme.lightTheme.primaryColor,
                           size: 50,
                           iconSize: 25,
                         ),
@@ -142,10 +166,17 @@ class _EditAccountState extends State<EditAccount> {
                       ),
                       //age
                       ProfileEditWidget(
+                        color: postModelTheme.isDark
+                            ? postModelTheme.darkTheme.backgroundColor
+                            : postModelTheme.lightTheme.backgroundColor,
                         appIcons: AppIcons(
                           icon: Icons.person,
-                          backgroundColor: AppColors.b,
-                          iconColor: Colors.white,
+                          backgroundColor: postModelTheme.isDark
+                              ? postModelTheme.darkTheme.primaryColorDark
+                              : AppColors.b,
+                          iconColor: postModelTheme.isDark
+                              ? postModelTheme.darkTheme.primaryColor
+                              : postModelTheme.lightTheme.primaryColor,
                           size: 50,
                           iconSize: 25,
                         ),
@@ -163,10 +194,15 @@ class _EditAccountState extends State<EditAccount> {
                       ),
                       //phone number
                       ProfileEditWidget(
+                        color: postModelTheme.isDark
+                            ? postModelTheme.darkTheme.backgroundColor
+                            : postModelTheme.lightTheme.backgroundColor,
                         appIcons: AppIcons(
                           icon: Icons.phone,
                           backgroundColor: AppColors.j,
-                          iconColor: Colors.white,
+                          iconColor: postModelTheme.isDark
+                              ? postModelTheme.darkTheme.primaryColor
+                              : postModelTheme.lightTheme.primaryColor,
                           size: 50,
                           iconSize: 25,
                         ),
@@ -184,10 +220,15 @@ class _EditAccountState extends State<EditAccount> {
                       ),
                       //email
                       ProfileEditWidget(
+                        color: postModelTheme.isDark
+                            ? postModelTheme.darkTheme.backgroundColor
+                            : postModelTheme.lightTheme.backgroundColor,
                         appIcons: AppIcons(
                           icon: Icons.email,
                           backgroundColor: AppColors.j,
-                          iconColor: Colors.white,
+                          iconColor: postModelTheme.isDark
+                              ? postModelTheme.darkTheme.primaryColor
+                              : postModelTheme.lightTheme.primaryColor,
                           size: 50,
                           iconSize: 25,
                         ),
@@ -199,8 +240,8 @@ class _EditAccountState extends State<EditAccount> {
                           email = value!;
                         },
                         validator: (value) {
-                          !EmailValidator.validate(value!)
-                              ? "your email incorrect" : null;
+                          //!EmailValidator.validate(value!)
+                              //? "your email incorrect" : null;
                         },
                       ),
                       SizedBox(
@@ -224,11 +265,15 @@ class _EditAccountState extends State<EditAccount> {
                             ),
                             SizedBox(height: 20,),*/
                       RoundedButton(
-                        color: AppColors.b,
+                        color: postModelTheme.isDark
+                            ? postModelTheme.darkTheme.primaryColorDark
+                            : AppColors.b,
                         text: AppLocalizations.of(context)!.save_p_info,
                         sizeHeight: 50,
                         sizeWidth: 310,
-                        textColor: Colors.white,
+                        textColor: postModelTheme.isDark
+                            ? postModelTheme.darkTheme.primaryColor
+                            : postModelTheme.lightTheme.primaryColor,
                         onPressed: () {
                           showDialog(
                             context: context,

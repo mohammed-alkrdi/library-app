@@ -10,13 +10,16 @@ class ProfileEditWidget extends StatelessWidget {
   final TextInputType inputType;
 
   final TextInputAction inputAction;
+  final Color? color;
 
   Function(String? value) onSaved;
 
   String? Function(String? value) validator;
 
+
   ProfileEditWidget({
     Key? key,
+    required this.color,
     required this.appIcons,
     required this.text,
     required this.onSaved,
@@ -32,7 +35,7 @@ class ProfileEditWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: color,
           boxShadow: [
             BoxShadow(
               blurRadius: 1,

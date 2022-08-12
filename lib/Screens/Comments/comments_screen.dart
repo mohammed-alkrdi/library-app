@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:my_library/Models/create_comment.dart';
 import 'package:my_library/Providers/comments_provider.dart';
 import 'package:my_library/Screens/Comments/expandable_comment.dart';
-import 'package:my_library/Screens/Home/home_screen.dart';
 import 'package:my_library/Widgets/comment_text_input.dart';
 import 'package:my_library/Widgets/text.dart';
 import 'package:my_library/colors.dart';
@@ -21,6 +20,7 @@ class CommentsScreen extends StatefulWidget {
 class _CommentsScreenState extends State<CommentsScreen> {
   final formKey = GlobalKey<FormState>();
   late String comment, updateComment;
+  //late var postModel;
 
   bool isFirstDependency = true;
 
@@ -29,53 +29,39 @@ class _CommentsScreenState extends State<CommentsScreen> {
     if (isFirstDependency) {
       isFirstDependency = false;
       final args = ModalRoute.of(context)?.settings.arguments;
-      print(ModalRoute.of(context)!.settings.arguments);
-      final postModel = Provider.of<DataComments>(context, listen: false);
+      final postModel = Provider.of<DataComments>(context, listen: false );
       postModel.getData(args as int);
     }
     super.didChangeDependencies();
   }
+  Future<void> _createComment(TextEditingController  commentController,int args) async {
+    String comment = commentController.text.trim();
+    CommentRequest commentRequest = CommentRequest(
+      message: comment,
+      token: 'token',
+    );
+    var provider = Provider.of<DataComments>(context, listen: false);
+    await provider.postData(commentRequest, args);
+  }
+  Future<void> _updateCommentFunction(TextEditingController updateCommentController, int commentIndex) async {
+    String updateComment = updateCommentController.text.trim();
+    UpdateComment updateCommentF =
+    UpdateComment(message: updateComment, token: 'token');
+    var provider = Provider.of<DataComments>(context, listen: false);
+    await provider.putData(updateCommentF, commentIndex);
+  }
+  Future<void> _deleteCommentFunction(int commentDeleteIndex) async {
+    var provider = Provider.of<DataComments>(context, listen: false);
+    await provider.deleteData(commentDeleteIndex);
+  }
 
   @override
   Widget build(BuildContext context) {
-    print("ok");
     final postModel = Provider.of<DataComments>(context);
     final args = ModalRoute.of(context)?.settings.arguments;
     var commentController = TextEditingController();
-    Future<void> _createComment() async {
-      String comment = commentController.text.trim();
-      CommentRequest commentRequest = CommentRequest(
-        message: comment,
-        token: 'token',
-      );
-      var provider = Provider.of<DataComments>(context, listen: false);
-      await provider.postData(commentRequest, args as int);
-     /* if (provider.isBack) {
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => HomeScreen()),
-            (route) => false);
-      }*/
-    }
-
     var updateCommentController = TextEditingController();
-
-    Future<void> _updateCommentFunction(int commentIndex) async {
-      String updateComment = updateCommentController.text.trim();
-      UpdateComment updateCommentF =
-          UpdateComment(message: updateComment, token: 'token');
-      var provider = Provider.of<DataComments>(context, listen: false);
-      await provider.putData(updateCommentF, commentIndex);
-      if (provider.isBack) {
-        Navigator.pop(context);
-      }
-    }
-    Future<void> _deleteCommentFunction(int commentDeleteIndex) async {
-      var provider = Provider.of<DataComments>(context, listen: false);
-      await provider.deleteData(commentDeleteIndex);
-      if (provider.isBack) {
-        Navigator.pop(context);
-      }
-    }
+    print("ok");
 
     return Scaffold(
       appBar: AppBar(
@@ -94,6 +80,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
         body: Padding(
           padding: const EdgeInsets.only(top: 10),
           child: ListView.builder(
+              key: ValueKey(DateTime.now().millisecondsSinceEpoch),
               itemCount: postModel.listOkComments?.comments.length ?? 0,
               itemBuilder: (context, index) {
                 return SingleChildScrollView(
@@ -144,6 +131,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 20),
                                   child: ExpandableComment(
+                                    key: ValueKey(DateTime.now().millisecondsSinceEpoch),
                                     text: postModel.listOkComments?.comments[index]
                                             .message ??
                                         "",
@@ -201,7 +189,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                                               color: AppColors.b),
                                                         ),
                                                         onPressed: () {
-                                                          _updateCommentFunction(
+                                                          _updateCommentFunction(updateCommentController,
                                                               postModel
                                                                   .listOkComments
                                                                   ?.comments[
@@ -239,8 +227,9 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                                   AppLocalizations.of(context)!.are_you_sure_delete),
                                               actions: <Widget>[
                                                 TextButton(
-                                                  onPressed: () {
-                                                    _deleteCommentFunction(postModel.listOkComments?.comments[index].commentId as int);
+                                                  onPressed: () async{
+                                                    await _deleteCommentFunction(postModel.listOkComments?.comments[index].commentId as int);
+                                                    Navigator.pop(context);
                                                   },
                                                   child: Text(
                                                     AppLocalizations.of(context)!.yes_f,
@@ -312,7 +301,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                       color: Colors.black,
                     ),
                     onPressed: () {
-                      _createComment();
+                      _createComment(commentController,args as int);
                     },
                   ),
                 ],

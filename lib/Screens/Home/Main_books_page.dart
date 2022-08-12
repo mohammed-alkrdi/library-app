@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_library/Widgets/text.dart';
 import 'package:my_library/colors.dart';
+import 'package:provider/provider.dart';
+import '../../Providers/theme_provider.dart';
 import 'books_body.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -20,6 +22,7 @@ class _MainBooksPageState extends State<MainBooksPage> {
 
   @override
   Widget build(BuildContext context) {
+    final postModelTheme = Provider.of<ThemeProvider>(context,);
     return Scaffold(
       body: Column(
         children: [
@@ -32,7 +35,9 @@ class _MainBooksPageState extends State<MainBooksPage> {
                 children: [
                   NewText(
                     text: AppLocalizations.of(context)!.search,
-                    color: AppColors.b,
+                    color: postModelTheme.isDark
+                        ? postModelTheme.darkTheme.primaryColorDark
+                        : AppColors.b,
                     fontsize: 20,
                     alignment: Alignment.center,
                   ),
@@ -41,7 +46,9 @@ class _MainBooksPageState extends State<MainBooksPage> {
                     height: 45,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
-                      color: AppColors.b,
+                      color: postModelTheme.isDark
+                          ? postModelTheme.darkTheme.primaryColorDark
+                          : AppColors.b,
                     ),
                     child: IconButton(
                       icon: Icon(Icons.search),

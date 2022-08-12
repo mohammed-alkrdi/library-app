@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_library/Providers/theme_provider.dart';
 import 'package:my_library/Widgets/book_icons.dart';
 import 'package:my_library/Widgets/text.dart';
 import 'package:my_library/colors.dart';
@@ -30,11 +31,6 @@ class _BooksBodyState extends State<BooksBody> {
       isFirstDependency = false;
       final postModel = Provider.of<DataBooks>(context, listen: false);
       postModel.getData();
-      //final postModelLike = Provider.of<DataLike>(context, listen: false );
-      //final postModelDisLike = Provider.of<DataDisLike>(context, listen: false );
-
-      //final args = ModalRoute.of(context)?.settings.arguments;
-      //postModelLike.getData(args as int);
       pageController.addListener(() {
         setState(() {
           _currPageValue = pageController.page!;
@@ -54,7 +50,7 @@ class _BooksBodyState extends State<BooksBody> {
   Widget build(BuildContext context) {
     final String ServerStorageUrl = "http://10.0.2.2:8000/storage/";
     final postModel = Provider.of<DataBooks>(context);
-
+    final postModelTheme = Provider.of<ThemeProvider>(context,);
     return Column(
       children: [
         //slider section
@@ -72,7 +68,9 @@ class _BooksBodyState extends State<BooksBody> {
           dotsCount: postModel.listOkBooks?.books.length ?? 1,
           position: _currPageValue,
           decorator: DotsDecorator(
-            activeColor: AppColors.b,
+            activeColor: postModelTheme.isDark
+                  ? postModelTheme.darkTheme.primaryColorDark
+                  : AppColors.b,
             size: const Size.square(9.0),
             activeSize: const Size(18.0, 9.0),
             activeShape: RoundedRectangleBorder(
@@ -90,7 +88,10 @@ class _BooksBodyState extends State<BooksBody> {
             children: [
               NewText(
                   text: AppLocalizations.of(context)!.popular_books,
-                  color: AppColors.i),
+                  color: postModelTheme.isDark
+                      ? postModelTheme.darkTheme.primaryColor
+                      : AppColors.i
+              ),
               const SizedBox(
                 width: 30,
               ),
@@ -124,7 +125,7 @@ class _BooksBodyState extends State<BooksBody> {
                             fit: BoxFit.cover,
                             image: NetworkImage(
                               ServerStorageUrl +
-                                  (postModel.listOkBooks?.books[index].imageUrl
+                                  (postModel.listOkBooks?.books[index].image
                                           ?.replaceAll("\\", "/") ??
                                       ""),
                             ),
@@ -144,7 +145,9 @@ class _BooksBodyState extends State<BooksBody> {
                             topRight: Radius.circular(20),
                             bottomRight: Radius.circular(20),
                           ),
-                          color: Colors.white,
+                          color: postModelTheme.isDark
+                              ? postModelTheme.darkTheme.backgroundColor
+                              : postModelTheme.lightTheme.backgroundColor,
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(
@@ -158,7 +161,9 @@ class _BooksBodyState extends State<BooksBody> {
                                 text:
                                     postModel.listOkBooks?.books[index].name ??
                                         "",
-                                color: AppColors.h,
+                                color: postModelTheme.isDark
+                                    ? postModelTheme.darkTheme.primaryColor
+                                    : AppColors.h,
                                 alignment: Alignment.center,
                               ),
                               const SizedBox(
@@ -166,9 +171,11 @@ class _BooksBodyState extends State<BooksBody> {
                               ),
                               NewText(
                                 text: postModel
-                                        .listOkBooks?.books[index].author ??
+                                        .listOkBooks?.books[index].writerBook ??
                                     "",
-                                color: AppColors.h,
+                                color: postModelTheme.isDark
+                                    ? postModelTheme.darkTheme.primaryColor
+                                    : AppColors.h,
                                 alignment: Alignment.center,
                               ),
                               const SizedBox(
@@ -177,7 +184,9 @@ class _BooksBodyState extends State<BooksBody> {
                               NewText(
                                 text:
                                     '${postModel.listOkBooks?.books[index].price} \$',
-                                color: AppColors.h,
+                                color: postModelTheme.isDark
+                                    ? postModelTheme.darkTheme.primaryColor
+                                    : AppColors.h,
                               ),
                             ],
                           ),
@@ -211,6 +220,7 @@ class _BooksBodyState extends State<BooksBody> {
 
     final String ServerStorageUrl = "http://10.0.2.2:8000/storage/";
     final postModel = Provider.of<DataBooks>(context);
+    final postModelTheme = Provider.of<ThemeProvider>(context,);
     Matrix4 matrix = new Matrix4.identity();
     if (index == _currPageValue.floor()) {
       var currScale = 1 - (_currPageValue - index) * (1 - _scaleFactor);
@@ -247,7 +257,7 @@ class _BooksBodyState extends State<BooksBody> {
                   fit: BoxFit.cover,
                   image: NetworkImage(
                     ServerStorageUrl +
-                        (postModel.listOkBooks?.books[index].imageUrl
+                        (postModel.listOkBooks?.books[index].image
                                 ?.replaceAll("\\", "/") ??
                             ""),
                   ),
@@ -264,18 +274,26 @@ class _BooksBodyState extends State<BooksBody> {
               margin: const EdgeInsets.only(left: 20, right: 20, bottom: 30),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
-                boxShadow: const [
+                color: postModelTheme.isDark
+                         ? postModelTheme.darkTheme.backgroundColor
+                         : postModelTheme.lightTheme.backgroundColor,
+                boxShadow:  [
                   BoxShadow(
-                      color: Color(0xFFe8e8e8),
+                      color: postModelTheme.isDark
+                          ? postModelTheme.darkTheme.backgroundColor
+                          : Color(0xFFe8e8e8),
                       blurRadius: 8.0,
                       offset: Offset(0, 5)),
                   BoxShadow(
-                    color: Colors.white,
+                    color: postModelTheme.isDark
+                        ? postModelTheme.darkTheme.backgroundColor
+                        : postModelTheme.lightTheme.backgroundColor,
                     offset: Offset(-5, 0),
                   ),
                   BoxShadow(
-                    color: Colors.white,
+                    color: postModelTheme.isDark
+                        ? postModelTheme.darkTheme.backgroundColor
+                        : postModelTheme.lightTheme.backgroundColor,
                     offset: Offset(5, 0),
                   ),
                 ],
@@ -287,15 +305,19 @@ class _BooksBodyState extends State<BooksBody> {
                   children: [
                     NewText(
                       text: postModel.listOkBooks?.books[index].name ?? "",
-                      color: AppColors.h,
+                      color:postModelTheme.isDark
+                              ? AppColors.f
+                              : AppColors.h,
                       alignment: Alignment.center,
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     NewText(
-                      text: postModel.listOkBooks?.books[index].author ?? "",
-                      color: AppColors.h,
+                      text: postModel.listOkBooks?.books[index].writerBook ?? "",
+                      color: postModelTheme.isDark
+                          ? AppColors.f
+                          : AppColors.h,
                       alignment: Alignment.center,
                     ),
                     SizedBox(
@@ -304,7 +326,7 @@ class _BooksBodyState extends State<BooksBody> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        if (postModel.listOkBooks!.books[index].isMyLike!)
+                        if (postModel.listOkBooks!.books[index].isLikedByMe!)
                           BookIcons(
                             icon: CupertinoIcons.hand_thumbsup_fill,
                             text:

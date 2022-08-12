@@ -12,6 +12,8 @@ import 'package:my_library/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../Providers/theme_provider.dart';
+
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -28,6 +30,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final postModelTheme = Provider.of<ThemeProvider>(context,);
     print("object");
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
@@ -194,7 +197,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             text: AppLocalizations.of(context)!.sign_up,
                             sizeHeight: 50,
                             sizeWidth: 310,
-                            color: AppColors.b,
+                            color: postModelTheme.isDark
+                                ? postModelTheme.darkTheme.primaryColorDark
+                                : AppColors.b,
                             textColor: Colors.white,
                           ),
                           SizedBox(height: 30,),
@@ -214,7 +219,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   text: AppLocalizations.of(context)!.log_in,
                                   fontsize: 16,
                                   alignment: Alignment.center,
-                                  color: AppColors.b,
+                                  color: postModelTheme.isDark
+                                      ? postModelTheme.darkTheme.primaryColorDark
+                                      : AppColors.b,
                                 ),
                               ),
                             ],
