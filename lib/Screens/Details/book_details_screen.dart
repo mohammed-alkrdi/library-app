@@ -45,11 +45,6 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
     await provider.postData(buy);
   }
 
-  Future<void> _bookStatus() async {
-    final args = ModalRoute.of(context)?.settings.arguments;
-    var provider = Provider.of<DataBook>(context, listen: false);
-    await provider.getRequestData(args as int);
-  }
   Future<void> downloadFile() async {
     Dio dio = Dio();
 
