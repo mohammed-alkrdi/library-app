@@ -4,11 +4,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:my_library/Screens/Home/home_screen.dart';
+import 'package:my_library/Screens/register_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Providers/theme_provider.dart';
-import 'login_screen.dart';
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -21,13 +22,13 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
 
   Future check() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool key = (prefs.getBool('isLoggedIn') as bool);
-    key == false ?
+     prefs.getBool('isLoggedIn') ?? false ?
+
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) =>  LoginScreen()))
+          MaterialPageRoute(builder: (context) =>  HomeScreen()))
 
     :  Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) =>  HomeScreen()));
+          MaterialPageRoute(builder: (context) =>  RegisterScreen()));
   }
   late Animation <double> animation;
   late AnimationController controller;
@@ -45,8 +46,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     );
     Timer(
         const Duration(seconds: 3),
-        () => Navigator.pushNamed(context, 'CreateNewAccount')
-            //check,
+      () => Navigator.pushNamed(context, 'CreateNewAccount'),
     );
   }
 

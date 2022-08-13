@@ -9,6 +9,7 @@ import 'package:my_library/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../Models/update_comment_model.dart';
+import '../../Providers/theme_provider.dart';
 
 class CommentsScreen extends StatefulWidget {
   const CommentsScreen({Key? key}) : super(key: key);
@@ -20,6 +21,7 @@ class CommentsScreen extends StatefulWidget {
 class _CommentsScreenState extends State<CommentsScreen> {
   final formKey = GlobalKey<FormState>();
   late String comment, updateComment;
+
   //late var postModel;
 
   bool isFirstDependency = true;
@@ -29,12 +31,14 @@ class _CommentsScreenState extends State<CommentsScreen> {
     if (isFirstDependency) {
       isFirstDependency = false;
       final args = ModalRoute.of(context)?.settings.arguments;
-      final postModel = Provider.of<DataComments>(context, listen: false );
+      final postModel = Provider.of<DataComments>(context, listen: false);
       postModel.getData(args as int);
     }
     super.didChangeDependencies();
   }
-  Future<void> _createComment(TextEditingController  commentController,int args) async {
+
+  Future<void> _createComment(
+      TextEditingController commentController, int args) async {
     String comment = commentController.text.trim();
     CommentRequest commentRequest = CommentRequest(
       message: comment,
@@ -43,13 +47,16 @@ class _CommentsScreenState extends State<CommentsScreen> {
     var provider = Provider.of<DataComments>(context, listen: false);
     await provider.postData(commentRequest, args);
   }
-  Future<void> _updateCommentFunction(TextEditingController updateCommentController, int commentIndex) async {
+
+  Future<void> _updateCommentFunction(
+      TextEditingController updateCommentController, int commentIndex) async {
     String updateComment = updateCommentController.text.trim();
     UpdateComment updateCommentF =
-    UpdateComment(message: updateComment, token: 'token');
+        UpdateComment(message: updateComment, token: 'token');
     var provider = Provider.of<DataComments>(context, listen: false);
     await provider.putData(updateCommentF, commentIndex);
   }
+
   Future<void> _deleteCommentFunction(int commentDeleteIndex) async {
     var provider = Provider.of<DataComments>(context, listen: false);
     await provider.deleteData(commentDeleteIndex);
@@ -57,6 +64,9 @@ class _CommentsScreenState extends State<CommentsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final postModelTheme = Provider.of<ThemeProvider>(
+      context,
+    );
     final postModel = Provider.of<DataComments>(context);
     final args = ModalRoute.of(context)?.settings.arguments;
     var commentController = TextEditingController();
@@ -64,19 +74,31 @@ class _CommentsScreenState extends State<CommentsScreen> {
     print("ok");
 
     return Scaffold(
+      backgroundColor: postModelTheme.isDark
+          ? postModelTheme.darkTheme.backgroundColor
+          : Color(0xFFe8e8e8),
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: Colors.black,
+          color: postModelTheme.isDark
+              ? postModelTheme.darkTheme.primaryColor
+              : postModelTheme.lightTheme.primaryColor,
         ),
-        backgroundColor: AppColors.f,
+        backgroundColor: postModelTheme.isDark
+            ? postModelTheme.darkTheme.backgroundColor
+            : Color(0xFFe8e8e8),
         title: NewText(
           text: AppLocalizations.of(context)!.comment,
           fontsize: 24,
-          color: Colors.black,
+          color: postModelTheme.isDark
+              ? postModelTheme.darkTheme.primaryColor
+              : postModelTheme.lightTheme.primaryColor,
           alignment: Alignment.center,
         ),
       ),
-      body:Scaffold(
+      body: Scaffold(
+        backgroundColor: postModelTheme.isDark
+            ? postModelTheme.darkTheme.backgroundColor
+            : Color(0xFFe8e8e8),
         body: Padding(
           padding: const EdgeInsets.only(top: 10),
           child: ListView.builder(
@@ -89,22 +111,30 @@ class _CommentsScreenState extends State<CommentsScreen> {
                         left: 20, right: 20, bottom: 10, top: 10),
                     height: 130,
                     decoration: BoxDecoration(
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
-                            color: Color(0xFFe8e8e8),
+                            color: postModelTheme.isDark
+                                ? postModelTheme.darkTheme.backgroundColor
+                                : Color(0xFFe8e8e8),
                             blurRadius: 8.0,
                             offset: Offset(0, 5)),
                         BoxShadow(
-                          color: Colors.white,
+                          color: postModelTheme.isDark
+                              ? postModelTheme.darkTheme.backgroundColor
+                              : postModelTheme.lightTheme.backgroundColor,
                           offset: Offset(-5, 0),
                         ),
                         BoxShadow(
-                          color: Colors.white,
+                          color: postModelTheme.isDark
+                              ? postModelTheme.darkTheme.backgroundColor
+                              : postModelTheme.lightTheme.backgroundColor,
                           offset: Offset(5, 0),
                         ),
                       ],
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
+                      color: postModelTheme.isDark
+                          ? postModelTheme.lightTheme.primaryColor
+                          : postModelTheme.lightTheme.backgroundColor,
                     ),
                     child: Padding(
                       padding: EdgeInsets.only(left: 15, top: 10),
@@ -119,7 +149,9 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                         .customer?.name ??
                                     "",
                                 fontsize: 20,
-                                color: Colors.black,
+                                color: postModelTheme.isDark
+                                    ? postModelTheme.darkTheme.primaryColor
+                                    : postModelTheme.lightTheme.primaryColor,
                               ),
                             ],
                           ),
@@ -127,17 +159,18 @@ class _CommentsScreenState extends State<CommentsScreen> {
                             height: 10,
                           ),
                           Expanded(
-                              child: SingleChildScrollView(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 20),
-                                  child: ExpandableComment(
-                                    key: ValueKey(DateTime.now().millisecondsSinceEpoch),
-                                    text: postModel.listOkComments?.comments[index]
-                                            .message ??
-                                        "",
-                                  ),
+                            child: SingleChildScrollView(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 20),
+                                child: ExpandableComment(
+                                  key: ValueKey(
+                                      DateTime.now().millisecondsSinceEpoch),
+                                  text: postModel.listOkComments
+                                          ?.comments[index].message ??
+                                      "",
                                 ),
                               ),
+                            ),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -152,19 +185,33 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                           builder: (context) {
                                             return Form(
                                               child: AlertDialog(
+                                                backgroundColor: postModelTheme.isDark
+                                                    ? postModelTheme.darkTheme.backgroundColor
+                                                    : postModelTheme.lightTheme.backgroundColor,
                                                 title: NewText(
-                                                  text: AppLocalizations.of(context)!.add_comment,
-                                                  color: Colors.black,
+                                                  text: AppLocalizations.of(
+                                                          context)!
+                                                      .add_comment,
+                                                  color: postModelTheme.isDark
+                                                      ? postModelTheme.darkTheme.primaryColor
+                                                      : postModelTheme.lightTheme.primaryColor,
                                                 ),
                                                 content: TextFormField(
                                                   onSaved: (value) {
-                                                     updateComment = value!;
+                                                    updateComment = value!;
                                                   },
                                                   controller:
                                                       updateCommentController,
                                                   decoration: InputDecoration(
-                                                      hintText:
-                                                      AppLocalizations.of(context)!.new_comment,
+                                                    hintText:
+                                                        AppLocalizations.of(
+                                                                context)!
+                                                            .new_comment,
+                                                    suffixStyle: TextStyle(
+                                                      color: postModelTheme.isDark
+                                                          ? postModelTheme.darkTheme.primaryColor
+                                                          : postModelTheme.lightTheme.primaryColor,
+                                                    ),
                                                   ),
                                                 ),
                                                 actions: <Widget>[
@@ -174,28 +221,43 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                                     children: [
                                                       TextButton(
                                                         child: Text(
-                                                          AppLocalizations.of(context)!.cancel,
+                                                          AppLocalizations.of(
+                                                                  context)!
+                                                              .cancel,
                                                           style: TextStyle(
-                                                              color: AppColors.b),
+                                                              color: postModelTheme.isDark
+                                                                  ? postModelTheme.darkTheme.primaryColorDark
+                                                                  : AppColors.b,
+
+                                                          ),
                                                         ),
                                                         onPressed: () {
-                                                          Navigator.pop(context);
+                                                          Navigator.pop(
+                                                              context);
                                                         },
                                                       ),
                                                       TextButton(
                                                         child: Text(
-                                                          AppLocalizations.of(context)!.ok,
+                                                          AppLocalizations.of(
+                                                                  context)!
+                                                              .ok,
                                                           style: TextStyle(
-                                                              color: AppColors.b),
+                                                              color:
+                                                              postModelTheme.isDark
+                                                                  ? postModelTheme.darkTheme.primaryColorDark
+                                                                  : AppColors.b,
+                                                          ),
                                                         ),
                                                         onPressed: () {
-                                                          _updateCommentFunction(updateCommentController,
+                                                          _updateCommentFunction(
+                                                              updateCommentController,
                                                               postModel
                                                                   .listOkComments
                                                                   ?.comments[
                                                                       index]
                                                                   .commentId as int);
-                                                          Navigator.pop(context);
+                                                          Navigator.pop(
+                                                              context);
                                                         },
                                                       ),
                                                     ],
@@ -208,7 +270,9 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                       },
                                       icon: Icon(
                                         Icons.edit,
-                                        color: AppColors.b,
+                                        color: postModelTheme.isDark
+                                            ? postModelTheme.darkTheme.primaryColorDark
+                                            : AppColors.b,
                                         size: 30,
                                       ),
                                     )
@@ -222,19 +286,42 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                           context: context,
                                           builder: (context) {
                                             return AlertDialog(
-                                              title: Text(AppLocalizations.of(context)!.delete_comment),
+                                              title: Text(
+                                                  AppLocalizations.of(context)!
+                                                      .delete_comment,
+                                                style: TextStyle(
+                                                    color: postModelTheme.isDark
+                                                        ? postModelTheme.darkTheme.primaryColor
+                                                        : postModelTheme.lightTheme.primaryColor,
+                                                ),
+                                              ),
                                               content: Text(
-                                                  AppLocalizations.of(context)!.are_you_sure_delete),
+                                                  AppLocalizations.of(context)!
+                                                      .are_you_sure_delete,
+                                                style: TextStyle(
+                                                    color: postModelTheme.isDark
+                                                        ? postModelTheme.darkTheme.primaryColor
+                                                        : postModelTheme.lightTheme.primaryColor,
+                                                ),
+                                              ),
                                               actions: <Widget>[
                                                 TextButton(
-                                                  onPressed: () async{
-                                                    await _deleteCommentFunction(postModel.listOkComments?.comments[index].commentId as int);
+                                                  onPressed: () async {
+                                                    await _deleteCommentFunction(
+                                                        postModel
+                                                            .listOkComments
+                                                            ?.comments[index]
+                                                            .commentId as int);
                                                     Navigator.pop(context);
                                                   },
                                                   child: Text(
-                                                    AppLocalizations.of(context)!.yes_f,
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .yes_f,
                                                     style: TextStyle(
-                                                      color: AppColors.b,
+                                                      color: postModelTheme.isDark
+                                                          ? postModelTheme.darkTheme.primaryColorDark
+                                                          : AppColors.b,
                                                     ),
                                                   ),
                                                 ),
@@ -243,9 +330,13 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                                     Navigator.of(context).pop();
                                                   },
                                                   child: Text(
-                                                    AppLocalizations.of(context)!.no_f,
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .no_f,
                                                     style: TextStyle(
-                                                      color: AppColors.b,
+                                                      color: postModelTheme.isDark
+                                                          ? postModelTheme.darkTheme.primaryColorDark
+                                                          : AppColors.b,
                                                     ),
                                                   ),
                                                 ),
@@ -274,12 +365,19 @@ class _CommentsScreenState extends State<CommentsScreen> {
           height: 140,
           padding: EdgeInsets.only(top: 10, bottom: 5, left: 20, right: 20),
           decoration: BoxDecoration(
-            color: AppColors.f,
+            color: postModelTheme.isDark
+                ? postModelTheme.darkTheme.backgroundColor
+                : AppColors.f,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              NewText(text: AppLocalizations.of(context)!.add_comment, color: Colors.black),
+              NewText(
+                  text: AppLocalizations.of(context)!.add_comment,
+                  color: postModelTheme.isDark
+                      ? postModelTheme.darkTheme.primaryColor
+                      : postModelTheme.lightTheme.primaryColor,
+              ),
               //SizedBox(height: 5,),
               Form(
                 child: CommentTextInput(
@@ -298,10 +396,12 @@ class _CommentsScreenState extends State<CommentsScreen> {
                   IconButton(
                     icon: Icon(
                       Icons.send,
-                      color: Colors.black,
+                      color: postModelTheme.isDark
+                          ? postModelTheme.darkTheme.primaryColor
+                          : postModelTheme.lightTheme.primaryColor,
                     ),
                     onPressed: () {
-                      _createComment(commentController,args as int);
+                      _createComment(commentController, args as int);
                     },
                   ),
                 ],

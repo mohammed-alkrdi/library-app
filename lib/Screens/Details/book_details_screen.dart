@@ -92,7 +92,9 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
       return Container();
     } else {
       return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: postModelTheme.isDark
+        ? postModelTheme.darkTheme.backgroundColor
+        : postModelTheme.lightTheme.backgroundColor,
         body: Stack(
           children: [
             //background image
@@ -144,7 +146,9 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                 padding: EdgeInsets.only(left: 20, right: 20, top: 20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(40),
-                  color: Colors.white,
+                  color: postModelTheme.isDark
+                    ? postModelTheme.darkTheme.backgroundColor
+                    : postModelTheme.lightTheme.backgroundColor,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,7 +158,9 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                       children: [
                         NewText(
                           text: postModel.postBook?.name ?? "",
-                          color: AppColors.i,
+                          color: postModelTheme.isDark
+                              ? postModelTheme.darkTheme.primaryColor
+                          : AppColors.i,
                           fontsize: 24,
                         ),
                         SizedBox(
@@ -172,7 +178,9 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                     ),
                     NewText(
                       text: '${postModel.postBook?.price} \$',
-                      color: AppColors.i,
+                      color: postModelTheme.isDark
+                          ? postModelTheme.darkTheme.primaryColor
+                          : AppColors.i,
                       alignment: Alignment.center,
                     ),
                     SizedBox(
@@ -180,7 +188,9 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                     ),
                     NewText(
                       text: AppLocalizations.of(context)!.descriptions,
-                      color: AppColors.i,
+                      color: postModelTheme.isDark
+                          ? postModelTheme.darkTheme.primaryColor
+                          : AppColors.i,
                       fontsize: 24,
                     ),
                     SizedBox(
@@ -206,11 +216,13 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
               topLeft: Radius.circular(40),
               topRight: Radius.circular(40),
             ),
-            color: AppColors.f,
+            color: postModelTheme.isDark
+                ? postModelTheme.lightTheme.primaryColor
+                : AppColors.f,
           ),
           child: postModel.postBook?.isRequestedByMe == null
               ? Spacer()
-              : postModel.postBook?.isRequestedByMe == "true"
+              : postModel.postBook?.isRequestedByMe == "true" || postModel.postBook?.price == 0
                   ? RoundedButton(
                       key: ValueKey(progressString),
                       onPressed: () {
@@ -220,7 +232,9 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                           progressString,
                       sizeHeight: 100,
                       sizeWidth: 200,
-                      color: AppColors.b,
+                      color: postModelTheme.isDark
+                          ? postModelTheme.darkTheme.primaryColorDark
+                          : AppColors.b,
                       textColor: Colors.white,
                     )
                   : postModel.postBook?.isRequestedByMe == "no request"
@@ -268,7 +282,9 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                           text: AppLocalizations.of(context)!.buy,
                           sizeHeight: 100,
                           sizeWidth: 80,
-                          color: AppColors.d,
+                          color: postModelTheme.isDark
+                              ? postModelTheme.lightTheme.primaryColorLight
+                              : AppColors.d,
                           textColor: Colors.white,
                         )
                       : postModel.postBook?.isRequestedByMe == "false"
@@ -276,7 +292,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                               child: NewText(
                               text: "Your request is being processed",
                               color: postModelTheme.isDark
-                                  ? postModelTheme.lightTheme.primaryColor
+                                  ? postModelTheme.darkTheme.primaryColorDark
                                   : AppColors.b,
                               fontsize: 20,
                               alignment: Alignment.center,
@@ -285,7 +301,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                               child: NewText(
                                 text: "Your request is unknown",
                                 color: postModelTheme.isDark
-                                    ? postModelTheme.lightTheme.primaryColor
+                                    ? postModelTheme.darkTheme.primaryColorDark
                                     : AppColors.b,
                                 fontsize: 20,
                                 alignment: Alignment.center,

@@ -6,6 +6,7 @@ import 'package:my_library/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../Providers/category_provider.dart';
+import '../../Providers/theme_provider.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -33,9 +34,14 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     final String ServerStorageUrl = "http://10.0.2.2:8000/storage/";
     final postModel = Provider.of<DataCategory>(context);
+    final postModelTheme = Provider.of<ThemeProvider>(
+      context,
+    );
     final searchPostModel = Provider.of<DataSearch>(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: postModelTheme.isDark
+          ? postModelTheme.darkTheme.backgroundColor
+          : AppColors.f,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -46,13 +52,17 @@ class _SearchScreenState extends State<SearchScreen> {
                   margin: EdgeInsets.only(top: 30, bottom: 15),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    boxShadow: const [
+                    boxShadow: [
                       BoxShadow(
-                          color: Color(0xFFe8e8e8),
+                          color: postModelTheme.isDark
+                              ? postModelTheme.darkTheme.backgroundColor
+                              : Color(0xFFe8e8e8),
                           blurRadius: 10,
                           offset: Offset(0, 5)),
                     ],
-                    color: Colors.white,
+                    color: postModelTheme.isDark
+                        ? postModelTheme.lightTheme.primaryColor
+                        : postModelTheme.darkTheme.primaryColor,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -63,7 +73,9 @@ class _SearchScreenState extends State<SearchScreen> {
                             AppLocalizations.of(context)!.localeName == "en"
                                 ? CupertinoIcons.arrow_left
                                 : CupertinoIcons.arrow_right,
-                            color: AppColors.i),
+                            color: postModelTheme.isDark
+                                ? postModelTheme.darkTheme.primaryColor
+                                : AppColors.i),
                         onPressed: () {
                           Navigator.pushNamed(context, 'HomeScreen');
                         },
@@ -74,7 +86,9 @@ class _SearchScreenState extends State<SearchScreen> {
                             border: InputBorder.none,
                             hintText: AppLocalizations.of(context)!.search_hint,
                             hintStyle: TextStyle(
-                              color: AppColors.a,
+                              color: postModelTheme.isDark
+                                  ? postModelTheme.darkTheme.primaryColor
+                                  : AppColors.a,
                             ),
                           ),
                           onChanged: (value) {
@@ -85,7 +99,12 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                       ),
                       IconButton(
-                        icon: Icon(CupertinoIcons.search, color: AppColors.a),
+                        icon: Icon(
+                          CupertinoIcons.search,
+                          color: postModelTheme.isDark
+                              ? postModelTheme.darkTheme.primaryColor
+                              : AppColors.a,
+                        ),
                         onPressed: () {},
                       ),
                     ],
@@ -100,7 +119,9 @@ class _SearchScreenState extends State<SearchScreen> {
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: NewText(
                 text: AppLocalizations.of(context)!.category_search_screen,
-                color: AppColors.i,
+                color: postModelTheme.isDark
+                    ? postModelTheme.darkTheme.primaryColor
+                    : AppColors.i,
                 alignment: AppLocalizations.of(context)!.localeName == "en"
                     ? Alignment.centerLeft
                     : Alignment.centerRight,
@@ -127,9 +148,11 @@ class _SearchScreenState extends State<SearchScreen> {
                                   "",
                             ),
                             labelStyle: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                              color: postModelTheme.isDark
+                                  ? postModelTheme.darkTheme.primaryColor
+                                  : Colors.black54,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
                             ),
                             backgroundColor: Colors.grey[350]?.withOpacity(0.4),
                             onSelected: (isSelected) {
@@ -153,9 +176,13 @@ class _SearchScreenState extends State<SearchScreen> {
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: NewText(
-                  text: AppLocalizations.of(context)!.search_result,
-                  color: AppColors.i,
-                alignment: AppLocalizations.of(context)!.localeName == "en" ? Alignment.centerLeft : Alignment.centerRight,
+                text: AppLocalizations.of(context)!.search_result,
+                color: postModelTheme.isDark
+                    ? postModelTheme.darkTheme.primaryColor
+                    : AppColors.i,
+                alignment: AppLocalizations.of(context)!.localeName == "en"
+                    ? Alignment.centerLeft
+                    : Alignment.centerRight,
               ),
             ),
             SizedBox(
@@ -183,8 +210,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
                                   ServerStorageUrl +
-                                      (searchPostModel.listOkBooks?.books[index]
-                                              .image
+                                      (searchPostModel
+                                              .listOkBooks?.books[index].image
                                               ?.replaceAll("\\", "/") ??
                                           ""),
                                 ),
@@ -205,7 +232,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                 topRight: Radius.circular(20),
                                 bottomRight: Radius.circular(20),
                               ),
-                              color: Colors.white,
+                              color: postModelTheme.isDark
+                                  ? postModelTheme.lightTheme.primaryColor
+                                  : postModelTheme.lightTheme.backgroundColor,
                             ),
                             child: Padding(
                               padding: const EdgeInsets.only(
@@ -219,17 +248,21 @@ class _SearchScreenState extends State<SearchScreen> {
                                     text: searchPostModel
                                             .listOkBooks?.books[index].name ??
                                         "",
-                                    color: AppColors.h,
+                                    color: postModelTheme.isDark
+                                        ? postModelTheme.darkTheme.primaryColor
+                                        : AppColors.h,
                                     alignment: Alignment.center,
                                   ),
                                   const SizedBox(
                                     height: 10,
                                   ),
                                   NewText(
-                                    text: searchPostModel
-                                            .listOkBooks?.books[index].writerBook ??
+                                    text: searchPostModel.listOkBooks
+                                            ?.books[index].writerBook ??
                                         "",
-                                    color: AppColors.h,
+                                    color: postModelTheme.isDark
+                                        ? postModelTheme.darkTheme.primaryColor
+                                        : AppColors.h,
                                     alignment: Alignment.center,
                                   ),
                                   const SizedBox(
@@ -238,7 +271,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                   NewText(
                                     text:
                                         '${searchPostModel.listOkBooks?.books[index].price} \$',
-                                    color: AppColors.h,
+                                    color: postModelTheme.isDark
+                                        ? postModelTheme.darkTheme.primaryColor
+                                        : AppColors.h,
                                   ),
                                 ],
                               ),

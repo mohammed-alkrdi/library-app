@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import '../Providers/book_category_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../Providers/theme_provider.dart';
+
 class CategoryBook extends StatefulWidget {
   const CategoryBook({Key? key}) : super(key: key);
 
@@ -31,9 +33,13 @@ class _CategoryBookState extends State<CategoryBook> {
   }
   @override
   Widget build(BuildContext context) {
+    final postModelTheme = Provider.of<ThemeProvider>(context,);
     final postModel = Provider.of<DataCategoryWithBooks>(context);
     final String ServerStorageUrl = "http://10.0.2.2:8000/storage/";
     return Scaffold(
+      backgroundColor: postModelTheme.isDark
+          ? postModelTheme.darkTheme.backgroundColor
+          : AppColors.f,
       body: SingleChildScrollView(
         child: Column(
           //crossAxisAlignment: CrossAxisAlignment.center,
@@ -44,11 +50,17 @@ class _CategoryBookState extends State<CategoryBook> {
                 children: [
                   IconButton(
                       onPressed: () => Navigator.pop(context), 
-                      icon: Icon(AppLocalizations.of(context)!.localeName == "en" ? CupertinoIcons.arrow_left : CupertinoIcons.arrow_right, color: AppColors.i,),
+                      icon: Icon(AppLocalizations.of(context)!.localeName == "en" ? CupertinoIcons.arrow_left : CupertinoIcons.arrow_right,
+                        color: postModelTheme.isDark
+                            ? postModelTheme.darkTheme.primaryColor
+                            : postModelTheme.lightTheme.primaryColor,
+                      ),
                   ),
                   NewText(
                       text: AppLocalizations.of(context)!.category_search_b,
-                      color: AppColors.i,
+                      color: postModelTheme.isDark
+                          ? postModelTheme.darkTheme.primaryColor
+                          : postModelTheme.lightTheme.primaryColor,
                       fontsize: 24,
                       alignment: Alignment.center,
                   ),
@@ -96,7 +108,9 @@ class _CategoryBookState extends State<CategoryBook> {
                                 topRight: Radius.circular(20),
                                 bottomRight: Radius.circular(20),
                               ),
-                              color: Colors.white,
+                              color: postModelTheme.isDark
+                                  ? postModelTheme.lightTheme.primaryColor
+                                  : postModelTheme.lightTheme.backgroundColor,
                             ),
                             child: Padding(
                               padding: const EdgeInsets.only(
@@ -110,7 +124,9 @@ class _CategoryBookState extends State<CategoryBook> {
                                     text:
                                     postModel.listOkBooks?.books[index].name ??
                                         "",
-                                    color: AppColors.h,
+                                    color: postModelTheme.isDark
+                                        ? postModelTheme.darkTheme.primaryColor
+                                        : AppColors.h,
                                     alignment: Alignment.center,
                                   ),
                                   const SizedBox(
@@ -120,7 +136,9 @@ class _CategoryBookState extends State<CategoryBook> {
                                     text: postModel
                                         .listOkBooks?.books[index].writerBook ??
                                         "",
-                                    color: AppColors.h,
+                                    color: postModelTheme.isDark
+                                        ? postModelTheme.darkTheme.primaryColor
+                                        : AppColors.h,
                                     alignment: Alignment.center,
                                   ),
                                   const SizedBox(
@@ -128,7 +146,9 @@ class _CategoryBookState extends State<CategoryBook> {
                                   ),
                                   NewText(
                                     text: '${postModel.listOkBooks?.books[index].price} \$',
-                                    color: AppColors.h,
+                                    color: postModelTheme.isDark
+                                        ? postModelTheme.darkTheme.primaryColor
+                                        : AppColors.h,
                                   ),
                                 ],
                               ),
